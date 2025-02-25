@@ -3,237 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dental Therapy Course</title>
+    <title>Community Health Extension Workers Course Overview</title>
     <style>
-        /* Global Styles */
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
             margin: 0;
             padding: 0;
+            background-color: #f4f7f6;
             color: #333;
-            line-height: 1.6;
-            background: url('https://plus.unsplash.com/premium_photo-1661775868038-77ae66913504?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGRlbnRhbCUyMGNsaW5pY3xlbnwwfHwwfHx8MA%3D%3D') no-repeat center center fixed;
-            background-size: cover;
         }
-
-        h1, h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-        }
-
-        p {
-            margin-bottom: 20px;
-        }
-
-        ul {
-            margin: 20px 0;
-            padding: 0 20px;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        /* Header Styles */
-        .header {
-            background-color: rgba(41, 128, 185, 0.8); /* Semi-transparent background */
-            color: #fff;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin: 0;
-            font-weight: 300;
-        }
-
-        /* Container Styles */
         .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 40px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
             background-color: #fff;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            position: relative;
-            z-index: 1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            margin-top: 20px;
         }
-
-        /* Section Styles */
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            color: #34495e;
+        }
+        h2 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 2rem;
+            color: #2c3e50;
+        }
+        h3 {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #34495e;
+        }
+        p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        ul li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: #555;
+        }
         .section {
-            display: none;
-            transition: opacity 0.3s ease;
+            margin-bottom: 30px;
+            display: none; /* Hide all sections by default */
         }
-
-        .active-section {
-            display: block;
-            opacity: 1;
+        .section.active {
+            display: block; /* Show the active section */
         }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto 30px;
-            border-radius: 10px;
-        }
-
-        /* Pagination Styles */
         .pagination {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
+            text-align: center;
+            margin-top: 20px;
         }
-
         .pagination button {
-            background-color: #2980b9;
+            padding: 12px 24px;
+            margin: 0 10px;
+            background-color: #3498db;
             color: #fff;
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
             cursor: pointer;
-            font-size: 1em;
+            border-radius: 6px;
+            font-size: 1rem;
             transition: background-color 0.3s ease;
         }
-
         .pagination button:hover {
-            background-color: #1f648e;
+            background-color: #2980b9;
         }
-
-        .pagination button:focus {
-            outline: none;
-        }
-
-        .pagination button[disabled] {
+        .pagination button:disabled {
             background-color: #bdc3c7;
             cursor: not-allowed;
+        }
+        .heading-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Dental Therapy Course</h1>
-    </div>
-
     <div class="container">
-        <!-- Section 1 -->
-        <div class="section active-section" id="section1">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSwKM3O1S-RxzO7w87a_w2nRugC6RsbicCeOJZ8SFsz_UgKsKxccUmd1w&s=10" alt="Dental Therapy">
-            <h2>Course Overview</h2>
-            <p>Our Dental Therapy course is a comprehensive program designed to provide students with the knowledge and skills necessary to become proficient dental therapists. This course prepares students for a rewarding career in dental therapy, combining theoretical knowledge with hands-on clinical experience.</p>
-            <p>Students will gain a deep understanding of oral health, preventive care, and restorative dental procedures. The course covers a wide range of topics, ensuring that graduates are well-equipped to meet the demands of the dental healthcare profession.</p>
-            <p>Upon completion, graduates are eligible to take licensing exams and pursue a variety of career opportunities in the dental field.</p>
+        <!-- Heading Image -->
+        <img src="https://media.istockphoto.com/id/1387432270/photo/senior-couple-at-home-with-man-talking-to-female-nurse-or-care-worker-using-digital-tablet.jpg?s=612x612&w=0&k=20&c=6WC4GhohyOnM9OHINT0BsflH3EUyIFie0xdn6cPPsGE=" 
+             alt="Community Health Extension Workers Heading Image" 
+             class="heading-image">
+
+        <!-- Sections -->
+        <div id="section1" class="section active">
+            <h2>Introduction to Community Health Extension Workers</h2>
+            <p>Community Health Extension Workers (CHEWs) are frontline health professionals who play a critical role in delivering primary healthcare services to underserved populations. They bridge the gap between communities and formal healthcare systems, ensuring access to essential health services, health education, and preventive care.</p>
         </div>
 
-        <!-- Section 2 -->
-        <div class="section" id="section2">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSwKM3O1S-RxzO7w87a_w2nRugC6RsbicCeOJZ8SFsz_UgKsKxccUmd1w&s=10" alt="Dental Therapy">
-            <h2>Course Content</h2>
-            <p>The Dental Therapy course curriculum includes the following key areas:</p>
+        <div id="section2" class="section">
+            <h2>Roles and Responsibilities</h2>
             <ul>
-                <li><strong>Oral Anatomy and Physiology:</strong> Comprehensive study of the oral cavity’s structure and function.</li>
-                <li><strong>Dental Radiography:</strong> Training in the use of dental imaging techniques for diagnosis and treatment planning.</li>
-                <li><strong>Oral Health Assessment:</strong> Skills to conduct thorough oral health evaluations.</li>
-                <li><strong>Preventive Dentistry:</strong> Focus on promoting oral health and preventing dental diseases.</li>
-                <li><strong>Dental Procedures:</strong> Training in performing common dental treatments and procedures.</li>
-                <li><strong>Patient Management:</strong> Development of effective communication and patient care techniques.</li>
-                <li><strong>Pharmacology:</strong> Understanding the use of medications in dental care.</li>
-                <li><strong>Infection Control:</strong> Protocols for maintaining a sterile and safe dental environment.</li>
-                <li><strong>Ethics and Legal Issues:</strong> Introduction to ethical standards and legal considerations in dental practice.</li>
-                <li><strong>Clinical Experience:</strong> Hands-on training in real clinical settings.</li>
-                <li><strong>Dental Materials:</strong> Familiarization with various dental materials and their applications.</li>
-                <li><strong>Community Dentistry:</strong> The role of dental therapists in promoting public oral health.</li>
+                <li><strong>Health Education</strong>: Educating communities on disease prevention, hygiene, nutrition, and healthy lifestyles.</li>
+                <li><strong>Primary Healthcare Delivery</strong>: Providing basic medical care, immunizations, and maternal and child health services.</li>
+                <li><strong>Community Outreach</strong>: Conducting home visits and community meetings to identify health needs and deliver services.</li>
+                <li><strong>Data Collection</strong>: Gathering health data to monitor disease outbreaks and health trends.</li>
+                <li><strong>Referral Services</strong>: Connecting patients with higher-level healthcare facilities when necessary.</li>
             </ul>
         </div>
 
-        <!-- Section 3 -->
-        <div class="section" id="section3">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSwKM3O1S-RxzO7w87a_w2nRugC6RsbicCeOJZ8SFsz_UgKsKxccUmd1w&s=10" alt="Dental Therapy">
-            <h2>Duration</h2>
-            <p>The duration of the Dental Therapy course varies depending on the level of certification. Diploma programs typically take 18 months to 2 years, while bachelor’s degree programs may take 3 to 4 years.</p>
+        <div id="section3" class="section">
+            <h2>Core Training Modules</h2>
+            <ul>
+                <li><strong>Basic Medical Skills</strong>: Training in first aid, wound care, and basic diagnostics.</li>
+                <li><strong>Maternal and Child Health</strong>: Focus on antenatal care, postnatal care, and child immunization.</li>
+                <li><strong>Health Promotion</strong>: Strategies for promoting healthy behaviors and preventing diseases.</li>
+                <li><strong>Epidemiology</strong>: Understanding disease patterns and outbreak response.</li>
+                <li><strong>Communication Skills</strong>: Effective communication with communities and healthcare providers.</li>
+            </ul>
         </div>
 
-        <!-- Section 4 -->
-        <div class="section" id="section4">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSwKM3O1S-RxzO7w87a_w2nRugC6RsbicCeOJZ8SFsz_UgKsKxccUmd1w&s=10" alt="Dental Therapy">
-            <h2>Certification and Licensing</h2>
-            <p>Upon successful completion of the course, students are eligible to take the necessary licensing exams to become certified dental therapists. Licensing requirements vary by region, so students should consult their local dental boards for specific information.</p>
+        <div id="section4" class="section">
+            <h2>Skills and Competencies</h2>
+            <ul>
+                <li><strong>Clinical Skills</strong>: Ability to provide basic medical care and emergency response.</li>
+                <li><strong>Community Engagement</strong>: Building trust and rapport with community members.</li>
+                <li><strong>Problem-Solving</strong>: Addressing health challenges with limited resources.</li>
+                <li><strong>Cultural Sensitivity</strong>: Understanding and respecting cultural practices and beliefs.</li>
+                <li><strong>Teamwork</strong>: Collaborating with other healthcare professionals and community leaders.</li>
+            </ul>
         </div>
 
-        <!-- Section 5 -->
-        <div class="section" id="section5">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSwKM3O1S-RxzO7w87a_w2nRugC6RsbicCeOJZ8SFsz_UgKsKxccUmd1w&s=10" alt="Dental Therapy">
+        <div id="section5" class="section">
             <h2>Career Opportunities</h2>
-            <p>Graduates of the Dental Therapy program have various career opportunities, including:</p>
             <ul>
-                <li>Dental Therapist in private practices</li>
-                <li>Roles in public health clinics</li>
-                <li>Teaching positions in dental hygiene and therapy programs</li>
-                <li>Research roles in dental institutions</li>
-                <li>Community dental health initiatives</li>
+                <li><strong>Government Health Programs</strong>: Working in public health initiatives and rural healthcare systems.</li>
+                <li><strong>Non-Governmental Organizations (NGOs)</strong>: Partnering with NGOs to deliver community health programs.</li>
+                <li><strong>Community-Based Organizations</strong>: Leading local health initiatives and outreach programs.</li>
+                <li><strong>Research and Advocacy</strong>: Contributing to health research and policy development.</li>
+                <li><strong>Private Sector</strong>: Working in private healthcare facilities or corporate wellness programs.</li>
             </ul>
-            <p>These roles are crucial in improving oral health and providing dental care to underserved communities.</p>
+        </div>
+
+        <div id="section6" class="section">
+            <h2>Importance of Community Health Extension Workers</h2>
+            <p>Community Health Extension Workers are vital for improving access to healthcare in underserved areas. They empower communities by providing health education, preventive care, and early intervention, ultimately reducing health disparities and improving overall population health.</p>
         </div>
 
         <!-- Pagination -->
         <div class="pagination">
-            <button onclick="handlePagination('prev')" id="prevButton">Previous</button>
-            <button onclick="handlePagination('next')" id="nextButton">Next</button>
+            <button id="prevBtn">Previous</button>
+            <button id="nextBtn">Next</button>
         </div>
     </div>
 
     <script>
-        let currentSection = 1;
-        const totalSections = 5;
-        const directLink = "https://psaushoas.com/4/7667811";
+        // Pagination Logic
+        const sections = document.querySelectorAll('.section');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSection = 0;
 
-        function handlePagination(direction) {
-            const sectionElement = document.getElementById(`section${currentSection}`);
-
-            // Hide current section
-            sectionElement.classList.remove("active-section");
-
-            // Determine if the direct link should be opened
-            const shouldShowDirectLink = (currentSection === 2 || currentSection === 4);
-
-            if (direction === "next") {
-                // Move to next section
-                currentSection = Math.min(currentSection + 1, totalSections);
-
-            } else if (direction === "prev") {
-                // Move to previous section
-                currentSection = Math.max(currentSection - 1, 1);
-            }
-
-            // Show the new section
-            const newSectionElement = document.getElementById(`section${currentSection}`);
-            newSectionElement.classList.add("active-section");
-
-            // Open direct link if necessary
-            if (shouldShowDirectLink) {
-                // Store the current section
-                const currentSectionId = `section${currentSection}`;
-                
-                // Open direct link in a new tab
-                const newTab = window.open(directLink, '_blank');
-
-                // Redirect back to the current page after a delay
-                setTimeout(function() {
-                    if (newTab) {
-                        newTab.close(); // Close the direct link tab
-                        updatePaginationButtons();
-                    }
-                }, 10000); // Adjust delay as needed (10000ms = 10 seconds)
-            } else {
-                updatePaginationButtons();
-            }
+        function showSection(index) {
+            sections.forEach((section, i) => {
+                section.classList.toggle('active', i === index);
+            });
         }
 
-        function updatePaginationButtons() {
-            document.getElementById("prevButton").disabled = currentSection === 1;
-            document.getElementById("nextButton").disabled = currentSection === totalSections;
+        function updateButtons() {
+            prevBtn.disabled = currentSection === 0;
+            nextBtn.disabled = currentSection === sections.length - 1;
         }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Smooth scroll to the top
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSection > 0) {
+                currentSection--;
+                showSection(currentSection);
+                updateButtons();
+                scrollToTop(); // Scroll to the top
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSection < sections.length - 1) {
+                currentSection++;
+                showSection(currentSection);
+                updateButtons();
+                scrollToTop(); // Scroll to the top
+            }
+        });
+
+        // Initialize
+        showSection(currentSection);
+        updateButtons();
     </script>
 </body>
 </html>
