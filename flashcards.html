@@ -3,173 +3,531 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dental Flashcards</title>
+    <title></title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Beautiful gradient background */
-            color: white;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .introduction {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            color: #333;
-        }
-        .flashcard-container {
-            display: none;
-            flex-direction: column;
-            gap: 1rem;
-            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        .flashcard {
-            height: 70vh;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background: white;
-        }
-        .flashcard iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .exit-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #f44336;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        .exit-button:hover {
-            background: #d32f2f;
-        }
-        .flashcard-list {
-            list-style: none;
+        /* Global Styles */
+        * {
+            margin: 0;
             padding: 0;
-            margin: 20px 0;
+            box-sizing: border-box;
         }
-        .flashcard-list li {
-            margin: 10px 0;
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
-        .flashcard-list a {
-            text-decoration: none;
-            color: #2196F3;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
+        body.dark-mode {
+            background-color: #1e2a38;
+            color: #e0e0e0;
         }
-        .flashcard-list a:hover {
-            color: #1976D2;
-            text-decoration: underline;
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 20px;
         }
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            color: #2c7873;
+        }
+        body.dark-mode h1 {
+            color: #6ab04c;
+        }
+
+        /* Instructions Section */
+        .instructions {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: 100%;
+            max-width: 450px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        body.dark-mode .instructions {
+            background-color: #2e3b4e;
+        }
+        .instructions h2 {
+            font-size: 1.2rem;
+            color: #2c7873;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        body.dark-mode .instructions h2 {
+            color: #6ab04c;
+        }
+        .instructions ul {
+            list-style: none;
+            margin-top: 10px;
+            display: none;
+            font-size: 0.9rem;
+        }
+        .instructions ul.show {
+            display: block;
+        }
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        /* Flashcard Container */
+        .flashcard-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: 300px;
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+        .flashcard {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease, opacity 0.3s;
+            opacity: 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+        }
+        .flashcard.active {
+            opacity: 1;
+            z-index: 10;
+        }
+        .flashcard-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s ease;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            transition: background-color 0.3s;
+        }
+        body.dark-mode .front, body.dark-mode .back {
+            background-color: #2e3b4e;
+        }
+        .front {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #2c7873;
+        }
+        body.dark-mode .front {
+            color: #6ab04c;
+        }
+        .back {
+            font-size: 1rem;
+            color: #fff;
+            background-color: #2c7873;
+            transform: rotateY(180deg);
+        }
+        body.dark-mode .back {
+            background-color: #6ab04c;
+        }
+
+        /* Controls and Navigation */
+        .controls, .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            color: #fff;
+            background-color: #2c7873;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #256d68;
+        }
+        body.dark-mode button {
+            background-color: #6ab04c;
+        }
+        body.dark-mode button:hover {
+            background-color: #558e3d;
+        }
+        select {
+            padding: 10px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            background-color: #fff;
             color: #333;
         }
-        p {
-            font-size: 1.1rem;
-            color: #555;
+        body.dark-mode select {
+            background-color: #2e3b4e;
+            color: #e0e0e0;
+            border-color: #6ab04c;
+        }
+
+        /* Progress Bar */
+        .progress {
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            font-size: 1rem;
+            color: #2c7873;
+        }
+        body.dark-mode .progress {
+            color: #6ab04c;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        body.dark-mode .progress-bar {
+            background-color: #3e4b5e;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #2c7873;
+            transition: width 0.3s;
+        }
+        body.dark-mode .progress-fill {
+            background-color: #6ab04c;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 500px) {
+            .flashcard-container {
+                max-width: 100%;
+                height: 250px;
+            }
+            .front, .back {
+                font-size: 1rem;
+                padding: 15px;
+            }
+            button, select {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="introduction">
-        <h1>Dental Flashcards</h1>
-        <p>Select a flashcard to begin:</p>
-        <ul class="flashcard-list">
-            <li><a href="#" onclick="startSession('https://www.studystack.com/iflashcardnew-658812', 0)">Tooth Morphology</a></li>
-            <li><a href="#" onclick="startSession('https://www.studystack.com/iflashcardnew-357351', 1)">Head and Neck Anatomy</a></li>
-            <li><a href="#" onclick="startSession('https://www.studystack.com/iflashcardnew-773941', 2)">Radiology</a></li>
-            <li><a href="#" onclick="startSession('https://www.studystack.com/iflashcardnew-287419', 3)">Surgical and Oral Instrument</a></li>
-            <li><a href="#" onclick="startSession('https://www.studystack.com/iflashcardnew-657919', 4)">Infection Control</a></li>
-            <li><a href="#" onclick="startSession('https://www.studystack.com/iflashcardnew-658728', 5)">Pharmacology</a></li>
-            <li><a href="#" onclick="startSession('https://www.studystack.com/iflashcardnew-1611656', 6)">Dental Terminology</a></li>
-            <li><a href="#" onclick="startSession('https://www.studystack.com/iflashcardnew-966042', 7)">Definitions</a></li>
+    <header>
+        <h1></h1>
+    </header>
+
+    <div class="instructions">
+        <h2 onclick="toggleInstructions()">Instructions <span>▼</span></h2>
+        <ul id="instructionsList">
+            <li><strong>Flip:</strong> Click a card to reveal the answer.</li>
+            <li><strong>Navigate:</strong> Use "Previous" and "Next" to move through cards.</li>
+            <li><strong>Filter:</strong> Select a course from the dropdown to focus on specific topics.</li>
+            <li><strong>Shuffle:</strong> Randomize card order within the selected course.</li>
+            <li><strong>Mark Learned:</strong> Tag mastered cards (turns green).</li>
+            <li><strong>Reset:</strong> Clear progress and start over.</li>
+            <li><strong>Dark Mode:</strong> Toggle for a night-friendly view.</li>
+            <li><strong>Progress:</strong> Track your position and learned cards below.</li>
         </ul>
     </div>
 
     <div class="flashcard-container" id="flashcardContainer">
-        <div class="flashcard">
-            <iframe id="flashcardFrame" sandbox="allow-scripts allow-same-origin"></iframe>
-        </div>
-        <button class="exit-button" onclick="endSession()">Exit</button>
+        <!-- Foundations of Community Health -->
+        <div class="flashcard active" data-learned="false" data-course="Foundations"><div class="flashcard-inner"><div class="front">What is the definition of community health?</div><div class="back">The science and art of promoting health and preventing disease in defined populations.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Foundations"><div class="flashcard-inner"><div class="front">What are the core functions of public health?</div><div class="back">Assessment, policy development, and assurance.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Foundations"><div class="flashcard-inner"><div class="front">What is a community health intervention?</div><div class="back">A targeted action to improve population health outcomes.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Foundations"><div class="flashcard-inner"><div class="front">What is the role of community engagement?</div><div class="back">To involve residents in identifying and addressing health needs.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Foundations"><div class="flashcard-inner"><div class="front">What is primary prevention?</div><div class="back">Actions to prevent disease before it occurs (e.g., vaccinations).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Foundations"><div class="flashcard-inner"><div class="front">What is secondary prevention?</div><div class="back">Early detection and treatment of disease (e.g., screenings).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Foundations"><div class="flashcard-inner"><div class="front">What is tertiary prevention?</div><div class="back">Managing existing disease to prevent complications.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Foundations"><div class="flashcard-inner"><div class="front">What is a health disparity?</div><div class="back">Preventable differences in health outcomes across populations.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Foundations"><div class="flashcard-inner"><div class="front">What is the social-ecological model?</div><div class="back">A framework showing how individual, social, and environmental factors influence health.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Foundations"><div class="flashcard-inner"><div class="front">What is the goal of community health programs?</div><div class="back">To enhance quality of life and reduce health inequities.</div></div></div>
+
+        <!-- Epidemiology and Biostatistics -->
+        <div class="flashcard" data-learned="false" data-course="Epidemiology"><div class="flashcard-inner"><div class="front">What is epidemiology?</div><div class="back">The study of disease distribution and determinants in populations.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Epidemiology"><div class="flashcard-inner"><div class="front">What is incidence rate?</div><div class="back">The number of new cases of a disease per population in a given time.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Epidemiology"><div class="flashcard-inner"><div class="front">What is prevalence rate?</div><div class="back">The total number of disease cases in a population at a specific time.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Epidemiology"><div class="flashcard-inner"><div class="front">What is a morbidity rate?</div><div class="back">The frequency of illness in a population.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Epidemiology"><div class="flashcard-inner"><div class="front">What is a mortality rate?</div><div class="back">The frequency of deaths in a population.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Epidemiology"><div class="flashcard-inner"><div class="front">What is an odds ratio?</div><div class="back">A measure of association between exposure and outcome in case-control studies.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Epidemiology"><div class="flashcard-inner"><div class="front">What is relative risk?</div><div class="back">The ratio of disease probability in exposed vs. unexposed groups.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Epidemiology"><div class="flashcard-inner"><div class="front">What is a confidence interval?</div><div class="back">A statistical range estimating the true effect size.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Epidemiology"><div class="flashcard-inner"><div class="front">What is a cross-sectional study?</div><div class="back">A study observing a population at one point in time.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Epidemiology"><div class="flashcard-inner"><div class="front">What is the purpose of disease surveillance?</div><div class="back">To monitor and control health threats in populations.</div></div></div>
+
+        <!-- Health Education and Behavioral Science -->
+        <div class="flashcard" data-learned="false" data-course="Health Education"><div class="flashcard-inner"><div class="front">What is health education?</div><div class="back">Teaching individuals and communities to adopt healthy behaviors.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Health Education"><div class="flashcard-inner"><div class="front">What is the Health Belief Model?</div><div class="back">A theory explaining health behavior based on perceived risks and benefits.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Health Education"><div class="flashcard-inner"><div class="front">What is the Transtheoretical Model?</div><div class="back">A model of behavior change with stages (e.g., precontemplation, action).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Health Education"><div class="flashcard-inner"><div class="front">What is self-efficacy?</div><div class="back">Belief in one’s ability to perform a health-related behavior.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Health Education"><div class="flashcard-inner"><div class="front">What is a health communication strategy?</div><div class="back">A plan to deliver health messages effectively.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Health Education"><div class="flashcard-inner"><div class="front">What is motivational interviewing?</div><div class="back">A counseling approach to support behavior change.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Health Education"><div class="flashcard-inner"><div class="front">What is a community-based participatory approach?</div><div class="back">Collaborating with communities to design health education.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Health Education"><div class="flashcard-inner"><div class="front">What is cultural tailoring?</div><div class="back">Adapting health messages to fit cultural contexts.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Health Education"><div class="flashcard-inner"><div class="front">What is the PRECEDE-PROCEED model?</div><div class="back">A planning framework for health education programs.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Health Education"><div class="flashcard-inner"><div class="front">What is the outcome of health literacy?</div><div class="back">Improved ability to access and use health information.</div></div></div>
+
+        <!-- Public Health Policy and Management -->
+        <div class="flashcard" data-learned="false" data-course="Policy"><div class="flashcard-inner"><div class="front">What is public health policy?</div><div class="back">Laws and regulations to protect and promote population health.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Policy"><div class="flashcard-inner"><div class="front">What is the Affordable Care Act?</div><div class="back">U.S. legislation expanding healthcare access (2010).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Policy"><div class="flashcard-inner"><div class="front">What is health advocacy?</div><div class="back">Efforts to influence policy for better health outcomes.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Policy"><div class="flashcard-inner"><div class="front">What is a health impact assessment?</div><div class="back">A tool to evaluate policy effects on health.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Policy"><div class="flashcard-inner"><div class="front">What is program evaluation?</div><div class="back">Assessing the effectiveness of health initiatives.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Policy"><div class="flashcard-inner"><div class="front">What is resource allocation in public health?</div><div class="back">Distributing funds and assets to meet health needs.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Policy"><div class="flashcard-inner"><div class="front">What is a public health emergency?</div><div class="back">A crisis requiring immediate policy response (e.g., pandemics).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Policy"><div class="flashcard-inner"><div class="front">What is intersectoral collaboration?</div><div class="back">Working across sectors (e.g., education, health) for policy goals.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Policy"><div class="flashcard-inner"><div class="front">What is the role of a public health manager?</div><div class="back">To plan, implement, and oversee health programs.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Policy"><div class="flashcard-inner"><div class="front">What is evidence-based policy?</div><div class="back">Policies grounded in scientific research and data.</div></div></div>
+
+        <!-- Environmental and Occupational Health -->
+        <div class="flashcard" data-learned="false" data-course="Environmental"><div class="flashcard-inner"><div class="front">What is environmental health?</div><div class="back">The study of how environmental factors affect human health.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Environmental"><div class="flashcard-inner"><div class="front">What is an environmental exposure?</div><div class="back">Contact with harmful agents (e.g., pollutants).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Environmental"><div class="flashcard-inner"><div class="front">What is waterborne disease?</div><div class="back">Illness from contaminated water (e.g., cholera).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Environmental"><div class="flashcard-inner"><div class="front">What is an occupational hazard?</div><div class="back">A workplace condition risking health (e.g., asbestos).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Environmental"><div class="flashcard-inner"><div class="front">What is the Clean Air Act?</div><div class="back">U.S. law regulating air pollution for health protection.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Environmental"><div class="flashcard-inner"><div class="front">What is environmental justice?</div><div class="back">Ensuring fair treatment in environmental health risks.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Environmental"><div class="flashcard-inner"><div class="front">What is a risk assessment?</div><div class="back">Evaluating the potential harm of environmental exposures.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Environmental"><div class="flashcard-inner"><div class="front">What is climate change adaptation?</div><div class="back">Adjusting health systems to climate impacts.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Environmental"><div class="flashcard-inner"><div class="front">What is indoor air quality?</div><div class="back">The condition of air within buildings affecting health.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Environmental"><div class="flashcard-inner"><div class="front">What is the purpose of occupational safety?</div><div class="back">To prevent workplace injuries and illnesses.</div></div></div>
+
+        <!-- Community Health Assessment and Planning -->
+        <div class="flashcard" data-learned="false" data-course="Assessment"><div class="flashcard-inner"><div class="front">What is a community health assessment (CHA)?</div><div class="back">A process to identify health needs and assets.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Assessment"><div class="flashcard-inner"><div class="front">What is the Mobilizing for Action through Planning and Partnerships (MAPP)?</div><div class="back">A CHA framework.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Assessment"><div class="flashcard-inner"><div class="front">What is a health priority?</div><div class="back">A key issue identified in a CHA for action.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Assessment"><div class="flashcard-inner"><div class="front">What is quantitative data in CHA?</div><div class="back">Numerical data (e.g., disease rates).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Assessment"><div class="flashcard-inner"><div class="front">What is qualitative data in CHA?</div><div class="back">Descriptive data (e.g., interviews).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Assessment"><div class="flashcard-inner"><div class="front">What is a community health improvement plan (CHIP)?</div><div class="back">A strategy to address CHA findings.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Assessment"><div class="flashcard-inner"><div class="front">What is a logic model?</div><div class="back">A visual tool linking program inputs to outcomes.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Assessment"><div class="flashcard-inner"><div class="front">What is stakeholder analysis?</div><div class="back">Identifying key players in health planning.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Assessment"><div class="flashcard-inner"><div class="front">What is a health indicator?</div><div class="back">A measurable factor reflecting community health status.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Assessment"><div class="flashcard-inner"><div class="front">What is the goal of CHA?</div><div class="back">To inform evidence-based health interventions.</div></div></div>
+
+        <!-- Maternal, Child, and Family Health -->
+        <div class="flashcard" data-learned="false" data-course="Maternal"><div class="flashcard-inner"><div class="front">What is maternal mortality?</div><div class="back">Death of a woman during pregnancy or within 42 days postpartum.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Maternal"><div class="flashcard-inner"><div class="front">What is neonatal mortality?</div><div class="back">Death of an infant within the first 28 days of life.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Maternal"><div class="flashcard-inner"><div class="front">What is prenatal care?</div><div class="back">Medical care during pregnancy to ensure maternal and fetal health.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Maternal"><div class="flashcard-inner"><div class="front">What is the Apgar score?</div><div class="back">A test assessing newborn health at birth.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Maternal"><div class="flashcard-inner"><div class="front">What is exclusive breastfeeding?</div><div class="back">Feeding an infant only breast milk for 6 months.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Maternal"><div class="flashcard-inner"><div class="front">What is a family planning service?</div><div class="back">Programs to help individuals control reproduction.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Maternal"><div class="flashcard-inner"><div class="front">What is childhood immunization?</div><div class="back">Vaccines to protect against diseases like measles.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Maternal"><div class="flashcard-inner"><div class="front">What is adolescent health?</div><div class="back">Addressing physical and mental health in teens.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Maternal"><div class="flashcard-inner"><div class="front">What is a developmental milestone?</div><div class="back">Key skills children achieve at specific ages.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Maternal"><div class="flashcard-inner"><div class="front">What is the purpose of Title V?</div><div class="back">U.S. program supporting maternal and child health.</div></div></div>
+
+        <!-- Chronic Disease Epidemiology and Prevention -->
+        <div class="flashcard" data-learned="false" data-course="Chronic"><div class="flashcard-inner"><div class="front">What is a chronic disease?</div><div class="back">A condition lasting 1+ years requiring ongoing care.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Chronic"><div class="flashcard-inner"><div class="front">What is cardiovascular disease?</div><div class="back">Disorders of the heart and blood vessels.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Chronic"><div class="flashcard-inner"><div class="front">What is type 2 diabetes?</div><div class="back">A chronic condition of insulin resistance or deficiency.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Chronic"><div class="flashcard-inner"><div class="front">What is a modifiable risk factor?</div><div class="back">A behavior changeable to reduce disease risk (e.g., smoking).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Chronic"><div class="flashcard-inner"><div class="front">What is a non-modifiable risk factor?</div><div class="back">An unchangeable factor (e.g., age, genetics).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Chronic"><div class="flashcard-inner"><div class="front">What is a chronic disease registry?</div><div class="back">A database tracking disease cases for management.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Chronic"><div class="flashcard-inner"><div class="front">What is population screening?</div><div class="back">Testing a group to detect disease early.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Chronic"><div class="flashcard-inner"><div class="front">What is a lifestyle modification?</div><div class="back">Changes like diet or exercise to prevent disease.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Chronic"><div class="flashcard-inner"><div class="front">What is the burden of chronic disease?</div><div class="back">The health, economic, and social impact of long-term illness.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Chronic"><div class="flashcard-inner"><div class="front">What is the Chronic Disease Prevention framework?</div><div class="back">Strategies integrating policy and community action.</div></div></div>
+
+        <!-- Global Health and Infectious Diseases -->
+        <div class="flashcard" data-learned="false" data-course="Global"><div class="flashcard-inner"><div class="front">What is global health?</div><div class="back">Health issues requiring transnational collaboration.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Global"><div class="flashcard-inner"><div class="front">What is an infectious disease?</div><div class="back">Illness caused by pathogens (e.g., bacteria, viruses).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Global"><div class="flashcard-inner"><div class="front">What is a vaccine-preventable disease?</div><div class="back">Illness preventable by immunization (e.g., polio).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Global"><div class="flashcard-inner"><div class="front">What is the WHO’s role?</div><div class="back">Leading global health efforts and setting standards.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Global"><div class="flashcard-inner"><div class="front">What is a neglected tropical disease?</div><div class="back">Infections prevalent in low-resource settings (e.g., dengue).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Global"><div class="flashcard-inner"><div class="front">What is antimicrobial resistance?</div><div class="back">Pathogens resisting treatment drugs.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Global"><div class="flashcard-inner"><div class="front">What is a disease outbreak?</div><div class="back">A sudden rise in cases above normal levels.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Global"><div class="flashcard-inner"><div class="front">What is the Global Burden of Disease?</div><div class="back">A measure of health loss from diseases worldwide.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Global"><div class="flashcard-inner"><div class="front">What is a One Health approach?</div><div class="back">Linking human, animal, and environmental health.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Global"><div class="flashcard-inner"><div class="front">What is the purpose of quarantine?</div><div class="back">To isolate individuals to prevent disease spread.</div></div></div>
+
+        <!-- Health Equity and Social Justice -->
+        <div class="flashcard" data-learned="false" data-course="Equity"><div class="flashcard-inner"><div class="front">What are social determinants of health?</div><div class="back">Conditions shaping health (e.g., income, housing).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Equity"><div class="flashcard-inner"><div class="front">What is structural inequality?</div><div class="back">Systemic factors causing health disparities.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Equity"><div class="flashcard-inner"><div class="front">What is intersectionality in health?</div><div class="back">How overlapping identities affect health outcomes.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Equity"><div class="flashcard-inner"><div class="front">What is a health equity framework?</div><div class="back">A model to address unfair health differences.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Equity"><div class="flashcard-inner"><div class="front">What is access to care?</div><div class="back">The ability to obtain needed health services.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Equity"><div class="flashcard-inner"><div class="front">What is a safety net program?</div><div class="back">Services for underserved populations (e.g., Medicaid).</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Equity"><div class="flashcard-inner"><div class="front">What is community resilience?</div><div class="back">A group’s capacity to recover from health challenges.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Equity"><div class="flashcard-inner"><div class="front">What is a social justice approach?</div><div class="back">Addressing root causes of health inequities.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Equity"><div class="flashcard-inner"><div class="front">What is the role of advocacy in equity?</div><div class="back">Promoting policies to reduce health gaps.</div></div></div>
+        <div class="flashcard" data-learned="false" data-course="Equity"><div class="flashcard-inner"><div class="front">What is the ultimate goal of health equity?</div><div class="back">Eliminating preventable health disparities.</div></div></div>
+    </div>
+
+    <div class="navigation">
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+    </div>
+
+    <div class="controls">
+        <select id="courseFilter">
+            <option value="all">All Courses</option>
+            <option value="Foundations">Foundations of Community Health</option>
+            <option value="Epidemiology">Epidemiology and Biostatistics</option>
+            <option value="Health Education">Health Education and Behavioral Science</option>
+            <option value="Policy">Public Health Policy and Management</option>
+            <option value="Environmental">Environmental and Occupational Health</option>
+            <option value="Assessment">Community Health Assessment and Planning</option>
+            <option value="Maternal">Maternal, Child, and Family Health</option>
+            <option value="Chronic">Chronic Disease Epidemiology and Prevention</option>
+            <option value="Global">Global Health and Infectious Diseases</option>
+            <option value="Equity">Health Equity and Social Justice</option>
+        </select>
+        <button id="shuffleBtn">Shuffle</button>
+        <button id="markLearnedBtn">Mark Learned</button>
+        <button id="resetBtn">Reset</button>
+        <button id="darkModeBtn">Dark Mode</button>
+    </div>
+
+    <div class="progress">
+        <span id="progressText">Card 1/100 | Learned: 0</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 1%;"></div></div>
     </div>
 
     <script>
-        const adLinks = [
-            "https://phunaivaizu.com/4/7667810", // Ad for Flashcard 1
-            "https://gogussoch.net/4/7667811",  // Ad for Flashcard 2
-            "https://gakrarsabamt.net/4/7667754", // Ad for Flashcard 3
-            "https://awhiptera.net/4/7667716",   // Ad for Flashcard 4
-            "https://phunaivaizu.com/4/7667810",           // Ad for Flashcard 5
-            "https://phunaivaizu.com/4/7667810",           // Ad for Flashcard 6
-            "https://phunaivaizu.com/4/7667810",           // Ad for Flashcard 7
-            "https://phunaivaizu.com/4/7667810"            // Ad for Flashcard 8
-        ];
+        // Core Variables
+        const allFlashcards = Array.from(document.querySelectorAll('.flashcard'));
+        let activeFlashcards = [...allFlashcards];
+        let currentIndex = 0;
+        let learnedCount = 0;
 
-        // Function to start a session
-        function startSession(flashcardURL, index) {
-            // Save the selected flashcard index to localStorage
-            localStorage.setItem('lastFlashcardIndex', index);
+        // DOM Elements
+        const container = document.getElementById('flashcardContainer');
+        const courseFilter = document.getElementById('courseFilter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const markLearnedBtn = document.getElementById('markLearnedBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const darkModeBtn = document.getElementById('darkModeBtn');
+        const progressText = document.getElementById('progressText');
+        const progressFill = document.getElementById('progressFill');
 
-            // Open popunder ad
-            const popunder = window.open(adLinks[index], '_blank');
-            if (popunder) {
-                popunder.blur();
-                window.focus();
-            }
-
-            // Load the selected flashcard
-            document.querySelector('.introduction').style.display = 'none';
-            document.getElementById('flashcardContainer').style.display = 'flex';
-            document.getElementById('flashcardFrame').src = flashcardURL;
+        // Update Display
+        function updateDisplay() {
+            activeFlashcards.forEach((card, index) => {
+                card.classList.toggle('active', index === currentIndex);
+            });
+            const totalCards = activeFlashcards.length;
+            progressText.textContent = `Card ${currentIndex + 1}/${totalCards} | Learned: ${learnedCount}`;
+            progressFill.style.width = `${((currentIndex + 1) / totalCards) * 100}%`;
         }
 
-        // Function to end the session
-        function endSession() {
-            localStorage.removeItem('lastFlashcardIndex'); // Clear the stored index
-            document.getElementById('flashcardContainer').style.display = 'none';
-            document.querySelector('.introduction').style.display = 'block';
-            document.getElementById('flashcardFrame').src = ''; // Clear the iframe
-        }
-
-        // Check localStorage on page load
-        window.addEventListener('load', () => {
-            const lastFlashcardIndex = localStorage.getItem('lastFlashcardIndex');
-            if (lastFlashcardIndex !== null) {
-                // If a flashcard index is stored, load the corresponding flashcard
-                const flashcardURLs = [
-                    "https://www.studystack.com/iflashcardnew-658812", // Tooth Morphology
-                    "https://www.studystack.com/iflashcardnew-357351", // Head and Neck Anatomy
-                    "https://www.studystack.com/iflashcardnew-773941", // Radiology
-                    "https://www.studystack.com/iflashcardnew-287419", // Surgical and Oral Instrument
-                    "https://www.studystack.com/iflashcardnew-657919", // Infection Control
-                    "https://www.studystack.com/iflashcardnew-658728", // Pharmacology
-                    "https://www.studystack.com/iflashcardnew-1611656", // Dental Terminology
-                    "https://www.studystack.com/iflashcardnew-966042"  // Definitions
-                ];
-                const url = flashcardURLs[lastFlashcardIndex];
-                document.querySelector('.introduction').style.display = 'none';
-                document.getElementById('flashcardContainer').style.display = 'flex';
-                document.getElementById('flashcardFrame').src = url;
-            }
+        // Flip Card
+        allFlashcards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('flipped');
+            });
         });
+
+        // Navigation
+        prevBtn.addEventListener('click', () => {
+            activeFlashcards[currentIndex].classList.remove('flipped');
+            currentIndex = (currentIndex - 1 + activeFlashcards.length) % activeFlashcards.length;
+            updateDisplay();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            activeFlashcards[currentIndex].classList.remove('flipped');
+            currentIndex = (currentIndex + 1) % activeFlashcards.length;
+            updateDisplay();
+        });
+
+        // Shuffle Cards
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        shuffleBtn.addEventListener('click', () => {
+            activeFlashcards = shuffle([...activeFlashcards]);
+            currentIndex = 0;
+            activeFlashcards.forEach((card, index) => {
+                card.style.order = index;
+            });
+            updateDisplay();
+        });
+
+        // Mark as Learned
+        markLearnedBtn.addEventListener('click', () => {
+            const currentCard = activeFlashcards[currentIndex];
+            if (currentCard.dataset.learned === 'false') {
+                currentCard.dataset.learned = 'true';
+                learnedCount++;
+                currentCard.querySelector('.front').style.backgroundColor = '#d4edda'; // Light green
+            }
+            updateDisplay();
+        });
+
+        // Reset
+        resetBtn.addEventListener('click', () => {
+            allFlashcards.forEach(card => {
+                card.dataset.learned = 'false';
+                card.classList.remove('flipped');
+                card.querySelector('.front').style.backgroundColor = '';
+            });
+            activeFlashcards = [...allFlashcards];
+            learnedCount = 0;
+            currentIndex = 0;
+            courseFilter.value = 'all';
+            updateDisplay();
+        });
+
+        // Course Filter
+        courseFilter.addEventListener('change', () => {
+            const selectedCourse = courseFilter.value;
+            activeFlashcards = selectedCourse === 'all' 
+                ? [...allFlashcards] 
+                : allFlashcards.filter(card => card.dataset.course === selectedCourse);
+            currentIndex = 0;
+            activeFlashcards.forEach((card, index) => {
+                card.style.order = index;
+            });
+            updateDisplay();
+        });
+
+        // Dark Mode Toggle
+        darkModeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            darkModeBtn.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+        });
+
+        // Instructions Toggle
+        function toggleInstructions() {
+            const list = document.getElementById('instructionsList');
+            list.classList.toggle('show');
+            const arrow = document.querySelector('.instructions h2 span');
+            arrow.textContent = list.classList.contains('show') ? '▲' : '▼';
+        }
+
+        // Initialize
+        updateDisplay();
     </script>
 </body>
-    </html>
+</html>
