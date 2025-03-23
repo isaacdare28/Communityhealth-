@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Health Curriculum Flashcards</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f7f5;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #1a3c34;
+            margin-bottom: 20px;
+        }
+        .flashcard-stack {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            perspective: 1200px;
+            margin-bottom: 20px;
+        }
+        .flashcard {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s ease-in-out, opacity 0.3s;
+            transform-style: preserve-3d;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            border-radius: 15px;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .flashcard.active {
+            opacity: 1;
+            z-index: 10;
+        }
+        .flashcard-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s ease-in-out;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            border: 2px solid #4db6ac;
+            border-radius: 15px;
+        }
+        .front {
+            color: #1a3c34;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+        .back {
+            color: #ffffff;
+            background-color: #4db6ac;
+            transform: rotateY(180deg);
+            font-size: 1em;
+            line-height: 1.4;
+        }
+        .navigation, .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #ffffff;
+            background-color: #1a3c34;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4db6ac;
+        }
+        #progress {
+            font-size: 1.1em;
+            color: #1a3c34;
+        }
+        #learnedCount {
+            color: #4db6ac;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flashcard</h1>
+
+    <div class="flashcard-stack">
+        <!-- Foundations of Community Health -->
+        <div class="flashcard active" data-learned="false"><div class="flashcard-inner"><div class="front">What is the definition of community health?</div><div class="back">The science and art of promoting health and preventing disease in defined populations.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What are the core functions of public health?</div><div class="back">Assessment, policy development, and assurance.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a community health intervention?</div><div class="back">A targeted action to improve population health outcomes.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the role of community engagement?</div><div class="back">To involve residents in identifying and addressing health needs.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is primary prevention?</div><div class="back">Actions to prevent disease before it occurs (e.g., vaccinations).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is secondary prevention?</div><div class="back">Early detection and treatment of disease (e.g., screenings).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is tertiary prevention?</div><div class="back">Managing existing disease to prevent complications.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a health disparity?</div><div class="back">Preventable differences in health outcomes across populations.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the social-ecological model?</div><div class="back">A framework showing how individual, social, and environmental factors influence health.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the goal of community health programs?</div><div class="back">To enhance quality of life and reduce health inequities.</div></div></div>
+
+        <!-- Epidemiology and Biostatistics -->
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is epidemiology?</div><div class="back">The study of disease distribution and determinants in populations.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is incidence rate?</div><div class="back">The number of new cases of a disease per population in a given time.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is prevalence rate?</div><div class="back">The total number of disease cases in a population at a specific time.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a morbidity rate?</div><div class="back">The frequency of illness in a population.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a mortality rate?</div><div class="back">The frequency of deaths in a population.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is an odds ratio?</div><div class="back">A measure of association between exposure and outcome in case-control studies.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is relative risk?</div><div class="back">The ratio of disease probability in exposed vs. unexposed groups.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a confidence interval?</div><div class="back">A statistical range estimating the true effect size.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a cross-sectional study?</div><div class="back">A study observing a population at one point in time.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the purpose of disease surveillance?</div><div class="back">To monitor and control health threats in populations.</div></div></div>
+
+        <!-- Health Education and Behavioral Science -->
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is health education?</div><div class="back">Teaching individuals and communities to adopt healthy behaviors.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the Health Belief Model?</div><div class="back">A theory explaining health behavior based on perceived risks and benefits.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the Transtheoretical Model?</div><div class="back">A model of behavior change with stages (e.g., precontemplation, action).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is self-efficacy?</div><div class="back">Belief in one’s ability to perform a health-related behavior.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a health communication strategy?</div><div class="back">A plan to deliver health messages effectively.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is motivational interviewing?</div><div class="back">A counseling approach to support behavior change.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a community-based participatory approach?</div><div class="back">Collaborating with communities to design health education.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is cultural tailoring?</div><div class="back">Adapting health messages to fit cultural contexts.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the PRECEDE-PROCEED model?</div><div class="back">A planning framework for health education programs.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the outcome of health literacy?</div><div class="back">Improved ability to access and use health information.</div></div></div>
+
+        <!-- Public Health Policy and Management -->
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is public health policy?</div><div class="back">Laws and regulations to protect and promote population health.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the Affordable Care Act?</div><div class="back">U.S. legislation expanding healthcare access (2010).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is health advocacy?</div><div class="back">Efforts to influence policy for better health outcomes.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a health impact assessment?</div><div class="back">A tool to evaluate policy effects on health.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is program evaluation?</div><div class="back">Assessing the effectiveness of health initiatives.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is resource allocation in public health?</div><div class="back">Distributing funds and assets to meet health needs.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a public health emergency?</div><div class="back">A crisis requiring immediate policy response (e.g., pandemics).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is intersectoral collaboration?</div><div class="back">Working across sectors (e.g., education, health) for policy goals.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the role of a public health manager?</div><div class="back">To plan, implement, and oversee health programs.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is evidence-based policy?</div><div class="back">Policies grounded in scientific research and data.</div></div></div>
+
+        <!-- Environmental and Occupational Health -->
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is environmental health?</div><div class="back">The study of how environmental factors affect human health.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is an environmental exposure?</div><div class="back">Contact with harmful agents (e.g., pollutants).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is waterborne disease?</div><div class="back">Illness from contaminated water (e.g., cholera).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is an occupational hazard?</div><div class="back">A workplace condition risking health (e.g., asbestos).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the Clean Air Act?</div><div class="back">U.S. law regulating air pollution for health protection.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is environmental justice?</div><div class="back">Ensuring fair treatment in environmental health risks.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a risk assessment?</div><div class="back">Evaluating the potential harm of environmental exposures.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is climate change adaptation?</div><div class="back">Adjusting health systems to climate impacts.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is indoor air quality?</div><div class="back">The condition of air within buildings affecting health.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the purpose of occupational safety?</div><div class="back">To prevent workplace injuries and illnesses.</div></div></div>
+
+        <!-- Community Health Assessment and Planning -->
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a community health assessment (CHA)?</div><div class="back">A process to identify health needs and assets.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the Mobilizing for Action through Planning and Partnerships (MAPP)?</div><div class="back">A CHA framework.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a health priority?</div><div class="back">A key issue identified in a CHA for action.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is quantitative data in CHA?</div><div class="back">Numerical data (e.g., disease rates).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is qualitative data in CHA?</div><div class="back">Descriptive data (e.g., interviews).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a community health improvement plan (CHIP)?</div><div class="back">A strategy to address CHA findings.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a logic model?</div><div class="back">A visual tool linking program inputs to outcomes.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is stakeholder analysis?</div><div class="back">Identifying key players in health planning.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a health indicator?</div><div class="back">A measurable factor reflecting community health status.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the goal of CHA?</div><div class="back">To inform evidence-based health interventions.</div></div></div>
+
+        <!-- Maternal, Child, and Family Health -->
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is maternal mortality?</div><div class="back">Death of a woman during pregnancy or within 42 days postpartum.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is neonatal mortality?</div><div class="back">Death of an infant within the first 28 days of life.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is prenatal care?</div><div class="back">Medical care during pregnancy to ensure maternal and fetal health.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the Apgar score?</div><div class="back">A test assessing newborn health at birth.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is exclusive breastfeeding?</div><div class="back">Feeding an infant only breast milk for 6 months.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a family planning service?</div><div class="back">Programs to help individuals control reproduction.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is childhood immunization?</div><div class="back">Vaccines to protect against diseases like measles.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is adolescent health?</div><div class="back">Addressing physical and mental health in teens.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a developmental milestone?</div><div class="back">Key skills children achieve at specific ages.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the purpose of Title V?</div><div class="back">U.S. program supporting maternal and child health.</div></div></div>
+
+        <!-- Chronic Disease Epidemiology and Prevention -->
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a chronic disease?</div><div class="back">A condition lasting 1+ years requiring ongoing care.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is cardiovascular disease?</div><div class="back">Disorders of the heart and blood vessels.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is type 2 diabetes?</div><div class="back">A chronic condition of insulin resistance or deficiency.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a modifiable risk factor?</div><div class="back">A behavior changeable to reduce disease risk (e.g., smoking).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a non-modifiable risk factor?</div><div class="back">An unchangeable factor (e.g., age, genetics).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a chronic disease registry?</div><div class="back">A database tracking disease cases for management.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is population screening?</div><div class="back">Testing a group to detect disease early.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a lifestyle modification?</div><div class="back">Changes like diet or exercise to prevent disease.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the burden of chronic disease?</div><div class="back">The health, economic, and social impact of long-term illness.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the Chronic Disease Prevention framework?</div><div class="back">Strategies integrating policy and community action.</div></div></div>
+
+        <!-- Global Health and Infectious Diseases -->
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is global health?</div><div class="back">Health issues requiring transnational collaboration.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is an infectious disease?</div><div class="back">Illness caused by pathogens (e.g., bacteria, viruses).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a vaccine-preventable disease?</div><div class="back">Illness preventable by immunization (e.g., polio).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the WHO’s role?</div><div class="back">Leading global health efforts and setting standards.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a neglected tropical disease?</div><div class="back">Infections prevalent in low-resource settings (e.g., dengue).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is antimicrobial resistance?</div><div class="back">Pathogens resisting treatment drugs.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a disease outbreak?</div><div class="back">A sudden rise in cases above normal levels.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the Global Burden of Disease?</div><div class="back">A measure of health loss from diseases worldwide.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a One Health approach?</div><div class="back">Linking human, animal, and environmental health.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the purpose of quarantine?</div><div class="back">To isolate individuals to prevent disease spread.</div></div></div>
+
+        <!-- Health Equity and Social Justice -->
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What are social determinants of health?</div><div class="back">Conditions shaping health (e.g., income, housing).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is structural inequality?</div><div class="back">Systemic factors causing health disparities.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is intersectionality in health?</div><div class="back">How overlapping identities affect health outcomes.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a health equity framework?</div><div class="back">A model to address unfair health differences.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is access to care?</div><div class="back">The ability to obtain needed health services.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a safety net program?</div><div class="back">Services for underserved populations (e.g., Medicaid).</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is community resilience?</div><div class="back">A group’s capacity to recover from health challenges.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is a social justice approach?</div><div class="back">Addressing root causes of health inequities.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the role of advocacy in equity?</div><div class="back">Promoting policies to reduce health gaps.</div></div></div>
+        <div class="flashcard" data-learned="false"><div class="flashcard-inner"><div class="front">What is the ultimate goal of health equity?</div><div class="back">Eliminating preventable health disparities.</div></div></div>
+    </div>
+
+    <div class="navigation">
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+    </div>
+    <div class="controls">
+        <button id="shuffleBtn">Shuffle</button>
+        <button id="markLearnedBtn">Mark as Learned</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+    <p id="progress">Card <span id="cardNumber">1</span>/100 | Learned: <span id="learnedCount">0</span></p>
+
+    <script>
+        let flashcards = Array.from(document.querySelectorAll('.flashcard'));
+        let currentIndex = 0;
+        let learnedCount = 0;
+
+        function updateDisplay() {
+            flashcards.forEach((card, index) => {
+                card.classList.toggle('active', index === currentIndex);
+            });
+            document.getElementById('cardNumber').textContent = currentIndex + 1;
+            document.getElementById('learnedCount').textContent = learnedCount;
+        }
+
+        flashcards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('flipped');
+            });
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            flashcards[currentIndex].classList.remove('flipped');
+            currentIndex = (currentIndex + 1) % flashcards.length;
+            updateDisplay();
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            flashcards[currentIndex].classList.remove('flipped');
+            currentIndex = (currentIndex - 1 + flashcards.length) % flashcards.length;
+            updateDisplay();
+        });
+
+        document.getElementById('shuffleBtn').addEventListener('click', () => {
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+            currentIndex = 0;
+            flashcards.forEach((card, index) => {
+                card.style.order = index;
+            });
+            updateDisplay();
+        });
+
+        document.getElementById('markLearnedBtn').addEventListener('click', () => {
+            if (flashcards[currentIndex].dataset.learned === 'false') {
+                flashcards[currentIndex].dataset.learned = 'true';
+                learnedCount++;
+                flashcards[currentIndex].querySelector('.front').style.backgroundColor = '#d4edda';
+            }
+            updateDisplay();
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            flashcards.forEach(card => {
+                card.dataset.learned = 'false';
+                card.classList.remove('flipped');
+                card.querySelector('.front').style.backgroundColor = '#ffffff';
+            });
+            learnedCount = 0;
+            currentIndex = 0;
+            updateDisplay();
+        });
+
+        updateDisplay();
+    </script>
+</body>
+</html>
