@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS: Epidemiology and Disease Prevention</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4e73df;
+            --secondary: #1cc88a;
+            --success: #1cc88a;
+            --info: #36b9cc;
+            --warning: #f6c23e;
+            --danger: #e74a3b;
+            --light: #f8f9fc;
+            --dark: #5a5c69;
+            --white: #ffffff;
+            --gray: #858796;
+        }
+        
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: #4a4a4a;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), #224abe);
+            color: var(--white);
+            padding: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        .progress-container {
+            margin: 30px 0;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e3e6f0;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            background: #eaecf4;
+            height: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), #17a673);
+            width: 0%;
+            transition: width 0.6s ease;
+        }
+        
+        .page {
+            display: none;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
+            border: 1px solid #e3e6f0;
+            position: relative;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        h3 {
+            color: var(--dark);
+            margin-top: 30px;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .toggle-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 16px 25px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .toggle-btn:hover {
+            background: #3a5ccc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(78, 115, 223, 0.25);
+        }
+        
+        .toggle-btn i {
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-btn.active i {
+            transform: rotate(180deg);
+        }
+        
+        .content {
+            display: none;
+            margin: 25px 0;
+            padding: 25px;
+            background: var(--light);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        ul li {
+            padding: 10px 0;
+            position: relative;
+            padding-left: 30px;
+            line-height: 1.7;
+        }
+        
+        ul li:before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 5px;
+            top: 2px;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e3e6f0;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .note, .closing, .glossary, .quote, .encouragement,
+        .objectives, .quiz, .checklist, .discussion, .scenario, .resources,
+        .case-study, .data-visualization {
+            margin: 25px 0;
+            padding: 25px;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .note {
+            background: rgba(28, 200, 138, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .closing {
+            background: rgba(78, 115, 223, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .glossary {
+            background: rgba(246, 194, 62, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .quote {
+            background: rgba(133, 135, 150, 0.1);
+            font-style: italic;
+            border-left: 4px solid var(--gray);
+        }
+        
+        .encouragement {
+            background: rgba(28, 200, 138, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .objectives {
+            background: rgba(54, 185, 204, 0.1);
+            border-left: 4px solid var(--info);
+        }
+        
+        .quiz {
+            background: rgba(231, 74, 59, 0.1);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .checklist {
+            background: rgba(246, 194, 62, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .discussion, .scenario {
+            background: rgba(111, 66, 193, 0.1);
+            border-left: 4px solid #6f42c1;
+        }
+        
+        .resources {
+            background: rgba(133, 135, 150, 0.1);
+            border-left: 4px solid var(--gray);
+        }
+        
+        .case-study {
+            background: rgba(78, 115, 223, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .data-visualization {
+            background: rgba(54, 185, 204, 0.1);
+            border-left: 4px solid var(--info);
+        }
+        
+        .quiz label {
+            display: block;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid #e3e6f0;
+        }
+        
+        .quiz label:hover {
+            background: var(--white);
+            transform: translateX(5px);
+            border-color: var(--primary);
+        }
+        
+        .quiz input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        
+        .quiz button {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .quiz button:hover {
+            background: #3a5ccc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(78, 115, 223, 0.25);
+        }
+        
+        .quiz-result {
+            margin-top: 20px;
+            font-weight: 600;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .quiz-result.correct {
+            background: rgba(28, 200, 138, 0.2);
+            color: var(--success);
+            display: block;
+        }
+        
+        .quiz-result.incorrect {
+            background: rgba(231, 74, 59, 0.2);
+            color: var(--danger);
+            display: block;
+        }
+        
+        .quiz-explanation {
+            margin-top: 20px;
+            font-style: italic;
+            color: var(--dark);
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            border: 1px solid #e3e6f0;
+            display: none;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            border: 1px solid #e3e6f0;
+            transition: all 0.2s ease;
+        }
+        
+        .checklist-item:hover {
+            transform: translateX(5px);
+            border-color: var(--warning);
+        }
+        
+        .checklist input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.4);
+        }
+        
+        .discussion textarea, .scenario textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e3e6f0;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .discussion textarea:focus, .scenario textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.25);
+        }
+        
+        .resources a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin: 12px 0;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid #e3e6f0;
+        }
+        
+        .resources a:hover {
+            background: rgba(78, 115, 223, 0.1);
+            text-decoration: none;
+            transform: translateX(5px);
+            border-color: var(--primary);
+        }
+        
+        .resources a i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            gap: 20px;
+        }
+        
+        .pagination button {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .pagination button:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .pagination button:hover:not(:disabled) {
+            background: #3a5ccc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(78, 115, 223, 0.25);
+        }
+        
+        .pagination span {
+            font-size: 1.1rem;
+            color: var(--dark);
+            font-weight: 600;
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+        
+        .badge-primary {
+            background: rgba(78, 115, 223, 0.1);
+            color: var(--primary);
+        }
+        
+        .badge-success {
+            background: rgba(28, 200, 138, 0.1);
+            color: var(--success);
+        }
+        
+        .badge-warning {
+            background: rgba(246, 194, 62, 0.1);
+            color: var(--warning);
+        }
+        
+        .badge-danger {
+            background: rgba(231, 74, 59, 0.1);
+            color: var(--danger);
+        }
+        
+        .floating-nav {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .floating-nav button {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .floating-nav button:hover {
+            background: #3a5ccc;
+            transform: translateY(-3px) scale(1.1);
+        }
+        
+        .floating-nav button:active {
+            transform: translateY(1px);
+        }
+        
+        .completion-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--success);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            font-size: 1.2rem;
+        }
+        
+        .bookmark-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+        
+        .bookmark-btn:hover {
+            color: var(--warning);
+            transform: scale(1.2);
+        }
+        
+        .bookmark-btn.active {
+            color: var(--warning);
+        }
+        
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e3e6f0;
+        }
+        
+        .data-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f9fafd;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f1f3f9;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+                padding: 0 20px;
+            }
+            
+            .page {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            h3 {
+                font-size: 1.3rem;
+            }
+            
+            iframe {
+                height: 300px;
+            }
+            
+            .pagination {
+                flex-direction: column;
+            }
+            
+            .pagination button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .floating-nav {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .floating-nav button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* Accessibility improvements */
+        a:focus, button:focus, input:focus, textarea:focus {
+            outline: 3px solid rgba(28, 200, 138, 0.5);
+            outline-offset: 2px;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .page,
+        body.dark-mode .progress-container,
+        body.dark-mode .quiz label,
+        body.dark-mode .checklist-item,
+        body.dark-mode .resources a,
+        body.dark-mode .data-table tr {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            border-color: #333;
+        }
+        
+        body.dark-mode .content,
+        body.dark-mode .quiz-explanation {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode h2, 
+        body.dark-mode h3 {
+            color: #bb86fc;
+        }
+        
+        body.dark-mode .progress-bar {
+            background-color: #333;
+        }
+        
+        body.dark-mode .discussion textarea,
+        body.dark-mode .scenario textarea {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+        
+        body.dark-mode .data-table th {
+            background-color: #3700b3;
+        }
+        
+        body.dark-mode .data-table tr:nth-child(even) {
+            background-color: #252525;
+        }
+        
+        body.dark-mode .data-table tr:hover {
+            background-color: #333;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>LMS: Epidemiology and Disease Prevention</h1>
+        <button class="dark-mode-toggle" aria-label="Toggle dark mode" onclick="toggleDarkMode()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </header>
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-info">
+                <span>Course Progress</span>
+                <span id="progressPercentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
+
+        <!-- Page 1: Introduction to Epidemiology -->
+        <div class="page active" id="page1">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(1)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Introduction to Epidemiology <span class="badge badge-primary">Fundamental</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Define epidemiology and its core concepts</li>
+                    <li>Understand the history and importance of epidemiology</li>
+                    <li>Identify key epidemiological measures and terms</li>
+                </ul>
+            </div>
+            <p>Epidemiology is the study of how diseases affect the health and illness of populations. It serves as the foundation for public health interventions and evidence-based medicine.</p>
+            <button class="toggle-btn" onclick="toggleContent('content1')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content1" class="content">
+                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Epidemiologists analyzing data">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                <p>Epidemiology has shaped modern medicine through landmark discoveries:</p>
+                <ul>
+                    <li><strong>Definition:</strong> The study of distribution (who, when, where) and determinants (why/how) of health-related states in populations (WHO).</li>
+                    <li><strong>Historical Milestones:</strong> John Snow's cholera map (1854), Framingham Heart Study (1948), WHO smallpox eradication (1980).</li>
+                    <li><strong>Key Measures:</strong> Incidence (new cases), prevalence (total cases), mortality rate, attack rate, relative risk.</li>
+                    <li><strong>Types of Studies:</strong> Descriptive (person-place-time), analytical (cohort, case-control), experimental (RCTs).</li>
+                </ul>
+                
+                <div class="data-visualization">
+                    <h4><i class="fas fa-chart-bar"></i> Epidemiological Measures</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Measure</th>
+                                <th>Formula</th>
+                                <th>Application</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Incidence Rate</td>
+                                <td>New cases / Population at risk × time</td>
+                                <td>Disease risk assessment</td>
+                            </tr>
+                            <tr>
+                                <td>Prevalence</td>
+                                <td>Total cases / Total population</td>
+                                <td>Disease burden measurement</td>
+                            </tr>
+                            <tr>
+                                <td>Relative Risk</td>
+                                <td>Incidence in exposed / Incidence in unexposed</td>
+                                <td>Causal association</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/SL3D0VWnOCE" title="Introduction to Epidemiology" allowfullscreen></iframe>
+                
+                <div class="note">
+                    <h4><i class="fas fa-lightbulb"></i> Key Insight</h4>
+                    <p>Epidemiology is the detective work of public health, identifying patterns to prevent disease and promote health.</p>
+                </div>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. What did John Snow's cholera map demonstrate?</legend>
+                    <label><input type="radio" name="q1a" value="a"> a) The importance of vaccination</label>
+                    <label><input type="radio" name="q1a" value="b"> b) The connection between water sources and disease</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. Which measure calculates disease burden in a population?</legend>
+                    <label><input type="radio" name="q1b" value="a"> a) Incidence rate</label>
+                    <label><input type="radio" name="q1b" value="b"> b) Prevalence</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(1, ['b', 'b'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result1" class="quiz-result"></div>
+                <div id="explanation1" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="checklist">
+                <h3><i class="fas fa-check-square"></i> Key Concepts Checklist</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1-1">
+                    <label for="check1-1">I can define epidemiology and its purpose</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1-2">
+                    <label for="check1-2">I understand key historical developments</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1-3">
+                    <label for="check1-3">I can differentiate incidence and prevalence</label>
+                </div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>A town reports 50 new cases of hepatitis A in a month (population: 10,000). Calculate the incidence rate.</p>
+                <textarea placeholder="Show your calculation and interpretation..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.cdc.gov/csels/dsepd/ss1978/SS1978.pdf" target="_blank">
+                    <i class="fas fa-file-pdf"></i> Principles of Epidemiology (CDC PDF)
+                </a>
+                <a href="https://www.who.int/news-room/fact-sheets/detail/vector-borne-diseases" target="_blank">
+                    <i class="fas fa-link"></i> WHO Vector-Borne Diseases Fact Sheet
+                </a>
+                <a href="https://www.cdc.gov/mmwr/preview/mmwrhtml/su6004a1.htm" target="_blank">
+                    <i class="fas fa-link"></i> CDC Epidemiology History Timeline
+                </a>
+            </div>
+            
+            <div class="closing">
+                <h3><i class="fas fa-flag-checkered"></i> Closing Remark</h3>
+                <p>This foundation prepares you to analyze health patterns and contribute to disease prevention efforts.</p>
+            </div>
+        </div>
+
+        <!-- Page 2: Disease Transmission and Prevention -->
+        <div class="page" id="page2">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(2)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Disease Transmission and Prevention <span class="badge badge-primary">Core Concept</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Understand disease transmission modes</li>
+                    <li>Identify prevention strategies for different diseases</li>
+                    <li>Apply the chain of infection model</li>
+                </ul>
+            </div>
+            <p>Effective disease prevention requires understanding how pathogens spread and implementing targeted interventions to break transmission chains.</p>
+            <button class="toggle-btn" onclick="toggleContent('content2')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content2" class="content">
+                <img src="https://images.unsplash.com/photo-1584483766114-2cea6facdf57?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Disease transmission illustration">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                <p>The chain of infection consists of six links that must be connected for disease transmission:</p>
+                <ol>
+                    <li><strong>Infectious Agent:</strong> Bacteria, viruses, fungi, parasites</li>
+                    <li><strong>Reservoir:</strong> Where pathogen lives (humans, animals, environment)</li>
+                    <li><strong>Portal of Exit:</strong> How pathogen leaves reservoir (respiratory, blood, etc.)</li>
+                    <li><strong>Mode of Transmission:</strong>
+                        <ul>
+                            <li>Direct (contact, droplets)</li>
+                            <li>Indirect (airborne, vehicle, vector)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Portal of Entry:</strong> How pathogen enters new host</li>
+                    <li><strong>Susceptible Host:</strong> Person at risk of infection</li>
+                </ol>
+                
+                <div class="case-study">
+                    <h4><i class="fas fa-clipboard-list"></i> COVID-19 Transmission Case Study</h4>
+                    <p>SARS-CoV-2 transmission demonstrates multiple routes:</p>
+                    <ul>
+                        <li><strong>Primary:</strong> Respiratory droplets (within 6 feet)</li>
+                        <li><strong>Secondary:</strong> Aerosols (longer distances), fomites (less common)</li>
+                        <li><strong>Prevention:</strong> Masks (source control + protection), ventilation, hand hygiene</li>
+                    </ul>
+                    <p>Effectiveness: Mask mandates reduced transmission by 53% (BMJ 2021).</p>
+                </div>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/2JWku3Kjpq0" title="Chain of Infection" allowfullscreen></iframe>
+                
+                <div class="note">
+                    <h4><i class="fas fa-lightbulb"></i> Key Insight</h4>
+                    <p>Breaking any link in the chain stops disease transmission - prevention strategies target specific links.</p>
+                </div>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. What's the most effective way to break the chain for mosquito-borne diseases?</legend>
+                    <label><input type="radio" name="q2a" value="a"> a) Hand washing</label>
+                    <label><input type="radio" name="q2a" value="b"> b) Vector control</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. Which is NOT a portal of exit?</legend>
+                    <label><input type="radio" name="q2b" value="a"> a) Respiratory tract</label>
+                    <label><input type="radio" name="q2b" value="b"> b) Intact skin</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(2, ['b', 'b'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result2" class="quiz-result"></div>
+                <div id="explanation2" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="checklist">
+                <h3><i class="fas fa-check-square"></i> Key Concepts Checklist</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2-1">
+                    <label for="check2-1">I can list all chain of infection links</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2-2">
+                    <label for="check2-2">I understand different transmission modes</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2-3">
+                    <label for="check2-3">I can match prevention strategies to transmission types</label>
+                </div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>A measles outbreak occurs in an under-vaccinated community. Identify three points to interrupt transmission and justify your choices.</p>
+                <textarea placeholder="Describe your intervention plan..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.cdc.gov/infectioncontrol/pdf/guidelines/isolation-guidelines-H.pdf" target="_blank">
+                    <i class="fas fa-file-pdf"></i> CDC Transmission-Based Precautions (PDF)
+                </a>
+                <a href="https://www.who.int/publications/i/item/9789241549607" target="_blank">
+                    <i class="fas fa-file-pdf"></i> WHO Infection Prevention Guidelines (PDF)
+                </a>
+                <a href="https://www.cdc.gov/coronavirus/2019-ncov/science/science-briefs/sars-cov-2-transmission.html" target="_blank">
+                    <i class="fas fa-link"></i> CDC COVID-19 Transmission Science Brief
+                </a>
+            </div>
+        </div>
+
+        <!-- Page 3: Epidemiological Study Designs -->
+        <div class="page" id="page3">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(3)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Epidemiological Study Designs <span class="badge badge-warning">Analytical</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Compare different study designs</li>
+                    <li>Understand strengths and limitations of each approach</li>
+                    <li>Interpret basic epidemiological data</li>
+                </ul>
+            </div>
+            <p>Choosing the appropriate study design is crucial for answering specific research questions while minimizing bias.</p>
+            <button class="toggle-btn" onclick="toggleContent('content3')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content3" class="content">
+                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Researchers analyzing data">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                
+                <div class="data-visualization">
+                    <h4><i class="fas fa-table"></i> Study Design Comparison</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Design</th>
+                                <th>Time Orientation</th>
+                                <th>Strengths</th>
+                                <th>Limitations</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cohort</td>
+                                <td>Prospective</td>
+                                <td>Measures incidence, establishes temporality</td>
+                                <td>Expensive, time-consuming</td>
+                                <td>Framingham Heart Study</td>
+                            </tr>
+                            <tr>
+                                <td>Case-Control</td>
+                                <td>Retrospective</td>
+                                <td>Efficient for rare diseases</td>
+                                <td>Recall bias, can't measure incidence</td>
+                                <td>DES and vaginal cancer</td>
+                            </tr>
+                            <tr>
+                                <td>Cross-Sectional</td>
+                                <td>Snapshot</td>
+                                <td>Quick, measures prevalence</td>
+                                <td>Can't establish causation</td>
+                                <td>NHANES surveys</td>
+                            </tr>
+                            <tr>
+                                <td>RCT</td>
+                                <td>Prospective</td>
+                                <td>Gold standard, minimizes bias</td>
+                                <td>Expensive, ethical limitations</td>
+                                <td>Vaccine trials</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h4>Key Concepts:</h4>
+                <ul>
+                    <li><strong>Bias Types:</strong> Selection, information, confounding</li>
+                    <li><strong>Measures of Association:</strong> OR (case-control), RR (cohort), prevalence ratio (cross-sectional)</li>
+                    <li><strong>Hierarchy of Evidence:</strong> Systematic reviews > RCTs > cohort > case-control > cross-sectional > case reports</li>
+                </ul>
+                
+                <div class="case-study">
+                    <h4><i class="fas fa-clipboard-list"></i> Landmark Study: Doll and Hill (1954)</h4>
+                    <p>This pioneering case-control study established smoking as a cause of lung cancer:</p>
+                    <ul>
+                        <li><strong>Design:</strong> 649 lung cancer cases vs. 649 controls</li>
+                        <li><strong>Finding:</strong> Smokers had 10-30x higher risk (OR=14 for heavy smokers)</li>
+                        <li><strong>Impact:</strong> Changed public health policies worldwide</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/3GFbWcNOZHo" title="Epidemiological Study Designs" allowfullscreen></iframe>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. Which design is best for studying rare diseases?</legend>
+                    <label><input type="radio" name="q3a" value="a"> a) Cohort study</label>
+                    <label><input type="radio" name="q3a" value="b"> b) Case-control study</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. What measure does a cohort study calculate?</legend>
+                    <label><input type="radio" name="q3b" value="a"> a) Odds ratio</label>
+                    <label><input type="radio" name="q3b" value="b"> b) Relative risk</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(3, ['b', 'b'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result3" class="quiz-result"></div>
+                <div id="explanation3" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="checklist">
+                <h3><i class="fas fa-check-square"></i> Key Concepts Checklist</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check3-1">
+                    <label for="check3-1">I can compare study designs</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check3-2">
+                    <label for="check3-2">I understand measures of association</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check3-3">
+                    <label for="check3-3">I can identify potential biases</label>
+                </div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>You're investigating a possible link between a new pesticide and Parkinson's disease. Justify your choice of study design.</p>
+                <textarea placeholder="Explain your reasoning..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5037944/pdf/nihms817161.pdf" target="_blank">
+                    <i class="fas fa-file-pdf"></i> Study Design in Epidemiologic Research (PDF)
+                </a>
+                <a href="https://www.cdc.gov/globalhealth/healthprotection/fetp/training_modules/9/StudyDesign_CE_Final_09262013.pdf" target="_blank">
+                    <i class="fas fa-file-pdf"></i> CDC FETP Study Design Manual (PDF)
+                </a>
+                <a href="https://www.cancer.gov/about-cancer/causes-prevention/risk/statistics" target="_blank">
+                    <i class="fas fa-link"></i> NCI Cancer Statistics and Risk Factors
+                </a>
+            </div>
+        </div>
+
+        <!-- Page 4: Outbreak Investigation -->
+        <div class="page" id="page4">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(4)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Outbreak Investigation <span class="badge badge-danger">Applied Skills</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Follow the 10-step outbreak investigation process</li>
+                    <li>Create and interpret epidemic curves</li>
+                    <li>Implement control measures during outbreaks</li>
+                </ul>
+            </div>
+            <p>Systematic outbreak investigation combines epidemiological methods with rapid response to protect public health.</p>
+            <button class="toggle-btn" onclick="toggleContent('content4')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content4" class="content">
+                <img src="https://images.unsplash.com/photo-1575505586569-646b2ca898fc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Team investigating outbreak">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                
+                <h4>10 Steps of Outbreak Investigation:</h4>
+                <ol>
+                    <li><strong>Prepare for field work</strong> - Assemble team, supplies</li>
+                    <li><strong>Confirm outbreak exists</strong> - Compare to baseline</li>
+                    <li><strong>Verify diagnoses</strong> - Lab confirmation</li>
+                    <li><strong>Define and identify cases</strong> - Standard case definition</li>
+                    <li><strong>Descriptive epidemiology</strong> - Person, place, time analysis</li>
+                    <li><strong>Develop hypotheses</strong> - Based on patterns</li>
+                    <li><strong>Evaluate hypotheses</strong> - Analytical studies</li>
+                    <li><strong>Implement control measures</strong> - Immediate actions</li>
+                    <li><strong>Communicate findings</strong> - Reports, press releases</li>
+                    <li><strong>Prevent future outbreaks</strong> - Policy recommendations</li>
+                </ol>
+                
+                <div class="data-visualization">
+                    <h4><i class="fas fa-chart-line"></i> Interpreting Epidemic Curves</h4>
+                    <img src="https://www.cdc.gov/training/QuickLearns/images/epicurve-types.png" alt="Types of epidemic curves" style="border: none;">
+                    <p><strong>Point source:</strong> Sharp peak (foodborne outbreak)<br>
+                    <strong>Continuous common source:</strong> Prolonged exposure (contaminated water)<br>
+                    <strong>Propagated:</strong> Person-to-person spread (measles)</p>
+                </div>
+                
+                <div class="case-study">
+                    <h4><i class="fas fa-clipboard-list"></i> 1993 Cryptosporidium Outbreak</h4>
+                    <p>Milwaukee's waterborne outbreak sickened 400,000 people:</p>
+                    <ul>
+                        <li><strong>Detection:</strong> Spike in diarrheal illness</li>
+                        <li><strong>Investigation:</strong> Case-control study linked to water supply</li>
+                        <li><strong>Source:</strong> Filtration system failure</li>
+                        <li><strong>Outcome:</strong> $96 million in costs, new water regulations</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/8xHmCdLxiYk" title="Outbreak Investigation" allowfullscreen></iframe>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. What's the first step in outbreak investigation?</legend>
+                    <label><input type="radio" name="q4a" value="a"> a) Develop hypotheses</label>
+                    <label><input type="radio" name="q4a" value="b"> b) Confirm outbreak exists</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. A sharp peak in cases suggests what type of outbreak?</legend>
+                    <label><input type="radio" name="q4b" value="a"> a) Point source</label>
+                    <label><input type="radio" name="q4b" value="b"> b) Propagated</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(4, ['b', 'a'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result4" class="quiz-result"></div>
+                <div id="explanation4" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>A nursing home reports 15 cases of gastroenteritis in 2 days. Outline your investigation plan through the first 5 steps.</p>
+                <textarea placeholder="Describe your approach..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.cdc.gov/foodsafety/outbreaks/investigating-outbreaks/investigations/index.html" target="_blank">
+                    <i class="fas fa-link"></i> CDC Foodborne Outbreak Investigations
+                </a>
+                <a href="https://www.who.int/publications/i/item/9789241513103" target="_blank">
+                    <i class="fas fa-file-pdf"></i> WHO Outbreak Investigation Toolkit (PDF)
+                </a>
+                <a href="https://www.cdc.gov/csels/dsepd/ss1978/lesson6/section2.html" target="_blank">
+                    <i class="fas fa-link"></i> CDC Steps of Outbreak Investigation
+                </a>
+            </div>
+        </div>
+
+        <!-- Page 5: Disease Prevention Strategies -->
+        <div class="page" id="page5">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(5)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Disease Prevention Strategies <span class="badge badge-success">Applied Knowledge</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Differentiate prevention levels (primary, secondary, tertiary)</li>
+                    <li>Evaluate effectiveness of prevention programs</li>
+                    <li>Design targeted prevention interventions</li>
+                </ul>
+            </div>
+            <p>Effective prevention requires evidence-based strategies tailored to specific diseases and populations.</p>
+            <button class="toggle-btn" onclick="toggleContent('content5')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content5" class="content">
+                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Vaccination campaign">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                
+                <h4>Levels of Prevention:</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>Goal</th>
+                            <th>Examples</th>
+                            <th>Effectiveness</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Primary</td>
+                            <td>Prevent disease onset</td>
+                            <td>Vaccination, smoking cessation</td>
+                            <td>HPV vaccine prevents 90% of cervical cancers</td>
+                        </tr>
+                        <tr>
+                            <td>Secondary</td>
+                            <td>Early detection/treatment</td>
+                            <td>Mammography, colonoscopy</td>
+                            <td>Screening reduces CRC mortality by 40%</td>
+                        </tr>
+                        <tr>
+                            <td>Tertiary</td>
+                            <td>Reduce complications</td>
+                            <td>Diabetes management, rehab</td>
+                            <td>Reduces amputations by 50% in diabetics</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>Successful Prevention Programs:</h4>
+                <ul>
+                    <li><strong>Vaccination:</strong> Smallpox eradicated (1980), polio near eradication (99% reduction since 1988)</li>
+                    <li><strong>Behavioral:</strong> Smoking prevalence halved since 1965 (US)</li>
+                    <li><strong>Environmental:</strong> Fluoridation reduces cavities by 25%</li>
+                    <li><strong>Screening:</strong> Pap tests cut cervical cancer deaths by 70%</li>
+                </ul>
+                
+                <div class="case-study">
+                    <h4><i class="fas fa-clipboard-list"></i> HIV Prevention Success</h4>
+                    <p>Combination prevention reduced new HIV infections by 40% since 2000:</p>
+                    <ul>
+                        <li><strong>Biomedical:</strong> PrEP (99% risk reduction), ART as prevention</li>
+                        <li><strong>Behavioral:</strong> Condom distribution, needle exchange</li>
+                        <li><strong>Structural:</strong> Anti-discrimination laws, education</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/O0Qe1X9B-3w" title="Disease Prevention Strategies" allowfullscreen></iframe>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. Which is a primary prevention strategy?</legend>
+                    <label><input type="radio" name="q5a" value="a"> a) Chemotherapy</label>
+                    <label><input type="radio" name="q5a" value="b"> b) Vaccination</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. What reduced cervical cancer deaths by 70%?</legend>
+                    <label><input type="radio" name="q5b" value="a"> a) Pap test screening</label>
+                    <label><input type="radio" name="q5b" value="b"> b) HPV treatment</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(5, ['b', 'a'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result5" class="quiz-result"></div>
+                <div id="explanation5" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>Design a three-level prevention strategy for heart disease in your community.</p>
+                <textarea placeholder="Outline your comprehensive plan..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.cdc.gov/chronicdisease/pdf/preventing-chronic-disease-PCD-5-10-0011.pdf" target="_blank">
+                    <i class="fas fa-file-pdf"></i> CDC Chronic Disease Prevention (PDF)
+                </a>
+                <a href="https://www.who.int/publications/i/item/9789241549751" target="_blank">
+                    <i class="fas fa-file-pdf"></i> WHO Essential Prevention Strategies (PDF)
+                </a>
+                <a href="https://www.cdc.gov/vaccines/hcp/conversations/index.html" target="_blank">
+                    <i class="fas fa-link"></i> CDC Vaccine Prevention Resources
+                </a>
+            </div>
+            
+            <div class="closing">
+                <h3><i class="fas fa-flag-checkered"></i> Closing Remark</h3>
+                <p>Epidemiology provides the tools to understand disease patterns, while prevention strategies transform knowledge into health improvements.</p>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button onclick="prevPage()" id="prevBtn" disabled>
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <span id="pageInfo">Page 1 of 5</span>
+            <button onclick="nextPage()" id="nextBtn">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating navigation -->
+    <div class="floating-nav">
+        <button aria-label="Scroll to top" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button aria-label="Toggle dark mode" onclick="toggleDarkMode()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 5;
+        let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+        let darkMode = localStorage.getItem('darkMode') === 'true';
+
+        // Initialize dark mode if previously set
+        if (darkMode) {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.dark-mode-toggle i').classList.replace('fa-moon', 'fa-sun');
+        }
+
+        function showPage(pageNum) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(`page${pageNum}`).classList.add('active');
+            currentPage = pageNum;
+            updatePagination();
+            updateProgress();
+            updateBookmarkIcons();
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                showPage(currentPage + 1);
+                scrollToTop();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                showPage(currentPage - 1);
+                scrollToTop();
+            }
+        }
+
+        function updatePagination() {
+            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+        }
+
+        function updateProgress() {
+            const progress = ((currentPage - 1) / (totalPages - 1)) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+            document.getElementById('progressPercentage').textContent = `${Math.round(progress)}%`;
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function toggleContent(contentId) {
+            const content = document.getElementById(contentId);
+            const btn = content.previousElementSibling;
+            
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                btn.classList.remove('active');
+            } else {
+                content.style.display = 'block';
+                btn.classList.add('active');
+            }
+        }
+
+        function checkQuiz(quizNum, correctAnswers) {
+            const answers = [
+                document.querySelector(`input[name="q${quizNum}a"]:checked`),
+                document.querySelector(`input[name="q${quizNum}b"]:checked`)
+            ];
+            const resultDiv = document.getElementById(`result${quizNum}`);
+            const explanationDiv = document.getElementById(`explanation${quizNum}`);
+            
+            if (!answers[0] || !answers[1]) {
+                resultDiv.textContent = "Please answer both questions.";
+                resultDiv.className = "quiz-result incorrect";
+                explanationDiv.textContent = "";
+                return;
+            }
+
+            let score = 0;
+            answers.forEach((answer, i) => {
+                if (answer.value === correctAnswers[i]) score++;
+            });
+
+            if (score === 2) {
+                resultDiv.textContent = "✓ Perfect! All answers correct!";
+                resultDiv.className = "quiz-result correct";
+            } else if (score === 1) {
+                resultDiv.textContent = "✓ Partially correct. One right answer.";
+                resultDiv.className = "quiz-result incorrect";
+            } else {
+                resultDiv.textContent = "✗ Review needed. Try again.";
+                resultDiv.className = "quiz-result incorrect";
+            }
+
+            explanationDiv.textContent = getExplanation(quizNum, answers.map(a => a.value));
+            explanationDiv.style.display = 'block';
+        }
+
+        function getExplanation(quizNum, selected) {
+            const explanations = {
+                1: {
+                    a: "1. Snow's map identified water pumps as cholera sources, not vaccines.",
+                    b: "2. Prevalence measures existing cases, incidence measures new cases."
+                },
+                2: {
+                    a: "1. Hand washing doesn't prevent mosquito bites.",
+                    b: "2. Intact skin prevents pathogen entry, not exit."
+                },
+                3: {
+                    a: "1. Case-control studies are efficient for rare diseases.",
+                    b: "2. Cohort studies calculate relative risk (RR)."
+                },
+                4: {
+                    a: "1. Confirming the outbreak comes before hypothesis development.",
+                    b: "2. Point source outbreaks show sharp peaks from brief exposures."
+                },
+                5: {
+                    a: "1. Vaccination prevents disease before it occurs (primary prevention).",
+                    b: "2. Pap test screening detects precancerous changes (secondary prevention)."
+                }
+            };
+
+            let output = [];
+            for (let i = 0; i < 2; i++) {
+                const qKey = quizNum + (i === 0 ? 'a' : 'b');
+                output.push(`Q${i+1}: ${explanations[quizNum][selected[i]]}`);
+            }
+            
+            return output.join('\n\n');
+        }
+
+        function toggleBookmark(pageNum) {
+            const index = bookmarks.indexOf(pageNum);
+            const btn = document.querySelector(`#page${pageNum} .bookmark-btn i`);
+            
+            if (index === -1) {
+                bookmarks.push(pageNum);
+                btn.classList.replace('far', 'fas');
+                btn.parentElement.classList.add('active');
+            } else {
+                bookmarks.splice(index, 1);
+                btn.classList.replace('fas', 'far');
+                btn.parentElement.classList.remove('active');
+            }
+            
+            localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        }
+
+        function updateBookmarkIcons() {
+            document.querySelectorAll('.bookmark-btn i').forEach(icon => {
+                icon.classList.replace('fas', 'far');
+                icon.parentElement.classList.remove('active');
+            });
+            
+            bookmarks.forEach(pageNum => {
+                const btn = document.querySelector(`#page${pageNum} .bookmark-btn i`);
+                if (btn) {
+                    btn.classList.replace('far', 'fas');
+                    btn.parentElement.classList.add('active');
+                }
+            });
+        }
+
+        function toggleDarkMode() {
+            darkMode = !darkMode;
+            document.body.classList.toggle('dark-mode', darkMode);
+            
+            const icon = document.querySelector('.dark-mode-toggle i');
+            if (darkMode) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+            
+            localStorage.setItem('darkMode', darkMode);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage(1);
+            updateBookmarkIcons();
+            
+            // Set up all toggle buttons
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                });
+            });
+            
+            // Set up checklist items to save state
+            document.querySelectorAll('.checklist input[type="checkbox"]').forEach(box => {
+                box.addEventListener('change', function() {
+                    const state = JSON.parse(localStorage.getItem('checklistState') || '{}');
+                    state[this.id] = this.checked;
+                    localStorage.setItem('checklistState', JSON.stringify(state));
+                });
+                
+                // Restore checklist state
+                const state = JSON.parse(localStorage.getItem('checklistState') || '{}');
+                if (state[box.id]) {
+                    box.checked = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
