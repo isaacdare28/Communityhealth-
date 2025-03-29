@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS: Maternal and Child Health</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #8e24aa;
+            --secondary: #ff80ab;
+            --success: #1cc88a;
+            --info: #36b9cc;
+            --warning: #f6c23e;
+            --danger: #e74a3b;
+            --light: #f8f9fc;
+            --dark: #5a5c69;
+            --white: #ffffff;
+            --gray: #858796;
+        }
+        
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: #4a4a4a;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #8e24aa, #6a1b9a);
+            color: var(--white);
+            padding: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        .progress-container {
+            margin: 30px 0;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e3e6f0;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            background: #eaecf4;
+            height: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), #ff4081);
+            width: 0%;
+            transition: width 0.6s ease;
+        }
+        
+        .page {
+            display: none;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
+            border: 1px solid #e3e6f0;
+            position: relative;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        h2 {
+            color: #8e24aa;
+            border-bottom: 3px solid #ff80ab;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        h3 {
+            color: var(--dark);
+            margin-top: 30px;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .toggle-btn {
+            background: #8e24aa;
+            color: var(--white);
+            border: none;
+            padding: 16px 25px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .toggle-btn:hover {
+            background: #6a1b9a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(142, 36, 170, 0.25);
+        }
+        
+        .toggle-btn i {
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-btn.active i {
+            transform: rotate(180deg);
+        }
+        
+        .content {
+            display: none;
+            margin: 25px 0;
+            padding: 25px;
+            background: var(--light);
+            border-radius: 10px;
+            border-left: 4px solid #8e24aa;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        ul li {
+            padding: 10px 0;
+            position: relative;
+            padding-left: 30px;
+            line-height: 1.7;
+        }
+        
+        ul li:before {
+            content: "•";
+            color: #8e24aa;
+            font-weight: bold;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 5px;
+            top: 2px;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e3e6f0;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .note, .closing, .glossary, .quote, .encouragement,
+        .objectives, .quiz, .checklist, .discussion, .scenario, .resources,
+        .case-study, .data-visualization {
+            margin: 25px 0;
+            padding: 25px;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .note {
+            background: rgba(142, 36, 170, 0.1);
+            border-left: 4px solid #8e24aa;
+        }
+        
+        .closing {
+            background: rgba(142, 36, 170, 0.1);
+            border-left: 4px solid #8e24aa;
+        }
+        
+        .glossary {
+            background: rgba(246, 194, 62, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .quote {
+            background: rgba(133, 135, 150, 0.1);
+            font-style: italic;
+            border-left: 4px solid var(--gray);
+        }
+        
+        .encouragement {
+            background: rgba(28, 200, 138, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .objectives {
+            background: rgba(54, 185, 204, 0.1);
+            border-left: 4px solid var(--info);
+        }
+        
+        .quiz {
+            background: rgba(231, 74, 59, 0.1);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .checklist {
+            background: rgba(246, 194, 62, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .discussion, .scenario {
+            background: rgba(111, 66, 193, 0.1);
+            border-left: 4px solid #6f42c1;
+        }
+        
+        .resources {
+            background: rgba(133, 135, 150, 0.1);
+            border-left: 4px solid var(--gray);
+        }
+        
+        .case-study {
+            background: rgba(142, 36, 170, 0.1);
+            border-left: 4px solid #8e24aa;
+        }
+        
+        .data-visualization {
+            background: rgba(54, 185, 204, 0.1);
+            border-left: 4px solid var(--info);
+        }
+        
+        .quiz label {
+            display: block;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid #e3e6f0;
+        }
+        
+        .quiz label:hover {
+            background: var(--white);
+            transform: translateX(5px);
+            border-color: #8e24aa;
+        }
+        
+        .quiz input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        
+        .quiz button {
+            background: #8e24aa;
+            color: var(--white);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .quiz button:hover {
+            background: #6a1b9a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(142, 36, 170, 0.25);
+        }
+        
+        .quiz-result {
+            margin-top: 20px;
+            font-weight: 600;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .quiz-result.correct {
+            background: rgba(142, 36, 170, 0.2);
+            color: #8e24aa;
+            display: block;
+        }
+        
+        .quiz-result.incorrect {
+            background: rgba(231, 74, 59, 0.2);
+            color: var(--danger);
+            display: block;
+        }
+        
+        .quiz-explanation {
+            margin-top: 20px;
+            font-style: italic;
+            color: var(--dark);
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            border: 1px solid #e3e6f0;
+            display: none;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            border: 1px solid #e3e6f0;
+            transition: all 0.2s ease;
+        }
+        
+        .checklist-item:hover {
+            transform: translateX(5px);
+            border-color: var(--warning);
+        }
+        
+        .checklist input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.4);
+        }
+        
+        .discussion textarea, .scenario textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e3e6f0;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .discussion textarea:focus, .scenario textarea:focus {
+            outline: none;
+            border-color: #8e24aa;
+            box-shadow: 0 0 0 3px rgba(142, 36, 170, 0.25);
+        }
+        
+        .resources a {
+            color: #8e24aa;
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin: 12px 0;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid #e3e6f0;
+        }
+        
+        .resources a:hover {
+            background: rgba(142, 36, 170, 0.1);
+            text-decoration: none;
+            transform: translateX(5px);
+            border-color: #8e24aa;
+        }
+        
+        .resources a i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            gap: 20px;
+        }
+        
+        .pagination button {
+            background: #8e24aa;
+            color: var(--white);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .pagination button:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .pagination button:hover:not(:disabled) {
+            background: #6a1b9a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(142, 36, 170, 0.25);
+        }
+        
+        .pagination span {
+            font-size: 1.1rem;
+            color: var(--dark);
+            font-weight: 600;
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+        
+        .badge-primary {
+            background: rgba(142, 36, 170, 0.1);
+            color: #8e24aa;
+        }
+        
+        .badge-success {
+            background: rgba(28, 200, 138, 0.1);
+            color: var(--success);
+        }
+        
+        .badge-warning {
+            background: rgba(246, 194, 62, 0.1);
+            color: var(--warning);
+        }
+        
+        .badge-danger {
+            background: rgba(231, 74, 59, 0.1);
+            color: var(--danger);
+        }
+        
+        .floating-nav {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .floating-nav button {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: #8e24aa;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .floating-nav button:hover {
+            background: #6a1b9a;
+            transform: translateY(-3px) scale(1.1);
+        }
+        
+        .floating-nav button:active {
+            transform: translateY(1px);
+        }
+        
+        .completion-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--success);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            font-size: 1.2rem;
+        }
+        
+        .bookmark-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+        
+        .bookmark-btn:hover {
+            color: var(--warning);
+            transform: scale(1.2);
+        }
+        
+        .bookmark-btn.active {
+            color: var(--warning);
+        }
+        
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e3e6f0;
+        }
+        
+        .data-table th {
+            background-color: #8e24aa;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f9fafd;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f1f3f9;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+                padding: 0 20px;
+            }
+            
+            .page {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            h3 {
+                font-size: 1.3rem;
+            }
+            
+            iframe {
+                height: 300px;
+            }
+            
+            .pagination {
+                flex-direction: column;
+            }
+            
+            .pagination button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .floating-nav {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .floating-nav button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* Accessibility improvements */
+        a:focus, button:focus, input:focus, textarea:focus {
+            outline: 3px solid rgba(142, 36, 170, 0.5);
+            outline-offset: 2px;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .page,
+        body.dark-mode .progress-container,
+        body.dark-mode .quiz label,
+        body.dark-mode .checklist-item,
+        body.dark-mode .resources a,
+        body.dark-mode .data-table tr {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            border-color: #333;
+        }
+        
+        body.dark-mode .content,
+        body.dark-mode .quiz-explanation {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode h2, 
+        body.dark-mode h3 {
+            color: #ba68c8;
+        }
+        
+        body.dark-mode .progress-bar {
+            background-color: #333;
+        }
+        
+        body.dark-mode .discussion textarea,
+        body.dark-mode .scenario textarea {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+        
+        body.dark-mode .data-table th {
+            background-color: #6a1b9a;
+        }
+        
+        body.dark-mode .data-table tr:nth-child(even) {
+            background-color: #252525;
+        }
+        
+        body.dark-mode .data-table tr:hover {
+            background-color: #333;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>LMS: Maternal and Child Health</h1>
+        <button class="dark-mode-toggle" aria-label="Toggle dark mode" onclick="toggleDarkMode()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </header>
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-info">
+                <span>Course Progress</span>
+                <span id="progressPercentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
+
+        <!-- Page 1: Foundations of Maternal and Child Health -->
+        <div class="page active" id="page1">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(1)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Foundations of Maternal and Child Health <span class="badge badge-primary">Fundamental</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Define maternal and child health (MCH)</li>
+                    <li>Understand key global MCH indicators</li>
+                    <li>Identify social determinants of MCH outcomes</li>
+                </ul>
+            </div>
+            <p>Maternal and child health focuses on the health of women, children, and families through prevention, health promotion, and evidence-based interventions.</p>
+            <button class="toggle-btn" onclick="toggleContent('content1')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content1" class="content">
+                <img src="https://images.unsplash.com/photo-1573497491765-dccce02b29df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Mother and child">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                <p>MCH encompasses health from pre-pregnancy through childhood:</p>
+                <ul>
+                    <li><strong>Definition:</strong> The health of women during pregnancy, childbirth, and postpartum; and children from birth through adolescence</li>
+                    <li><strong>Key Indicators:</strong>
+                        <ul>
+                            <li>Maternal mortality ratio (MMR)</li>
+                            <li>Under-5 mortality rate (U5MR)</li>
+                            <li>Neonatal mortality rate (NMR)</li>
+                            <li>Antenatal care coverage</li>
+                        </ul>
+                    </li>
+                    <li><strong>Global Status (2023):</strong>
+                        <ul>
+                            <li>MMR: 223 deaths per 100,000 live births (global)</li>
+                            <li>U5MR: 38 deaths per 1,000 live births</li>
+                            <li>NMR: 17 deaths per 1,000 live births</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <div class="data-visualization">
+                    <h4><i class="fas fa-chart-bar"></i> MCH Progress Over Time</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Indicator</th>
+                                <th>1990</th>
+                                <th>2023</th>
+                                <th>% Reduction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Maternal Mortality</td>
+                                <td>385</td>
+                                <td>223</td>
+                                <td>42%</td>
+                            </tr>
+                            <tr>
+                                <td>Under-5 Mortality</td>
+                                <td>93</td>
+                                <td>38</td>
+                                <td>59%</td>
+                            </tr>
+                            <tr>
+                                <td>Neonatal Mortality</td>
+                                <td>37</td>
+                                <td>17</td>
+                                <td>54%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/9QyH6vOQ3l0" title="Introduction to Maternal and Child Health" allowfullscreen></iframe>
+                
+                <div class="note">
+                    <h4><i class="fas fa-lightbulb"></i> Key Insight</h4>
+                    <p>Most maternal and child deaths are preventable with access to quality healthcare, education, and resources.</p>
+                </div>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. What does U5MR measure?</legend>
+                    <label><input type="radio" name="q1a" value="a"> a) Maternal deaths</label>
+                    <label><input type="radio" name="q1a" value="b"> b) Child deaths before age 5</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. What % reduction in maternal mortality occurred since 1990?</legend>
+                    <label><input type="radio" name="q1b" value="a"> a) 25%</label>
+                    <label><input type="radio" name="q1b" value="b"> b) 42%</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(1, ['b', 'b'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result1" class="quiz-result"></div>
+                <div id="explanation1" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="checklist">
+                <h3><i class="fas fa-check-square"></i> Key Concepts Checklist</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1-1">
+                    <label for="check1-1">I can define MCH and its scope</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1-2">
+                    <label for="check1-2">I understand key MCH indicators</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1-3">
+                    <label for="check1-3">I can identify social determinants of MCH</label>
+                </div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>A rural community has high maternal mortality. What three factors would you investigate first?</p>
+                <textarea placeholder="Describe your investigation approach..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.who.int/publications/i/item/9789240068759" target="_blank">
+                    <i class="fas fa-file-pdf"></i> WHO MCH Guidelines (PDF)
+                </a>
+                <a href="https://www.unicef.org/reports/levels-and-trends-child-mortality-report-2023" target="_blank">
+                    <i class="fas fa-link"></i> UNICEF Child Mortality Report
+                </a>
+                <a href="https://www.cdc.gov/reproductivehealth/maternalinfanthealth/index.html" target="_blank">
+                    <i class="fas fa-link"></i> CDC Maternal and Infant Health
+                </a>
+            </div>
+            
+            <div class="closing">
+                <h3><i class="fas fa-flag-checkered"></i> Closing Remark</h3>
+                <p>Understanding MCH foundations is essential for developing effective interventions to improve outcomes for mothers and children.</p>
+            </div>
+        </div>
+
+        <!-- Page 2: Antenatal and Postnatal Care -->
+        <div class="page" id="page2">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(2)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Antenatal and Postnatal Care <span class="badge badge-primary">Clinical Focus</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Describe components of quality antenatal care (ANC)</li>
+                    <li>Identify essential postnatal care practices</li>
+                    <li>Recognize danger signs in pregnancy and postpartum</li>
+                </ul>
+            </div>
+            <p>Quality antenatal and postnatal care significantly reduces maternal and neonatal mortality and morbidity.</p>
+            <button class="toggle-btn" onclick="toggleContent('content2')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content2" class="content">
+                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Prenatal care">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                
+                <h4>WHO Recommendations for ANC (2023):</h4>
+                <ul>
+                    <li><strong>8 Contacts:</strong> First in first trimester, then at 20, 26, 30, 34, 36, 38, and 40 weeks</li>
+                    <li><strong>Essential Components:</strong>
+                        <ul>
+                            <li>Blood pressure monitoring</li>
+                            <li>Fetal growth assessment</li>
+                            <li>Tetanus toxoid vaccination</li>
+                            <li>Iron and folic acid supplementation</li>
+                            <li>Birth preparedness counseling</li>
+                        </ul>
+                    </li>
+                    <li><strong>Danger Signs:</strong> Severe headache, blurred vision, convulsions, severe abdominal pain</li>
+                </ul>
+                
+                <div class="case-study">
+                    <h4><i class="fas fa-clipboard-list"></i> Group ANC in Kenya</h4>
+                    <p>Group antenatal care improved outcomes:</p>
+                    <ul>
+                        <li><strong>Model:</strong> 8-12 women meet monthly with same provider</li>
+                        <li><strong>Results:</strong> 33% increase in ANC attendance, 27% reduction in preterm births</li>
+                        <li><strong>Benefits:</strong> Peer support, increased education time</li>
+                    </ul>
+                </div>
+                
+                <h4>Postnatal Care Essentials:</h4>
+                <ol>
+                    <li><strong>First 24 Hours:</strong> Monitor for hemorrhage, infection</li>
+                    <li><strong>First Week:</strong> Breastfeeding support, newborn screening</li>
+                    <li><strong>First 6 Weeks:</strong> Family planning, mental health screening</li>
+                </ol>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/9QyH6vOQ3l0" title="Quality Antenatal Care" allowfullscreen></iframe>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. How many ANC contacts does WHO recommend?</legend>
+                    <label><input type="radio" name="q2a" value="a"> a) 4</label>
+                    <label><input type="radio" name="q2a" value="b"> b) 8</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. Which is NOT a postnatal care priority?</legend>
+                    <label><input type="radio" name="q2b" value="a"> a) Breastfeeding support</label>
+                    <label><input type="radio" name="q2b" value="b"> b) Cosmetic surgery</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(2, ['b', 'b'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result2" class="quiz-result"></div>
+                <div id="explanation2" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="checklist">
+                <h3><i class="fas fa-check-square"></i> Key Concepts Checklist</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2-1">
+                    <label for="check2-1">I can list ANC components</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2-2">
+                    <label for="check2-2">I understand postnatal care timeline</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2-3">
+                    <label for="check2-3">I can recognize pregnancy danger signs</label>
+                </div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>Design a community education session about ANC importance. Include 3 key messages.</p>
+                <textarea placeholder="Outline your education session..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.who.int/publications/i/item/9789240045989" target="_blank">
+                    <i class="fas fa-file-pdf"></i> WHO ANC Guidelines (PDF)
+                </a>
+                <a href="https://www.ncbi.nlm.nih.gov/books/NBK304191/" target="_blank">
+                    <i class="fas fa-link"></i> Postnatal Care Guidelines
+                </a>
+                <a href="https://www.mhtf.org/topics/maternal-health/" target="_blank">
+                    <i class="fas fa-link"></i> Maternal Health Task Force
+                </a>
+            </div>
+        </div>
+
+        <!-- Page 3: Child Health and Immunization -->
+        <div class="page" id="page3">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(3)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Child Health and Immunization <span class="badge badge-success">Prevention</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Understand childhood immunization schedules</li>
+                    <li>Identify common childhood illnesses and prevention</li>
+                    <li>Apply growth monitoring principles</li>
+                </ul>
+            </div>
+            <p>Preventive care including immunization and growth monitoring are essential for child health and development.</p>
+            <button class="toggle-btn" onclick="toggleContent('content3')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content3" class="content">
+                <img src="https://images.unsplash.com/photo-1575425186775-b8de9a427e67?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Child vaccination">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                
+                <h4>WHO Recommended Vaccines:</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Vaccine</th>
+                            <th>Doses</th>
+                            <th>Schedule</th>
+                            <th>Diseases Prevented</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BCG</td>
+                            <td>1</td>
+                            <td>Birth</td>
+                            <td>Tuberculosis</td>
+                        </tr>
+                        <tr>
+                            <td>DTP-HepB-Hib</td>
+                            <td>3</td>
+                            <td>6,10,14 weeks</td>
+                            <td>Diphtheria, Tetanus, Pertussis, Hepatitis B, Hib</td>
+                        </tr>
+                        <tr>
+                            <td>PCV</td>
+                            <td>3</td>
+                            <td>6,10,14 weeks</td>
+                            <td>Pneumococcal disease</td>
+                        </tr>
+                        <tr>
+                            <td>Rotavirus</td>
+                            <td>2-3</td>
+                            <td>6,10 weeks</td>
+                            <td>Rotavirus diarrhea</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>Growth Monitoring:</h4>
+                <ul>
+                    <li><strong>Tools:</strong> WHO growth standards, MUAC tapes</li>
+                    <li><strong>Parameters:</strong> Weight-for-age, height-for-age, weight-for-height</li>
+                    <li><strong>Actions:</strong> Counseling, supplementary feeding, referral</li>
+                </ul>
+                
+                <div class="case-study">
+                    <h4><i class="fas fa-clipboard-list"></i> Rwanda's Immunization Success</h4>
+                    <p>Rwanda achieved 97% immunization coverage through:</p>
+                    <ul>
+                        <li><strong>Community Health Workers:</strong> Village-based vaccination</li>
+                        <li><strong>Digital Tracking:</strong> SMS reminders and records</li>
+                        <li><strong>Results:</strong> Eliminated measles, reduced under-5 mortality by 75%</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/9QyH6vOQ3l0" title="Childhood Immunization" allowfullscreen></iframe>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. Which vaccine is given at birth?</legend>
+                    <label><input type="radio" name="q3a" value="a"> a) BCG</label>
+                    <label><input type="radio" name="q3a" value="b"> b) DTP</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. What does MUAC measure?</legend>
+                    <label><input type="radio" name="q3b" value="a"> a) Nutritional status</label>
+                    <label><input type="radio" name="q3b" value="b"> b) Blood pressure</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(3, ['a', 'a'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result3" class="quiz-result"></div>
+                <div id="explanation3" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>A mother refuses vaccination due to misinformation. How would you counsel her?</p>
+                <textarea placeholder="Outline your counseling approach..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.who.int/teams/immunization-vaccines-and-biologicals/immunization-analysis-and-insights/global-monitoring" target="_blank">
+                    <i class="fas fa-link"></i> WHO Immunization Monitoring
+                </a>
+                <a href="https://www.cdc.gov/vaccines/schedules/hcp/imz/child-adolescent.html" target="_blank">
+                    <i class="fas fa-link"></i> CDC Child Immunization Schedule
+                </a>
+                <a href="https://www.who.int/tools/child-growth-standards" target="_blank">
+                    <i class="fas fa-link"></i> WHO Child Growth Standards
+                </a>
+            </div>
+        </div>
+
+        <!-- Page 4: Nutrition for Mothers and Children -->
+        <div class="page" id="page4">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(4)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Nutrition for Mothers and Children <span class="badge badge-warning">Essential</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Understand nutritional needs during pregnancy/lactation</li>
+                    <li>Apply infant and young child feeding (IYCF) guidelines</li>
+                    <li>Identify and manage malnutrition</li>
+                </ul>
+            </div>
+            <p>Proper nutrition during the first 1000 days (conception to age 2) lays the foundation for lifelong health.</p>
+            <button class="toggle-btn" onclick="toggleContent('content4')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content4" class="content">
+                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Healthy foods">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                
+                <h4>Key Nutritional Requirements:</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Life Stage</th>
+                            <th>Key Nutrients</th>
+                            <th>Daily Requirements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pregnancy</td>
+                            <td>Iron, Folate, Calcium</td>
+                            <td>+340-450 kcal/day in 2nd/3rd trimesters</td>
+                        </tr>
+                        <tr>
+                            <td>Lactation</td>
+                            <td>Protein, Vitamin A, Zinc</td>
+                            <td>+500 kcal/day for first 6 months</td>
+                        </tr>
+                        <tr>
+                            <td>0-6 months</td>
+                            <td>Breastmilk only</td>
+                            <td>Exclusive breastfeeding</td>
+                        </tr>
+                        <tr>
+                            <td>6-24 months</td>
+                            <td>Complementary foods</td>
+                            <td>Continue breastfeeding + diverse foods</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>IYCF Guidelines:</h4>
+                <ol>
+                    <li><strong>Early Initiation:</strong> Breastfeed within 1 hour of birth</li>
+                    <li><strong>Exclusive BF:</strong> Only breastmilk for first 6 months</li>
+                    <li><strong>Complementary:</strong> Introduce diverse foods at 6 months</li>
+                    <li><strong>Continued BF:</strong> Up to 2 years or beyond</li>
+                </ol>
+                
+                <div class="case-study">
+                    <h4><i class="fas fa-clipboard-list"></i> Bangladesh's Nutrition Revolution</h4>
+                    <p>Reduced stunting from 51% to 28% in 20 years through:</p>
+                    <ul>
+                        <li><strong>Community Nutrition:</strong> Peer counseling groups</li>
+                        <li><strong>Fortified Foods:</strong> Rice with micronutrients</li>
+                        <li><strong>Results:</strong> Improved cognitive development, reduced anemia</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/9QyH6vOQ3l0" title="Infant and Young Child Feeding" allowfullscreen></iframe>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. When should complementary foods be introduced?</legend>
+                    <label><input type="radio" name="q4a" value="a"> a) 4 months</label>
+                    <label><input type="radio" name="q4a" value="b"> b) 6 months</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. Which is NOT a pregnancy micronutrient need?</legend>
+                    <label><input type="radio" name="q4b" value="a"> a) Iron</label>
+                    <label><input type="radio" name="q4b" value="b"> b) Caffeine</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(4, ['b', 'b'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result4" class="quiz-result"></div>
+                <div id="explanation4" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>A mother of twins struggles with breastfeeding. What support would you provide?</p>
+                <textarea placeholder="Describe your support plan..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.who.int/publications/i/item/9789241599533" target="_blank">
+                    <i class="fas fa-file-pdf"></i> WHO IYCF Guidelines (PDF)
+                </a>
+                <a href="https://www.unicef.org/nutrition" target="_blank">
+                    <i class="fas fa-link"></i> UNICEF Nutrition Resources
+                </a>
+                <a href="https://www.1000days.org/" target="_blank">
+                    <i class="fas fa-link"></i> 1000 Days Initiative
+                </a>
+            </div>
+        </div>
+
+        <!-- Page 5: MCH Program Planning and Evaluation -->
+        <div class="page" id="page5">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(5)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>MCH Program Planning and Evaluation <span class="badge badge-danger">Applied Skills</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Apply MCH program planning frameworks</li>
+                    <li>Develop MCH program indicators</li>
+                    <li>Evaluate program effectiveness</li>
+                </ul>
+            </div>
+            <p>Effective MCH programs require evidence-based planning, implementation, and rigorous evaluation.</p>
+            <button class="toggle-btn" onclick="toggleContent('content5')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content5" class="content">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Community health workers">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                
+                <h4>Program Planning Cycle:</h4>
+                <ol>
+                    <li><strong>Assessment:</strong> Needs, resources, stakeholders</li>
+                    <li><strong>Planning:</strong> Goals, strategies, indicators</li>
+                    <li><strong>Implementation:</strong> Activities, monitoring</li>
+                    <li><strong>Evaluation:</strong> Process, outcome, impact</li>
+                </ol>
+                
+                <div class="data-visualization">
+                    <h4><i class="fas fa-chart-line"></i> MCH Program Indicators</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>Indicator Examples</th>
+                                <th>Data Sources</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Input</td>
+                                <td># trained providers, $ allocated</td>
+                                <td>Program records</td>
+                            </tr>
+                            <tr>
+                                <td>Process</td>
+                                <td>% ANC attendance, # vaccines given</td>
+                                <td>Service statistics</td>
+                            </tr>
+                            <tr>
+                                <td>Outcome</td>
+                                <td>MMR, U5MR, stunting rates</td>
+                                <td>Surveys, HMIS</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="case-study">
+                    <h4><i class="fas fa-clipboard-list"></i> Nepal's Community MCH Program</h4>
+                    <p>Reduced maternal mortality by 50% through:</p>
+                    <ul>
+                        <li><strong>Strategy:</strong> Female Community Health Volunteers (FCHVs)</li>
+                        <li><strong>Interventions:</strong> ANC promotion, birth planning, referral</li>
+                        <li><strong>Results:</strong> Increased skilled birth attendance from 9% to 59%</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/9QyH6vOQ3l0" title="MCH Program Evaluation" allowfullscreen></iframe>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. What's the first step in program planning?</legend>
+                    <label><input type="radio" name="q5a" value="a"> a) Implementation</label>
+                    <label><input type="radio" name="q5a" value="b"> b) Assessment</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. Which is an outcome indicator?</legend>
+                    <label><input type="radio" name="q5b" value="a"> a) Maternal mortality ratio</label>
+                    <label><input type="radio" name="q5b" value="b"> b) Number of trainings conducted</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(5, ['b', 'a'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result5" class="quiz-result"></div>
+                <div id="explanation5" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>Design an MCH program for a low-resource setting. Include 3 key components and 2 evaluation indicators.</p>
+                <textarea placeholder="Outline your program plan..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.who.int/publications/i/item/9789241565493" target="_blank">
+                    <i class="fas fa-file-pdf"></i> WHO MCH Program Guidance (PDF)
+                </a>
+                <a href="https://www.mcsprogram.org/" target="_blank">
+                    <i class="fas fa-link"></i> MOMENTUM Country and Global Leadership
+                </a>
+                <a href="https://www.unicef.org/evaluation" target="_blank">
+                    <i class="fas fa-link"></i> UNICEF Evaluation Resources
+                </a>
+            </div>
+            
+            <div class="closing">
+                <h3><i class="fas fa-flag-checkered"></i> Closing Remark</h3>
+                <p>Effective MCH programs combine evidence-based interventions with community engagement and continuous quality improvement.</p>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button onclick="prevPage()" id="prevBtn" disabled>
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <span id="pageInfo">Page 1 of 5</span>
+            <button onclick="nextPage()" id="nextBtn">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating navigation -->
+    <div class="floating-nav">
+        <button aria-label="Scroll to top" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button aria-label="Toggle dark mode" onclick="toggleDarkMode()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 5;
+        let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+        let darkMode = localStorage.getItem('darkMode') === 'true';
+
+        // Initialize dark mode if previously set
+        if (darkMode) {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.dark-mode-toggle i').classList.replace('fa-moon', 'fa-sun');
+        }
+
+        function showPage(pageNum) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(`page${pageNum}`).classList.add('active');
+            currentPage = pageNum;
+            updatePagination();
+            updateProgress();
+            updateBookmarkIcons();
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                showPage(currentPage + 1);
+                scrollToTop();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                showPage(currentPage - 1);
+                scrollToTop();
+            }
+        }
+
+        function updatePagination() {
+            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+        }
+
+        function updateProgress() {
+            const progress = ((currentPage - 1) / (totalPages - 1)) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+            document.getElementById('progressPercentage').textContent = `${Math.round(progress)}%`;
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function toggleContent(contentId) {
+            const content = document.getElementById(contentId);
+            const btn = content.previousElementSibling;
+            
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                btn.classList.remove('active');
+            } else {
+                content.style.display = 'block';
+                btn.classList.add('active');
+            }
+        }
+
+        function checkQuiz(quizNum, correctAnswers) {
+            const answers = [
+                document.querySelector(`input[name="q${quizNum}a"]:checked`),
+                document.querySelector(`input[name="q${quizNum}b"]:checked`)
+            ];
+            const resultDiv = document.getElementById(`result${quizNum}`);
+            const explanationDiv = document.getElementById(`explanation${quizNum}`);
+            
+            if (!answers[0] || !answers[1]) {
+                resultDiv.textContent = "Please answer both questions.";
+                resultDiv.className = "quiz-result incorrect";
+                explanationDiv.textContent = "";
+                return;
+            }
+
+            let score = 0;
+            answers.forEach((answer, i) => {
+                if (answer.value === correctAnswers[i]) score++;
+            });
+
+            if (score === 2) {
+                resultDiv.textContent = "✓ Perfect! All answers correct!";
+                resultDiv.className = "quiz-result correct";
+            } else if (score === 1) {
+                resultDiv.textContent = "✓ Partially correct. One right answer.";
+                resultDiv.className = "quiz-result incorrect";
+            } else {
+                resultDiv.textContent = "✗ Review needed. Try again.";
+                resultDiv.className = "quiz-result incorrect";
+            }
+
+            explanationDiv.textContent = getExplanation(quizNum, answers.map(a => a.value));
+            explanationDiv.style.display = 'block';
+        }
+
+        function getExplanation(quizNum, selected) {
+            const explanations = {
+                1: {
+                    a: "1. U5MR measures child deaths before age 5 per 1,000 live births.",
+                    b: "2. Global maternal mortality has reduced by 42% since 1990."
+                },
+                2: {
+                    a: "1. WHO recommends 8 ANC contacts during pregnancy.",
+                    b: "2. Cosmetic surgery is not a postnatal care priority."
+                },
+                3: {
+                    a: "1. BCG vaccine for tuberculosis is given at birth.",
+                    b: "2. MUAC (Mid-Upper Arm Circumference) measures nutritional status."
+                },
+                4: {
+                    a: "1. Complementary foods should be introduced at 6 months with continued breastfeeding.",
+                    b: "2. Caffeine is not a required pregnancy nutrient."
+                },
+                5: {
+                    a: "1. Assessment is always the first step in program planning.",
+                    b: "2. Maternal mortality ratio is an outcome indicator."
+                }
+            };
+
+            let output = [];
+            for (let i = 0; i < 2; i++) {
+                const qKey = quizNum + (i === 0 ? 'a' : 'b');
+                output.push(`Q${i+1}: ${explanations[quizNum][selected[i]]}`);
+            }
+            
+            return output.join('\n\n');
+        }
+
+        function toggleBookmark(pageNum) {
+            const index = bookmarks.indexOf(pageNum);
+            const btn = document.querySelector(`#page${pageNum} .bookmark-btn i`);
+            
+            if (index === -1) {
+                bookmarks.push(pageNum);
+                btn.classList.replace('far', 'fas');
+                btn.parentElement.classList.add('active');
+            } else {
+                bookmarks.splice(index, 1);
+                btn.classList.replace('fas', 'far');
+                btn.parentElement.classList.remove('active');
+            }
+            
+            localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        }
+
+        function updateBookmarkIcons() {
+            document.querySelectorAll('.bookmark-btn i').forEach(icon => {
+                icon.classList.replace('fas', 'far');
+                icon.parentElement.classList.remove('active');
+            });
+            
+            bookmarks.forEach(pageNum => {
+                const btn = document.querySelector(`#page${pageNum} .bookmark-btn i`);
+                if (btn) {
+                    btn.classList.replace('far', 'fas');
+                    btn.parentElement.classList.add('active');
+                }
+            });
+        }
+
+        function toggleDarkMode() {
+            darkMode = !darkMode;
+            document.body.classList.toggle('dark-mode', darkMode);
+            
+            const icon = document.querySelector('.dark-mode-toggle i');
+            if (darkMode) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+            
+            localStorage.setItem('darkMode', darkMode);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage(1);
+            updateBookmarkIcons();
+            
+            // Set up all toggle buttons
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                });
+            });
+            
+            // Set up checklist items to save state
+            document.querySelectorAll('.checklist input[type="checkbox"]').forEach(box => {
+                box.addEventListener('change', function() {
+                    const state = JSON.parse(localStorage.getItem('checklistState') || '{}');
+                    state[this.id] = this.checked;
+                    localStorage.setItem('checklistState', JSON.stringify(state));
+                });
+                
+                // Restore checklist state
+                const state = JSON.parse(localStorage.getItem('checklistState') || '{}');
+                if (state[box.id]) {
+                    box.checked = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
