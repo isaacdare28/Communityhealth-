@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS: Nutrition and Public Health</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff6f00;
+            --secondary: #ffa040;
+            --success: #1cc88a;
+            --info: #36b9cc;
+            --warning: #f6c23e;
+            --danger: #e74a3b;
+            --light: #f8f9fc;
+            --dark: #5a5c69;
+            --white: #ffffff;
+            --gray: #858796;
+        }
+        
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: #4a4a4a;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #ff6f00, #e65100);
+            color: var(--white);
+            padding: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        .progress-container {
+            margin: 30px 0;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e3e6f0;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            background: #eaecf4;
+            height: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), #ff8f00);
+            width: 0%;
+            transition: width 0.6s ease;
+        }
+        
+        .page {
+            display: none;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
+            border: 1px solid #e3e6f0;
+            position: relative;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        h2 {
+            color: #ff6f00;
+            border-bottom: 3px solid #ffa040;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        h3 {
+            color: var(--dark);
+            margin-top: 30px;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .toggle-btn {
+            background: #ff6f00;
+            color: var(--white);
+            border: none;
+            padding: 16px 25px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .toggle-btn:hover {
+            background: #e65100;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 111, 0, 0.25);
+        }
+        
+        .toggle-btn i {
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-btn.active i {
+            transform: rotate(180deg);
+        }
+        
+        .content {
+            display: none;
+            margin: 25px 0;
+            padding: 25px;
+            background: var(--light);
+            border-radius: 10px;
+            border-left: 4px solid #ff6f00;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        ul li {
+            padding: 10px 0;
+            position: relative;
+            padding-left: 30px;
+            line-height: 1.7;
+        }
+        
+        ul li:before {
+            content: "•";
+            color: #ff6f00;
+            font-weight: bold;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 5px;
+            top: 2px;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e3e6f0;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .note, .closing, .glossary, .quote, .encouragement,
+        .objectives, .quiz, .checklist, .discussion, .scenario, .resources,
+        .case-study, .data-visualization {
+            margin: 25px 0;
+            padding: 25px;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .note {
+            background: rgba(255, 111, 0, 0.1);
+            border-left: 4px solid #ff6f00;
+        }
+        
+        .closing {
+            background: rgba(255, 111, 0, 0.1);
+            border-left: 4px solid #ff6f00;
+        }
+        
+        .glossary {
+            background: rgba(246, 194, 62, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .quote {
+            background: rgba(133, 135, 150, 0.1);
+            font-style: italic;
+            border-left: 4px solid var(--gray);
+        }
+        
+        .encouragement {
+            background: rgba(28, 200, 138, 0.1);
+            border-left: 4px solid var(--success);
+        }
+        
+        .objectives {
+            background: rgba(54, 185, 204, 0.1);
+            border-left: 4px solid var(--info);
+        }
+        
+        .quiz {
+            background: rgba(231, 74, 59, 0.1);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .checklist {
+            background: rgba(246, 194, 62, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .discussion, .scenario {
+            background: rgba(111, 66, 193, 0.1);
+            border-left: 4px solid #6f42c1;
+        }
+        
+        .resources {
+            background: rgba(133, 135, 150, 0.1);
+            border-left: 4px solid var(--gray);
+        }
+        
+        .case-study {
+            background: rgba(255, 111, 0, 0.1);
+            border-left: 4px solid #ff6f00;
+        }
+        
+        .data-visualization {
+            background: rgba(54, 185, 204, 0.1);
+            border-left: 4px solid var(--info);
+        }
+        
+        .quiz label {
+            display: block;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid #e3e6f0;
+        }
+        
+        .quiz label:hover {
+            background: var(--white);
+            transform: translateX(5px);
+            border-color: #ff6f00;
+        }
+        
+        .quiz input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        
+        .quiz button {
+            background: #ff6f00;
+            color: var(--white);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .quiz button:hover {
+            background: #e65100;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 111, 0, 0.25);
+        }
+        
+        .quiz-result {
+            margin-top: 20px;
+            font-weight: 600;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .quiz-result.correct {
+            background: rgba(255, 111, 0, 0.2);
+            color: #ff6f00;
+            display: block;
+        }
+        
+        .quiz-result.incorrect {
+            background: rgba(231, 74, 59, 0.2);
+            color: var(--danger);
+            display: block;
+        }
+        
+        .quiz-explanation {
+            margin-top: 20px;
+            font-style: italic;
+            color: var(--dark);
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            border: 1px solid #e3e6f0;
+            display: none;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 8px;
+            border: 1px solid #e3e6f0;
+            transition: all 0.2s ease;
+        }
+        
+        .checklist-item:hover {
+            transform: translateX(5px);
+            border-color: var(--warning);
+        }
+        
+        .checklist input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.4);
+        }
+        
+        .discussion textarea, .scenario textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e3e6f0;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .discussion textarea:focus, .scenario textarea:focus {
+            outline: none;
+            border-color: #ff6f00;
+            box-shadow: 0 0 0 3px rgba(255, 111, 0, 0.25);
+        }
+        
+        .resources a {
+            color: #ff6f00;
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin: 12px 0;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid #e3e6f0;
+        }
+        
+        .resources a:hover {
+            background: rgba(255, 111, 0, 0.1);
+            text-decoration: none;
+            transform: translateX(5px);
+            border-color: #ff6f00;
+        }
+        
+        .resources a i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            gap: 20px;
+        }
+        
+        .pagination button {
+            background: #ff6f00;
+            color: var(--white);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .pagination button:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .pagination button:hover:not(:disabled) {
+            background: #e65100;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 111, 0, 0.25);
+        }
+        
+        .pagination span {
+            font-size: 1.1rem;
+            color: var(--dark);
+            font-weight: 600;
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+        
+        .badge-primary {
+            background: rgba(255, 111, 0, 0.1);
+            color: #ff6f00;
+        }
+        
+        .badge-success {
+            background: rgba(28, 200, 138, 0.1);
+            color: var(--success);
+        }
+        
+        .badge-warning {
+            background: rgba(246, 194, 62, 0.1);
+            color: var(--warning);
+        }
+        
+        .badge-danger {
+            background: rgba(231, 74, 59, 0.1);
+            color: var(--danger);
+        }
+        
+        .floating-nav {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .floating-nav button {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: #ff6f00;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .floating-nav button:hover {
+            background: #e65100;
+            transform: translateY(-3px) scale(1.1);
+        }
+        
+        .floating-nav button:active {
+            transform: translateY(1px);
+        }
+        
+        .completion-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--success);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            font-size: 1.2rem;
+        }
+        
+        .bookmark-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+        
+        .bookmark-btn:hover {
+            color: var(--warning);
+            transform: scale(1.2);
+        }
+        
+        .bookmark-btn.active {
+            color: var(--warning);
+        }
+        
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e3e6f0;
+        }
+        
+        .data-table th {
+            background-color: #ff6f00;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f9fafd;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f1f3f9;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+                padding: 0 20px;
+            }
+            
+            .page {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            h3 {
+                font-size: 1.3rem;
+            }
+            
+            iframe {
+                height: 300px;
+            }
+            
+            .pagination {
+                flex-direction: column;
+            }
+            
+            .pagination button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .floating-nav {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .floating-nav button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* Accessibility improvements */
+        a:focus, button:focus, input:focus, textarea:focus {
+            outline: 3px solid rgba(255, 111, 0, 0.5);
+            outline-offset: 2px;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode .page,
+        body.dark-mode .progress-container,
+        body.dark-mode .quiz label,
+        body.dark-mode .checklist-item,
+        body.dark-mode .resources a,
+        body.dark-mode .data-table tr {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            border-color: #333;
+        }
+        
+        body.dark-mode .content,
+        body.dark-mode .quiz-explanation {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+        }
+        
+        body.dark-mode h2, 
+        body.dark-mode h3 {
+            color: #ffa040;
+        }
+        
+        body.dark-mode .progress-bar {
+            background-color: #333;
+        }
+        
+        body.dark-mode .discussion textarea,
+        body.dark-mode .scenario textarea {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #444;
+        }
+        
+        body.dark-mode .data-table th {
+            background-color: #e65100;
+        }
+        
+        body.dark-mode .data-table tr:nth-child(even) {
+            background-color: #252525;
+        }
+        
+        body.dark-mode .data-table tr:hover {
+            background-color: #333;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>LMS: Nutrition and Public Health</h1>
+        <button class="dark-mode-toggle" aria-label="Toggle dark mode" onclick="toggleDarkMode()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </header>
+    <div class="container">
+        <div class="progress-container">
+            <div class="progress-info">
+                <span>Course Progress</span>
+                <span id="progressPercentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
+
+        <!-- Page 1: Foundations of Nutrition in Public Health -->
+        <div class="page active" id="page1">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(1)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Foundations of Nutrition in Public Health <span class="badge badge-primary">Fundamental</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Define key nutrition concepts and terminology</li>
+                    <li>Understand the role of nutrition in disease prevention</li>
+                    <li>Identify global nutrition challenges and trends</li>
+                </ul>
+            </div>
+            <p>Nutrition is a fundamental determinant of health that influences growth, development, and disease prevention across the lifespan.</p>
+            <button class="toggle-btn" onclick="toggleContent('content1')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content1" class="content">
+                <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Healthy foods">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                <p>Public health nutrition addresses nutrition-related health problems at population levels:</p>
+                <ul>
+                    <li><strong>Key Concepts:</strong>
+                        <ul>
+                            <li>Macronutrients (carbs, proteins, fats) and micronutrients</li>
+                            <li>Nutritional epidemiology</li>
+                            <li>Food security and nutrition security</li>
+                        </ul>
+                    </li>
+                    <li><strong>Global Burden:</strong>
+                        <ul>
+                            <li>149 million stunted children under 5</li>
+                            <li>39 million overweight children under 5</li>
+                            <li>2 billion with micronutrient deficiencies</li>
+                        </ul>
+                    </li>
+                    <li><strong>Double Burden:</strong> Coexistence of undernutrition and overweight/obesity</li>
+                </ul>
+                
+                <div class="data-visualization">
+                    <h4><i class="fas fa-chart-bar"></i> Global Nutrition Status (2023)</h4>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Indicator</th>
+                                <th>Prevalence</th>
+                                <th>Health Impacts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Stunting</td>
+                                <td>22% children <5</td>
+                                <td>Impaired growth, cognitive development</td>
+                            </tr>
+                            <tr>
+                                <td>Wasting</td>
+                                <td>6.7% children <5</td>
+                                <td>Increased mortality risk</td>
+                            </tr>
+                            <tr>
+                                <td>Overweight</td>
+                                <td>5.7% children <5</td>
+                                <td>NCD risk later in life</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/9QyH6vOQ3l0" title="Introduction to Public Health Nutrition" allowfullscreen></iframe>
+                
+                <div class="note">
+                    <h4><i class="fas fa-lightbulb"></i> Key Insight</h4>
+                    <p>Nutrition interventions are among the most cost-effective public health measures, with every $1 invested in nutrition generating $16 in economic returns.</p>
+                </div>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. What percentage of children under 5 are stunted globally?</legend>
+                    <label><input type="radio" name="q1a" value="a"> a) 10%</label>
+                    <label><input type="radio" name="q1a" value="b"> b) 22%</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. Which is NOT a macronutrient?</legend>
+                    <label><input type="radio" name="q1b" value="a"> a) Protein</label>
+                    <label><input type="radio" name="q1b" value="b"> b) Vitamin C</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(1, ['b', 'b'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result1" class="quiz-result"></div>
+                <div id="explanation1" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="checklist">
+                <h3><i class="fas fa-check-square"></i> Key Concepts Checklist</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1-1">
+                    <label for="check1-1">I can define key nutrition terms</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1-2">
+                    <label for="check1-2">I understand global nutrition challenges</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1-3">
+                    <label for="check1-3">I can explain the double burden of malnutrition</label>
+                </div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>A community shows both high stunting rates and rising obesity. How would you approach this double burden?</p>
+                <textarea placeholder="Describe your approach..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.who.int/publications/i/item/9789241512419" target="_blank">
+                    <i class="fas fa-file-pdf"></i> WHO Global Nutrition Report (PDF)
+                </a>
+                <a href="https://www.unicef.org/nutrition" target="_blank">
+                    <i class="fas fa-link"></i> UNICEF Nutrition Resources
+                </a>
+                <a href="https://www.cdc.gov/nutrition/index.html" target="_blank">
+                    <i class="fas fa-link"></i> CDC Nutrition
+                </a>
+            </div>
+            
+            <div class="closing">
+                <h3><i class="fas fa-flag-checkered"></i> Closing Remark</h3>
+                <p>Understanding nutrition fundamentals is essential for addressing both undernutrition and diet-related chronic diseases in populations.</p>
+            </div>
+        </div>
+
+        <!-- Page 2: Micronutrients and Fortification -->
+        <div class="page" id="page2">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(2)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Micronutrients and Fortification <span class="badge badge-success">Prevention</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Identify key micronutrient deficiencies</li>
+                    <li>Understand food fortification strategies</li>
+                    <li>Evaluate supplementation programs</li>
+                </ul>
+            </div>
+            <p>Micronutrient deficiencies affect billions worldwide, with significant impacts on health and development.</p>
+            <button class="toggle-btn" onclick="toggleContent('content2')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content2" class="content">
+                <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Vitamins and minerals">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                
+                <h4>Major Micronutrient Deficiencies:</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nutrient</th>
+                            <th>Deficiency Effects</th>
+                            <th>At-Risk Groups</th>
+                            <th>Solutions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Iron</td>
+                            <td>Anemia, cognitive impairment</td>
+                            <td>Women, children</td>
+                            <td>Fortification, supplementation</td>
+                        </tr>
+                        <tr>
+                            <td>Vitamin A</td>
+                            <td>Blindness, immune deficiency</td>
+                            <td>Children <5</td>
+                            <td>Supplementation, biofortification</td>
+                        </tr>
+                        <tr>
+                            <td>Iodine</td>
+                            <td>Goiter, cretinism</td>
+                            <td>All ages</td>
+                            <td>Salt iodization</td>
+                        </tr>
+                        <tr>
+                            <td>Zinc</td>
+                            <td>Growth retardation, diarrhea</td>
+                            <td>Children, pregnant women</td>
+                            <td>Supplementation, diverse diets</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="case-study">
+                    <h4><i class="fas fa-clipboard-list"></i> Salt Iodization Success</h4>
+                    <p>Global salt iodization has nearly eliminated iodine deficiency:</p>
+                    <ul>
+                        <li><strong>Coverage:</strong> 88% of households use iodized salt</li>
+                        <li><strong>Impact:</strong> IQ points increased by 10-15 in affected areas</li>
+                        <li><strong>Cost:</strong> $0.05 per person annually</li>
+                    </ul>
+                </div>
+                
+                <h4>Fortification Approaches:</h4>
+                <ol>
+                    <li><strong>Mass Fortification:</strong> Staples like flour, oil, salt</li>
+                    <li><strong>Targeted Fortification:</strong> Complementary foods</li>
+                    <li><strong>Biofortification:</strong> Breeding crops for higher nutrients</li>
+                </ol>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/9QyH6vOQ3l0" title="Food Fortification Strategies" allowfullscreen></iframe>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. Which deficiency causes anemia?</legend>
+                    <label><input type="radio" name="q2a" value="a"> a) Iron</label>
+                    <label><input type="radio" name="q2a" value="b"> b) Iodine</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. What % of households use iodized salt?</legend>
+                    <label><input type="radio" name="q2b" value="a"> a) 50%</label>
+                    <label><input type="radio" name="q2b" value="b"> b) 88%</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(2, ['a', 'b'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result2" class="quiz-result"></div>
+                <div id="explanation2" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="checklist">
+                <h3><i class="fas fa-check-square"></i> Key Concepts Checklist</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2-1">
+                    <label for="check2-1">I can identify key micronutrient deficiencies</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2-2">
+                    <label for="check2-2">I understand fortification strategies</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2-3">
+                    <label for="check2-3">I can evaluate supplementation programs</label>
+                </div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>A region has high anemia rates. Design an intervention combining two approaches.</p>
+                <textarea placeholder="Outline your intervention..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.who.int/publications/i/item/9789241512006" target="_blank">
+                    <i class="fas fa-file-pdf"></i> WHO Micronutrient Guidelines (PDF)
+                </a>
+                <a href="https://www.gainhealth.org/" target="_blank">
+                    <i class="fas fa-link"></i> Global Alliance for Improved Nutrition
+                </a>
+                <a href="https://www.ffinetwork.org/" target="_blank">
+                    <i class="fas fa-link"></i> Food Fortification Initiative
+                </a>
+            </div>
+        </div>
+
+        <!-- Page 3: Nutrition Across the Lifecycle -->
+        <div class="page" id="page3">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(3)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Nutrition Across the Lifecycle <span class="badge badge-primary">Core Concept</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Understand nutritional needs at different life stages</li>
+                    <li>Apply infant and young child feeding (IYCF) guidelines</li>
+                    <li>Address nutrition in aging populations</li>
+                </ul>
+            </div>
+            <p>Nutritional requirements and challenges vary significantly across the human lifespan.</p>
+            <button class="toggle-btn" onclick="toggleContent('content3')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content3" class="content">
+                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Lifecycle nutrition">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                
+                <h4>Key Life Stages and Nutritional Priorities:</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Life Stage</th>
+                            <th>Nutritional Needs</th>
+                            <th>Key Interventions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pregnancy</td>
+                            <td>+340-450 kcal/day, iron, folate</td>
+                            <td>ANC, micronutrient supplements</td>
+                        </tr>
+                        <tr>
+                            <td>0-6 months</td>
+                            <td>Exclusive breastfeeding</td>
+                            <td>BF counseling, maternity leave</td>
+                        </tr>
+                        <tr>
+                            <td>6-24 months</td>
+                            <td>Complementary feeding</td>
+                            <td>Nutrition education, fortified foods</td>
+                        </tr>
+                        <tr>
+                            <td>Adolescence</td>
+                            <td>Increased protein, iron, calcium</td>
+                            <td>School meals, nutrition education</td>
+                        </tr>
+                        <tr>
+                            <td>Elderly</td>
+                            <td>Protein, vitamin D, fiber</td>
+                            <td>Community meals, screening</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="case-study">
+                    <h4><i class="fas fa-clipboard-list"></i> First 1000 Days Initiative</h4>
+                    <p>Focusing on nutrition from conception to age 2:</p>
+                    <ul>
+                        <li><strong>Rationale:</strong> Critical window for growth and development</li>
+                        <li><strong>Components:</strong> Maternal nutrition, breastfeeding, complementary feeding</li>
+                        <li><strong>Impact:</strong> Reduces stunting, improves cognitive development</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/9QyH6vOQ3l0" title="Lifecycle Nutrition" allowfullscreen></iframe>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. What's the recommended duration for exclusive breastfeeding?</legend>
+                    <label><input type="radio" name="q3a" value="a"> a) 4 months</label>
+                    <label><input type="radio" name="q3a" value="b"> b) 6 months</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. Which nutrient is especially important for elderly?</legend>
+                    <label><input type="radio" name="q3b" value="a"> a) Vitamin D</label>
+                    <label><input type="radio" name="q3b" value="b"> b) Vitamin C</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(3, ['b', 'a'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result3" class="quiz-result"></div>
+                <div id="explanation3" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>Design a community program addressing nutrition needs for two different life stages.</p>
+                <textarea placeholder="Describe your program..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.who.int/publications/i/item/9789241599533" target="_blank">
+                    <i class="fas fa-file-pdf"></i> WHO IYCF Guidelines (PDF)
+                </a>
+                <a href="https://www.1000days.org/" target="_blank">
+                    <i class="fas fa-link"></i> 1000 Days Initiative
+                </a>
+                <a href="https://www.nia.nih.gov/health/healthy-eating-nutrition-and-diet" target="_blank">
+                    <i class="fas fa-link"></i> NIH Nutrition for Aging
+                </a>
+            </div>
+        </div>
+
+        <!-- Page 4: Nutrition-Sensitive Interventions -->
+        <div class="page" id="page4">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(4)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Nutrition-Sensitive Interventions <span class="badge badge-warning">Applied</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Differentiate nutrition-specific vs. nutrition-sensitive approaches</li>
+                    <li>Design agriculture programs for nutrition outcomes</li>
+                    <li>Apply social protection strategies to improve nutrition</li>
+                </ul>
+            </div>
+            <p>Nutrition-sensitive interventions address underlying determinants of malnutrition through sectors like agriculture, social protection, and education.</p>
+            <button class="toggle-btn" onclick="toggleContent('content4')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content4" class="content">
+                <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Community garden">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                
+                <h4>Nutrition-Sensitive Approaches:</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Sector</th>
+                            <th>Interventions</th>
+                            <th>Nutrition Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Agriculture</td>
+                            <td>Biofortified crops, homestead gardens</td>
+                            <td>Increased dietary diversity</td>
+                        </tr>
+                        <tr>
+                            <td>Social Protection</td>
+                            <td>Cash transfers, food vouchers</td>
+                            <td>Improved food access</td>
+                        </tr>
+                        <tr>
+                            <td>Education</td>
+                            <td>School feeding, nutrition education</td>
+                            <td>Better feeding practices</td>
+                        </tr>
+                        <tr>
+                            <td>Water/Sanitation</td>
+                            <td>Clean water, hygiene promotion</td>
+                            <td>Reduced infections/nutrient loss</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="case-study">
+                    <h4><i class="fas fa-clipboard-list"></i> Brazil's Zero Hunger Program</h4>
+                    <p>Integrated approach reduced stunting by 50%:</p>
+                    <ul>
+                        <li><strong>Components:</strong> Cash transfers, school meals, food banks</li>
+                        <li><strong>Results:</strong> 28 million lifted from poverty, improved child nutrition</li>
+                        <li><strong>Key:</strong> Political commitment + multisectoral coordination</li>
+                    </ul>
+                </div>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/9QyH6vOQ3l0" title="Nutrition-Sensitive Programming" allowfullscreen></iframe>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. Which is a nutrition-sensitive intervention?</legend>
+                    <label><input type="radio" name="q4a" value="a"> a) Vitamin A supplementation</label>
+                    <label><input type="radio" name="q4a" value="b"> b) School feeding program</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. What % stunting reduction did Brazil achieve?</legend>
+                    <label><input type="radio" name="q4b" value="a"> a) 25%</label>
+                    <label><input type="radio" name="q4b" value="b"> b) 50%</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(4, ['b', 'b'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result4" class="quiz-result"></div>
+                <div id="explanation4" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>Design an agriculture program with nutrition-sensitive components for a rural community.</p>
+                <textarea placeholder="Outline your program..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.ifpri.org/publication/nutrition-sensitive-agriculture-and-food-systems" target="_blank">
+                    <i class="fas fa-link"></i> IFPRI Nutrition-Sensitive Agriculture
+                </a>
+                <a href="https://www.unscn.org/en" target="_blank">
+                    <i class="fas fa-link"></i> UN System Standing Committee on Nutrition
+                </a>
+                <a href="https://www.worldbank.org/en/topic/nutrition" target="_blank">
+                    <i class="fas fa-link"></i> World Bank Nutrition
+                </a>
+            </div>
+        </div>
+
+        <!-- Page 5: Nutrition Policy and Advocacy -->
+        <div class="page" id="page5">
+            <button class="bookmark-btn" aria-label="Bookmark this page" onclick="toggleBookmark(5)">
+                <i class="far fa-bookmark"></i>
+            </button>
+            <h2>Nutrition Policy and Advocacy <span class="badge badge-danger">Leadership</span></h2>
+            <div class="objectives">
+                <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+                <ul>
+                    <li>Analyze national nutrition policies</li>
+                    <li>Develop evidence-based policy recommendations</li>
+                    <li>Apply advocacy strategies for nutrition</li>
+                </ul>
+            </div>
+            <p>Effective policies and advocacy are essential to create enabling environments for improved nutrition.</p>
+            <button class="toggle-btn" onclick="toggleContent('content5')">
+                Explore Detailed Content <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="content5" class="content">
+                <img src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Policy discussion">
+                <h3><i class="fas fa-search-plus"></i> Detailed Exploration</h3>
+                
+                <h4>Key Global Nutrition Initiatives:</h4>
+                <ul>
+                    <li><strong>Scaling Up Nutrition (SUN) Movement:</strong> 65 countries committed to nutrition</li>
+                    <li><strong>Global Nutrition Targets (WHO):</strong> 2025 goals for stunting, anemia, etc.</li>
+                    <li><strong>UN Decade of Action on Nutrition:</strong> 2016-2025 framework</li>
+                </ul>
+                
+                <div class="case-study">
+                    <h4><i class="fas fa-clipboard-list"></i> Mexico's Sugar Tax</h4>
+                    <p>10% tax on sugary drinks reduced consumption:</p>
+                    <ul>
+                        <li><strong>Policy:</strong> Implemented in 2014</li>
+                        <li><strong>Results:</strong> 12% reduction in purchases in first year</li>
+                        <li><strong>Impact:</strong> Estimated to prevent 189,000 cases of diabetes</li>
+                    </ul>
+                </div>
+                
+                <h4>Advocacy Strategies:</h4>
+                <ol>
+                    <li><strong>Evidence:</strong> Use local data to make case</li>
+                    <li><strong>Framing:</strong> Link nutrition to development priorities</li>
+                    <li><strong>Coalitions:</strong> Build diverse alliances</li>
+                    <li><strong>Media:</strong> Shape public discourse</li>
+                </ol>
+                
+                <h3><i class="fas fa-play-circle"></i> Watch Video</h3>
+                <iframe src="https://www.youtube.com/embed/9QyH6vOQ3l0" title="Nutrition Policy Development" allowfullscreen></iframe>
+            </div>
+            
+            <div class="quiz">
+                <h3><i class="fas fa-question-circle"></i> Knowledge Check</h3>
+                <fieldset>
+                    <legend>1. How many countries are in SUN Movement?</legend>
+                    <label><input type="radio" name="q5a" value="a"> a) 65</label>
+                    <label><input type="radio" name="q5a" value="b"> b) 100</label>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>2. What % reduction in sugary drink purchases occurred in Mexico?</legend>
+                    <label><input type="radio" name="q5b" value="a"> a) 5%</label>
+                    <label><input type="radio" name="q5b" value="b"> b) 12%</label>
+                </fieldset>
+                
+                <button onclick="checkQuiz(5, ['a', 'b'])">
+                    <i class="fas fa-paper-plane"></i> Submit Answers
+                </button>
+                <div id="result5" class="quiz-result"></div>
+                <div id="explanation5" class="quiz-explanation"></div>
+            </div>
+            
+            <div class="scenario">
+                <h3><i class="fas fa-tasks"></i> Practical Scenario</h3>
+                <p>Your country has rising obesity rates. Develop a policy brief with 3 recommended actions.</p>
+                <textarea placeholder="Outline your policy recommendations..."></textarea>
+            </div>
+            
+            <div class="resources">
+                <h3><i class="fas fa-book-open"></i> Further Reading</h3>
+                <a href="https://www.who.int/publications/i/item/9789241514871" target="_blank">
+                    <i class="fas fa-file-pdf"></i> WHO Nutrition Policy Guidance (PDF)
+                </a>
+                <a href="https://scalingupnutrition.org/" target="_blank">
+                    <i class="fas fa-link"></i> SUN Movement
+                </a>
+                <a href="https://globalnutritionreport.org/" target="_blank">
+                    <i class="fas fa-link"></i> Global Nutrition Report
+                </a>
+            </div>
+            
+            <div class="closing">
+                <h3><i class="fas fa-flag-checkered"></i> Closing Remark</h3>
+                <p>Nutrition and public health professionals play crucial roles in shaping policies and programs that improve dietary patterns and nutritional status at population levels.</p>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button onclick="prevPage()" id="prevBtn" disabled>
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <span id="pageInfo">Page 1 of 5</span>
+            <button onclick="nextPage()" id="nextBtn">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating navigation -->
+    <div class="floating-nav">
+        <button aria-label="Scroll to top" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button aria-label="Toggle dark mode" onclick="toggleDarkMode()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 5;
+        let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+        let darkMode = localStorage.getItem('darkMode') === 'true';
+
+        // Initialize dark mode if previously set
+        if (darkMode) {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.dark-mode-toggle i').classList.replace('fa-moon', 'fa-sun');
+        }
+
+        function showPage(pageNum) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(`page${pageNum}`).classList.add('active');
+            currentPage = pageNum;
+            updatePagination();
+            updateProgress();
+            updateBookmarkIcons();
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                showPage(currentPage + 1);
+                scrollToTop();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                showPage(currentPage - 1);
+                scrollToTop();
+            }
+        }
+
+        function updatePagination() {
+            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+        }
+
+        function updateProgress() {
+            const progress = ((currentPage - 1) / (totalPages - 1)) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+            document.getElementById('progressPercentage').textContent = `${Math.round(progress)}%`;
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function toggleContent(contentId) {
+            const content = document.getElementById(contentId);
+            const btn = content.previousElementSibling;
+            
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                btn.classList.remove('active');
+            } else {
+                content.style.display = 'block';
+                btn.classList.add('active');
+            }
+        }
+
+        function checkQuiz(quizNum, correctAnswers) {
+            const answers = [
+                document.querySelector(`input[name="q${quizNum}a"]:checked`),
+                document.querySelector(`input[name="q${quizNum}b"]:checked`)
+            ];
+            const resultDiv = document.getElementById(`result${quizNum}`);
+            const explanationDiv = document.getElementById(`explanation${quizNum}`);
+            
+            if (!answers[0] || !answers[1]) {
+                resultDiv.textContent = "Please answer both questions.";
+                resultDiv.className = "quiz-result incorrect";
+                explanationDiv.textContent = "";
+                return;
+            }
+
+            let score = 0;
+            answers.forEach((answer, i) => {
+                if (answer.value === correctAnswers[i]) score++;
+            });
+
+            if (score === 2) {
+                resultDiv.textContent = "✓ Perfect! All answers correct!";
+                resultDiv.className = "quiz-result correct";
+            } else if (score === 1) {
+                resultDiv.textContent = "✓ Partially correct. One right answer.";
+                resultDiv.className = "quiz-result incorrect";
+            } else {
+                resultDiv.textContent = "✗ Review needed. Try again.";
+                resultDiv.className = "quiz-result incorrect";
+            }
+
+            explanationDiv.textContent = getExplanation(quizNum, answers.map(a => a.value));
+            explanationDiv.style.display = 'block';
+        }
+
+        function getExplanation(quizNum, selected) {
+            const explanations = {
+                1: {
+                    a: "1. Global stunting prevalence is 22% (WHO 2023).",
+                    b: "2. Vitamin C is a micronutrient, not macronutrient."
+                },
+                2: {
+                    a: "1. Iron deficiency is the leading cause of anemia.",
+                    b: "2. 88% of households globally use iodized salt (UNICEF)."
+                },
+                3: {
+                    a: "1. WHO recommends exclusive breastfeeding for first 6 months.",
+                    b: "2. Vitamin D is critical for bone health in elderly."
+                },
+                4: {
+                    a: "1. Vitamin A supplementation is nutrition-specific.",
+                    b: "2. Brazil achieved 50% stunting reduction through Zero Hunger."
+                },
+                5: {
+                    a: "1. 65 countries participate in SUN Movement.",
+                    b: "2. Mexico saw 12% reduction in sugary drink purchases post-tax."
+                }
+            };
+
+            let output = [];
+            for (let i = 0; i < 2; i++) {
+                const qKey = quizNum + (i === 0 ? 'a' : 'b');
+                output.push(`Q${i+1}: ${explanations[quizNum][selected[i]]}`);
+            }
+            
+            return output.join('\n\n');
+        }
+
+        function toggleBookmark(pageNum) {
+            const index = bookmarks.indexOf(pageNum);
+            const btn = document.querySelector(`#page${pageNum} .bookmark-btn i`);
+            
+            if (index === -1) {
+                bookmarks.push(pageNum);
+                btn.classList.replace('far', 'fas');
+                btn.parentElement.classList.add('active');
+            } else {
+                bookmarks.splice(index, 1);
+                btn.classList.replace('fas', 'far');
+                btn.parentElement.classList.remove('active');
+            }
+            
+            localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        }
+
+        function updateBookmarkIcons() {
+            document.querySelectorAll('.bookmark-btn i').forEach(icon => {
+                icon.classList.replace('fas', 'far');
+                icon.parentElement.classList.remove('active');
+            });
+            
+            bookmarks.forEach(pageNum => {
+                const btn = document.querySelector(`#page${pageNum} .bookmark-btn i`);
+                if (btn) {
+                    btn.classList.replace('far', 'fas');
+                    btn.parentElement.classList.add('active');
+                }
+            });
+        }
+
+        function toggleDarkMode() {
+            darkMode = !darkMode;
+            document.body.classList.toggle('dark-mode', darkMode);
+            
+            const icon = document.querySelector('.dark-mode-toggle i');
+            if (darkMode) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+            
+            localStorage.setItem('darkMode', darkMode);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage(1);
+            updateBookmarkIcons();
+            
+            // Set up all toggle buttons
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                });
+            });
+            
+            // Set up checklist items to save state
+            document.querySelectorAll('.checklist input[type="checkbox"]').forEach(box => {
+                box.addEventListener('change', function() {
+                    const state = JSON.parse(localStorage.getItem('checklistState') || '{}');
+                    state[this.id] = this.checked;
+                    localStorage.setItem('checklistState', JSON.stringify(state));
+                });
+                
+                // Restore checklist state
+                const state = JSON.parse(localStorage.getItem('checklistState') || '{}');
+                if (state[box.id]) {
+                    box.checked = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
