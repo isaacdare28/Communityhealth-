@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comprehensive Community Health MCQ Platform</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+        .course-selector {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .course-btn {
+            margin: 10px;
+            padding: 12px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .course-btn:hover {
+            background-color: #2980b9;
+        }
+        .course-btn.active {
+            background-color: #27ae60;
+        }
+        .question-container {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fcfdff;
+            display: none;
+        }
+        .question-container.active {
+            display: block;
+        }
+        .question-text {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .options {
+            margin-left: 10px;
+        }
+        .option {
+            margin: 12px 0;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .option:hover {
+            background-color: #e9ecef;
+            border-color: #bdc3c7;
+        }
+        .option.correct {
+            background-color: #2ecc71;
+            color: white;
+            border-color: #2ecc71;
+        }
+        .option.incorrect {
+            background-color: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+        .option.selected {
+            border: 2px solid #3498db;
+            font-weight: bold;
+        }
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+        }
+        .feedback.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        .explanation {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e8f4f8;
+            border-radius: 5px;
+            font-size: 0.95em;
+            border-left: 4px solid #3498db;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .nav-btn:hover {
+            background-color: #2980b9;
+        }
+        .nav-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .progress-info {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .score-container {
+            text-align: center;
+            padding: 30px;
+            margin-top: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+        .score {
+            font-size: 36px;
+            font-weight: bold;
+            color: #3498db;
+            margin: 20px 0;
+        }
+        .result-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .summary {
+            margin: 20px 0;
+            text-align: left;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .summary-item {
+            margin: 10px 0;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .course-info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Community Health MCQ Platform</h1>
+        <p class="subtitle">100 comprehensive questions across 5 core community health courses</p>
+        
+        <div class="course-selector">
+            <h2>Select Course</h2>
+            <button class="course-btn active" data-course="epidemiology">Epidemiology & Biostatistics</button>
+            <button class="course-btn" data-course="maternal">Maternal & Child Health</button>
+            <button class="course-btn" data-course="infectious">Infectious Disease Control</button>
+            <button class="course-btn" data-course="nutrition">Community Nutrition</button>
+            <button class="course-btn" data-course="health">Health Systems & Policy</button>
+        </div>
+        
+        <div id="course-info" class="course-info">
+            <!-- Course description will be populated by JavaScript -->
+        </div>
+        
+        <div id="quiz-container">
+            <!-- Questions will be dynamically loaded here -->
+        </div>
+        
+        <div class="score-container" id="score-container">
+            <h2>Quiz Complete!</h2>
+            <p>Your Score: <span class="score" id="final-score">0/0</span></p>
+            <p id="result-message"></p>
+            <div class="summary" id="summary">
+                <h3>Detailed Performance</h3>
+                <div id="summary-details">
+                    <!-- Summary details will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="navigation" id="navigation">
+            <button class="nav-btn" id="prev-btn" disabled>Previous</button>
+            <div class="progress-info" id="progress-info">Question 1 of 20</div>
+            <button class="nav-btn" id="next-btn">Next</button>
+            <button class="nav-btn" id="submit-btn" style="display: none;">Submit Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        // Comprehensive quiz data - 100 questions across 5 courses
+        const quizData = {
+            epidemiology: [
+                {
+                    question: "What is the primary goal of epidemiology?",
+                    options: [
+                        "To treat individual patients",
+                        "To study disease patterns in populations",
+                        "To develop new pharmaceuticals",
+                        "To manage hospital operations"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Epidemiology is the study of the distribution and determinants of health-related states or events in specified populations, and the application of this study to control health problems."
+                },
+                {
+                    question: "The epidemiological triad consists of:",
+                    options: [
+                        "Agent, host, environment",
+                        "Prevention, treatment, rehabilitation",
+                        "Screening, diagnosis, management",
+                        "Incidence, prevalence, mortality"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "The epidemiological triad model describes the relationship between the agent causing disease, the host, and the environment. This framework helps identify intervention points to break the chain of disease transmission."
+                },
+                {
+                    question: "Which measure represents new cases of disease in a population over a specific time period?",
+                    options: [
+                        "Prevalence",
+                        "Incidence",
+                        "Mortality rate",
+                        "Case fatality rate"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Incidence measures the number of new cases of a disease in a population during a specific time period. It helps assess the risk of contracting the disease and is crucial for understanding disease dynamics."
+                },
+                {
+                    question: "A study that follows a group of exposed and non-exposed individuals over time to compare disease development is called:",
+                    options: [
+                        "Case-control study",
+                        "Cross-sectional study",
+                        "Cohort study",
+                        "Randomized controlled trial"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "A cohort study follows groups of individuals who are exposed and not exposed to a particular factor to compare the incidence of outcomes over time. This design is particularly useful for studying multiple outcomes from a single exposure."
+                },
+                {
+                    question: "The attack rate is best defined as:",
+                    options: [
+                        "The proportion of a population that dies from a disease",
+                        "The proportion of susceptible individuals who become ill during an outbreak",
+                        "The total number of existing cases in a population",
+                        "The number of new cases per 1,000 population per year"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "The attack rate is the proportion of people at risk who develop a disease during a specific time period, typically during an outbreak. It helps characterize the spread and infectiousness of a disease."
+                },
+                {
+                    question: "Which of the following best describes 'endemic' disease?",
+                    options: [
+                        "A disease with rapidly increasing cases",
+                        "A disease present at a constant baseline level in a population",
+                        "A disease affecting multiple continents",
+                        "A previously unknown disease"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "An endemic disease is one that is constantly present to a greater or lesser degree in a particular geographic area or population group. It maintains a relatively stable pattern of occurrence."
+                },
+                {
+                    question: "Relative risk is calculated as:",
+                    options: [
+                        "Incidence in exposed / Incidence in unexposed",
+                        "Prevalence in cases / Prevalence in controls",
+                        "Odds of exposure in cases / Odds of exposure in controls",
+                        "Total cases / Total population"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Relative risk (risk ratio) compares the probability of an outcome in an exposed group to the probability in an unexposed group. A value greater than 1 indicates increased risk, while less than 1 indicates reduced risk."
+                },
+                {
+                    question: "In a 2x2 table for disease and exposure, the odds ratio is calculated as:",
+                    options: [
+                        "(a/b) / (c/d)",
+                        "(a/c) / (b/d)",
+                        "(a*d) / (b*c)",
+                        "(a+b) / (c+d)"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "The odds ratio = (a*d)/(b*c) where a=exposed cases, b=exposed non-cases, c=unexposed cases, d=unexposed non-cases. This measure is commonly used in case-control studies where incidence cannot be directly calculated."
+                },
+                {
+                    question: "Which measure indicates the proportion of disease incidence that would be eliminated if the exposure were removed?",
+                    options: [
+                        "Relative risk",
+                        "Attributable risk",
+                        "Population attributable risk",
+                        "Odds ratio"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Population attributable risk (PAR) estimates the proportion of disease incidence in the total population that can be attributed to a specific exposure. It considers both the relative risk and the prevalence of exposure in the population."
+                },
+                {
+                    question: "Sensitivity of a diagnostic test refers to:",
+                    options: [
+                        "The ability to correctly identify those without the disease",
+                        "The ability to correctly identify those with the disease",
+                        "The probability that a positive test result is truly positive",
+                        "The probability that a negative test result is truly negative"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Sensitivity is the proportion of actual positives that are correctly identified by the test (true positive rate). A highly sensitive test is good at ruling out disease when the result is negative (\"SnNOut\")."
+                },
+                {
+                    question: "The positive predictive value of a test depends most on:",
+                    options: [
+                        "The sensitivity of the test",
+                        "The specificity of the test",
+                        "The prevalence of the disease in the population",
+                        "The cost of the test"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Positive predictive value is highly dependent on disease prevalence. Even with high sensitivity and specificity, if a disease is rare, most positive test results may be false positives due to the low pre-test probability."
+                },
+                {
+                    question: "Which study design is most appropriate for investigating rare diseases?",
+                    options: [
+                        "Cohort study",
+                        "Cross-sectional study",
+                        "Case-control study",
+                        "Ecological study"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Case-control studies are efficient for studying rare diseases because they start by identifying individuals with the disease (cases) and compare them to those without (controls), rather than following a large cohort over time."
+                },
+                {
+                    question: "Confounding occurs when:",
+                    options: [
+                        "A variable is associated with both the exposure and outcome",
+                        "Study participants change their behavior because they know they are being studied",
+                        "Data is incorrectly recorded",
+                        "The sample size is too small"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Confounding occurs when a third variable is associated with both the exposure and the outcome, creating a spurious association. Confounders must be controlled for through study design or statistical analysis."
+                },
+                {
+                    question: "Which of the following is a key principle of descriptive epidemiology?",
+                    options: [
+                        "Establishing cause-and-effect relationships",
+                        "Identifying patterns of disease by person, place, and time",
+                        "Testing specific hypotheses about disease causation",
+                        "Evaluating the effectiveness of interventions"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Descriptive epidemiology focuses on characterizing the patterns of disease occurrence in terms of person (who), place (where), and time (when). This information helps generate hypotheses for analytical studies."
+                },
+                {
+                    question: "The incubation period of a disease is defined as:",
+                    options: [
+                        "The time from infection to onset of symptoms",
+                        "The time during which an infected person can transmit the disease",
+                        "The time from symptom onset to recovery",
+                        "The time from exposure to death"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "The incubation period is the time interval between exposure to a pathogen and the first appearance of symptoms. This period varies by disease and is important for determining quarantine periods and understanding transmission dynamics."
+                },
+                {
+                    question: "Which type of surveillance relies on healthcare providers voluntarily reporting cases?",
+                    options: [
+                        "Active surveillance",
+                        "Syndromic surveillance",
+                        "Passive surveillance",
+                        "Sentinel surveillance"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Passive surveillance depends on healthcare providers and laboratories to voluntarily report cases of specific diseases. While less expensive, it may be incomplete compared to active surveillance where health officials actively seek cases."
+                },
+                {
+                    question: "The basic reproduction number (R0) represents:",
+                    options: [
+                        "The average number of secondary cases produced by one infected individual in a fully susceptible population",
+                        "The mortality rate of a disease",
+                        "The incubation period of a disease",
+                        "The effectiveness of a vaccine"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "R0 (R-naught) is a key epidemiological metric that indicates the contagiousness of an infectious disease. If R0 > 1, the disease can spread in the population; if R0 < 1, the outbreak will eventually die out."
+                },
+                {
+                    question: "Which measure is most appropriate for assessing the burden of chronic diseases?",
+                    options: [
+                        "Incidence rate",
+                        "Attack rate",
+                        "Prevalence rate",
+                        "Case fatality rate"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Prevalence is particularly useful for chronic diseases that last a long time. It represents the total number of existing cases (both new and pre-existing) in a population at a given time, providing a snapshot of disease burden."
+                },
+                {
+                    question: "In a normal distribution, what percentage of values fall within ±1 standard deviation from the mean?",
+                    options: [
+                        "68%",
+                        "95%",
+                        "99.7%",
+                        "50%"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "In a normal (Gaussian) distribution, approximately 68% of values fall within one standard deviation of the mean, 95% within two standard deviations, and 99.7% within three standard deviations. This is known as the empirical rule."
+                },
+                {
+                    question: "The p-value in statistical testing represents:",
+                    options: [
+                        "The probability that the null hypothesis is true",
+                        "The probability of observing the data (or more extreme) if the null hypothesis is true",
+                        "The probability that the alternative hypothesis is true",
+                        "The clinical significance of the findings"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "The p-value is the probability of obtaining results at least as extreme as the observed results, assuming the null hypothesis is true. A small p-value (typically <0.05) suggests the observed data are unlikely under the null hypothesis."
+                }
+            ],
+            maternal: [
+                {
+                    question: "The leading cause of maternal mortality globally is:",
+                    options: [
+                        "Eclampsia",
+                        "Postpartum hemorrhage",
+                        "Sepsis",
+                        "Unsafe abortion"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Postpartum hemorrhage accounts for approximately 27% of maternal deaths worldwide. It is defined as blood loss of 500ml or more after vaginal delivery and 1000ml or more after cesarean section."
+                },
+                {
+                    question: "The World Health Organization recommends exclusive breastfeeding for the first:",
+                    options: [
+                        "3 months",
+                        "6 months",
+                        "9 months",
+                        "12 months"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "WHO recommends exclusive breastfeeding for the first 6 months of life, followed by continued breastfeeding with appropriate complementary foods up to 2 years or beyond. Exclusive breastfeeding provides optimal nutrition and immunity."
+                },
+                {
+                    question: "Kangaroo Mother Care includes all EXCEPT:",
+                    options: [
+                        "Skin-to-skin contact",
+                        "Exclusive breastfeeding",
+                        "Early discharge",
+                        "Prolonged hospitalization"
+                    ],
+                    correctAnswer: 3,
+                    explanation: "Kangaroo Mother Care promotes skin-to-skin contact, exclusive breastfeeding, and early discharge with appropriate follow-up. It reduces hospitalization time while improving outcomes for low-birth-weight and premature infants."
+                },
+                {
+                    question: "The most effective intervention to prevent mother-to-child transmission of HIV is:",
+                    options: [
+                        "Cesarean delivery",
+                        "Antiretroviral therapy",
+                        "Formula feeding",
+                        "Rapid HIV testing"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Antiretroviral therapy during pregnancy, delivery, and postpartum is the most effective intervention to reduce HIV transmission risk from mother to child, reducing transmission rates to less than 5%."
+                },
+                {
+                    question: "The recommended number of antenatal care visits according to WHO is:",
+                    options: [
+                        "4 visits",
+                        "6 visits",
+                        "8 visits",
+                        "10 visits"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "WHO recommends a minimum of 8 antenatal contacts for comprehensive care, with the first visit in the first trimester. This replaces the previous recommendation of 4 visits to ensure more thorough monitoring and education."
+                },
+                {
+                    question: "The main purpose of active management of the third stage of labor is to:",
+                    options: [
+                        "Reduce the risk of postpartum hemorrhage",
+                        "Speed up delivery",
+                        "Reduce pain",
+                        "Prevent perineal tears"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Active management of the third stage of labor (AMTSL) includes prophylactic uterotonic administration, controlled cord traction, and uterine massage. It reduces the risk of postpartum hemorrhage by about 60%."
+                },
+                {
+                    question: "The most common cause of neonatal tetanus is:",
+                    options: [
+                        "Contaminated breastfeeding",
+                        "Unhygienic cord care",
+                        "Maternal infection",
+                        "Airborne transmission"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Neonatal tetanus occurs when Clostridium tetani spores infect the umbilical stump, typically due to unhygienic cord care practices. It can be prevented through clean delivery practices and maternal tetanus vaccination."
+                },
+                {
+                    question: "The leading cause of neonatal mortality is:",
+                    options: [
+                        "Congenital anomalies",
+                        "Birth asphyxia",
+                        "Preterm complications",
+                        "Neonatal infections"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Preterm birth complications are the single largest cause of neonatal deaths globally. This highlights the importance of quality antenatal care, skilled birth attendance, and specialized care for premature infants."
+                },
+                {
+                    question: "Integrated Management of Childhood Illness (IMCI) was developed by:",
+                    options: [
+                        "WHO and UNICEF",
+                        "CDC and NIH",
+                        "Doctors Without Borders",
+                        "Global Fund"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "IMCI is a comprehensive approach to child health developed by WHO and UNICEF. It combines improved clinical practices, strengthened health systems, and enhanced family and community practices."
+                },
+                {
+                    question: "The most effective method to prevent neonatal hypothermia is:",
+                    options: [
+                        "Incubators",
+                        "Radiant warmers",
+                        "Kangaroo Mother Care",
+                        "Heated blankets"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Kangaroo Mother Care (skin-to-skin contact) is highly effective in preventing and treating neonatal hypothermia, especially in resource-limited settings. It provides thermal regulation, promotes breastfeeding, and enhances bonding."
+                },
+                {
+                    question: "The recommended timing for newborn resuscitation is:",
+                    options: [
+                        "Begin after 5 minutes if not breathing",
+                        "Begin immediately after birth if not breathing",
+                        "Begin only if heart rate is below 60",
+                        "Wait for specialized personnel"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Newborn resuscitation should begin immediately after birth if the infant is not breathing or gasping. The first 60 seconds (the 'golden minute') are critical for initiating breathing and preventing complications."
+                },
+                {
+                    question: "The most common cause of postpartum hemorrhage is:",
+                    options: [
+                        "Uterine atony",
+                        "Genital tract trauma",
+                        "Retained placental tissue",
+                        "Coagulation disorders"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Uterine atony (failure of the uterus to contract after delivery) is the most common cause of postpartum hemorrhage, accounting for approximately 70-80% of cases. It is typically managed with uterotonic drugs and uterine massage."
+                },
+                {
+                    question: "The main purpose of antenatal screening for syphilis is to:",
+                    options: [
+                        "Treat the mother after delivery",
+                        "Prevent congenital syphilis",
+                        "Determine delivery method",
+                        "Assess need for cesarean"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Early detection and treatment of syphilis in pregnancy with penicillin prevents transmission to the fetus and congenital syphilis, which can cause stillbirth, neonatal death, or severe disabilities."
+                },
+                {
+                    question: "The most sensitive period for fetal alcohol syndrome is:",
+                    options: [
+                        "First trimester",
+                        "Second trimester",
+                        "Third trimester",
+                        "Throughout pregnancy"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "The first trimester is the most sensitive period for teratogenic effects of alcohol, as this is when major organ systems are forming. However, alcohol can negatively affect fetal development throughout pregnancy."
+                },
+                {
+                    question: "The recommended gestational age for routine gestational diabetes screening is:",
+                    options: [
+                        "12-16 weeks",
+                        "24-28 weeks",
+                        "32-36 weeks",
+                        "At term"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Gestational diabetes screening is typically performed between 24-28 weeks of gestation, when insulin resistance naturally increases during pregnancy. Early screening may be done for high-risk women."
+                },
+                {
+                    question: "The main advantage of delayed cord clamping (30-60 seconds) is:",
+                    options: [
+                        "Reduced risk of postpartum hemorrhage",
+                        "Increased iron stores in the newborn",
+                        "Faster delivery of the placenta",
+                        "Reduced risk of jaundice"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Delayed cord clamping allows for continued blood transfer from the placenta to the newborn, increasing iron stores and reducing the risk of iron deficiency anemia in the first year of life."
+                },
+                {
+                    question: "The most common cause of infertility in women in developing countries is:",
+                    options: [
+                        "Polycystic ovarian syndrome",
+                        "Tubal factor infertility",
+                        "Endometriosis",
+                        "Ovulatory disorders"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Tubal factor infertility, often resulting from pelvic inflammatory disease (frequently due to untreated sexually transmitted infections), is the most common cause of infertility in many developing countries."
+                },
+                {
+                    question: "The primary purpose of partograph use during labor is to:",
+                    options: [
+                        "Measure fetal heart rate",
+                        "Monitor progress of labor and detect abnormalities",
+                        "Time contractions",
+                        "Assess cervical dilation"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "The partograph is a composite graphical record of key maternal and fetal data during labor. It helps monitor labor progress and enables early detection of deviations from normal, allowing timely intervention."
+                },
+                {
+                    question: "The most effective contraceptive method for breastfeeding mothers in the first 6 months postpartum is:",
+                    options: [
+                        "Combined oral contraceptives",
+                        "Progestin-only methods",
+                        "IUD",
+                        "Emergency contraception"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Progestin-only contraceptive methods (mini-pill, injectables, implants) are recommended for breastfeeding mothers as they do not affect milk production, unlike combined hormonal methods which contain estrogen."
+                },
+                {
+                    question: "The main purpose of postpartum care within the first 48 hours is to:",
+                    options: [
+                        "Assess breastfeeding technique",
+                        "Detect and manage life-threatening complications",
+                        "Provide family planning counseling",
+                        "Schedule future vaccinations"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "The immediate postpartum period is critical for detecting and managing life-threatening complications such as hemorrhage, hypertension, and infection. Early identification and treatment can prevent maternal mortality."
+                }
+            ],
+            infectious: [
+                {
+                    question: "The most effective strategy for controlling tuberculosis is:",
+                    options: [
+                        "Mass vaccination",
+                        "DOTS strategy",
+                        "Antibiotic prophylaxis for all",
+                        "Isolation of all suspected cases"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "DOTS (Directly Observed Treatment, Short-course) is the internationally recommended strategy for TB control, ensuring patients complete their treatment under direct observation to prevent drug resistance."
+                },
+                {
+                    question: "The primary mode of HIV transmission in sub-Saharan Africa is:",
+                    options: [
+                        "Blood transfusion",
+                        "Mother-to-child",
+                        "Heterosexual contact",
+                        "Injection drug use"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Heterosexual transmission accounts for the majority of HIV infections in sub-Saharan Africa. Prevention strategies focus on promoting safe sex practices, male circumcision, and treatment as prevention."
+                },
+                {
+                    question: "The most effective method for malaria prevention is:",
+                    options: [
+                        "Indoor residual spraying",
+                        "Insecticide-treated bed nets",
+                        "Prophylactic medication",
+                        "Mosquito repellent"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Insecticide-treated bed nets (ITNs) provide personal protection and community-level transmission reduction. When coverage is high, they reduce malaria transmission by killing mosquitoes and creating a barrier effect."
+                },
+                {
+                    question: "The reservoir for rabies virus in most countries is:",
+                    options: [
+                        "Humans",
+                        "Bats",
+                        "Dogs",
+                        "Rodents"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Domestic dogs are responsible for 99% of human rabies transmissions worldwide. Dog vaccination programs are the most effective way to prevent human rabies in endemic areas."
+                },
+                {
+                    question: "The most effective post-exposure prophylaxis for rabies includes:",
+                    options: [
+                        "Antibiotics and wound cleaning",
+                        "Wound cleaning and rabies vaccine",
+                        "Tetanus toxoid only",
+                        "Observation of the biting animal"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Post-exposure prophylaxis for rabies includes immediate and thorough wound washing with soap and water, followed by administration of rabies vaccine and, in some cases, rabies immunoglobulin."
+                },
+                {
+                    question: "Leprosy is caused by:",
+                    options: [
+                        "Mycobacterium tuberculosis",
+                        "Mycobacterium leprae",
+                        "Treponema pallidum",
+                        "Clostridium difficile"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Leprosy (Hansen's disease) is caused by Mycobacterium leprae, an acid-fast bacillus that primarily affects the skin, peripheral nerves, and mucous membranes of the upper respiratory tract."
+                },
+                {
+                    question: "The main goal of leprosy control programs is:",
+                    options: [
+                        "Complete eradication",
+                        "Prevention of disability",
+                        "Mass screening only",
+                        "Isolation of all cases"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "The primary goal of leprosy control is early diagnosis and treatment to prevent nerve damage and permanent disabilities. Multi-drug therapy (MDT) effectively cures the disease and stops transmission."
+                },
+                {
+                    question: "The most effective way to prevent the spread of diarrheal diseases is:",
+                    options: [
+                        "Antibiotic treatment",
+                        "Improved sanitation and hygiene",
+                        "Vaccination of all children",
+                        "Isolation of infected individuals"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Most diarrheal diseases are spread through the fecal-oral route via contaminated water, food, or hands. Improving sanitation, ensuring safe drinking water, and promoting hand hygiene break this transmission cycle."
+                },
+                {
+                    question: "The primary purpose of Expanded Program on Immunization (EPI) is to:",
+                    options: [
+                        "Develop new vaccines",
+                        "Ensure universal access to essential vaccines",
+                        "Train vaccinators",
+                        "Conduct vaccine research"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "EPI, launched by WHO in 1974, aims to ensure that all children have access to routinely recommended vaccines. It has dramatically reduced mortality from vaccine-preventable diseases worldwide."
+                },
+                {
+                    question: "The vaccine given at birth in most EPI schedules is:",
+                    options: [
+                        "BCG and OPV",
+                        "DPT and Hepatitis B",
+                        "Measles and Rubella",
+                        "Pentavalent"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "BCG (against tuberculosis) and OPV (oral polio vaccine) are typically administered at birth in most countries' immunization schedules, along with Hepatitis B vaccine in many settings."
+                },
+                {
+                    question: "The most common vector for dengue fever is:",
+                    options: [
+                        "Anopheles mosquito",
+                        "Culex mosquito",
+                        "Aedes mosquito",
+                        "Tsetse fly"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Aedes aegypti is the primary vector for dengue virus, as well as other arboviruses like Zika and chikungunya. This mosquito bites during the day and breeds in clean water collections around human dwellings."
+                },
+                {
+                    question: "The main strategy for eliminating lymphatic filariasis is:",
+                    options: [
+                        "Vector control only",
+                        "Mass drug administration",
+                        "Vaccination",
+                        "Surgical treatment"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Mass drug administration (MDA) of antifilarial drugs to entire at-risk populations is the primary strategy for eliminating lymphatic filariasis. This approach reduces microfilariae in the blood, interrupting transmission."
+                },
+                {
+                    question: "The most effective treatment for uncomplicated P. falciparum malaria is:",
+                    options: [
+                        "Chloroquine",
+                        "Quinine",
+                        "Artemisinin-based combination therapy",
+                        "Mefloquine"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Artemisinin-based combination therapies (ACTs) are the recommended first-line treatment for uncomplicated P. falciparum malaria due to their rapid action and ability to reduce transmission, while minimizing drug resistance."
+                },
+                {
+                    question: "The primary purpose of disease surveillance is to:",
+                    options: [
+                        "Cure individual patients",
+                        "Monitor disease patterns and detect outbreaks",
+                        "Conduct research studies",
+                        "Provide treatment guidelines"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Disease surveillance systems systematically collect, analyze, and interpret health data to monitor disease trends, detect outbreaks early, and inform public health interventions and policy decisions."
+                },
+                {
+                    question: "An example of passive surveillance is:",
+                    options: [
+                        "Active case finding by health workers",
+                        "Reporting of notifiable diseases by laboratories",
+                        "Door-to-door surveys",
+                        "Screening campaigns"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Passive surveillance relies on voluntary reporting from healthcare providers and laboratories, as opposed to active surveillance where health officials actively seek cases through regular contact and follow-up."
+                },
+                {
+                    question: "The main purpose of isolation in infection control is to:",
+                    options: [
+                        "Provide specialized treatment",
+                        "Separate infected individuals from others",
+                        "Conduct diagnostic testing",
+                        "Administer antibiotics"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Isolation separates individuals known or suspected to be infected with communicable diseases from those who are not infected, preventing transmission to others in healthcare settings and the community."
+                },
+                {
+                    question: "The most effective method for hand hygiene in healthcare settings is:",
+                    options: [
+                        "Soap and water",
+                        "Alcohol-based hand rub",
+                        "Antibacterial wipes",
+                        "Surgical scrub"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Alcohol-based hand rubs are more effective than soap and water for killing most germs, require less time, and are less irritating to skin. They are the preferred method for routine hand hygiene when hands are not visibly soiled."
+                },
+                {
+                    question: "The main purpose of contact tracing is to:",
+                    options: [
+                        "Identify the source of infection",
+                        "Find and monitor individuals exposed to an infectious case",
+                        "Determine the mortality rate",
+                        "Calculate R0"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Contact tracing identifies, assesses, and manages people who have been exposed to an infectious disease to prevent onward transmission. It is a critical tool for controlling outbreaks of diseases like TB, HIV, and Ebola."
+                },
+                {
+                    question: "The most common occupational disease among healthcare workers is:",
+                    options: [
+                        "Hepatitis B",
+                        "HIV",
+                        "Tuberculosis",
+                        "Needlestick injuries"
+                    ],
+                    correctAnswer: 3,
+                    explanation: "Needlestick injuries are the most common occupational hazard for healthcare workers, potentially exposing them to bloodborne pathogens like HIV, HBV, and HCV. Prevention includes safety-engineered devices and proper disposal."
+                },
+                {
+                    question: "The primary purpose of antimicrobial stewardship is to:",
+                    options: [
+                        "Increase antibiotic sales",
+                        "Reduce antimicrobial resistance",
+                        "Promote new drug development",
+                        "Decrease hospital costs"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Antimicrobial stewardship programs promote the appropriate use of antimicrobials to improve patient outcomes, reduce microbial resistance, and decrease the spread of infections caused by multidrug-resistant organisms."
+                }
+            ],
+            nutrition: [
+                {
+                    question: "The most common cause of anemia in developing countries is:",
+                    options: [
+                        "Vitamin B12 deficiency",
+                        "Folic acid deficiency",
+                        "Iron deficiency",
+                        "Chronic disease"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Iron deficiency anemia is the most prevalent nutritional deficiency worldwide, particularly affecting women and children in low-resource settings due to inadequate dietary intake and parasitic infections."
+                },
+                {
+                    question: "The best source of bioavailable iron is:",
+                    options: [
+                        "Spinach",
+                        "Fortified cereals",
+                        "Red meat",
+                        "Beans"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Heme iron from animal sources like red meat has 15-35% absorption rate, compared to 2-20% for non-heme iron from plant sources. Consuming vitamin C-rich foods with plant-based iron sources enhances absorption."
+                },
+                {
+                    question: "Vitamin A deficiency primarily causes:",
+                    options: [
+                        "Scurvy",
+                        "Night blindness",
+                        "Beriberi",
+                        "Pellagra"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Vitamin A deficiency is a leading cause of preventable blindness in children. It also compromises immune function, increasing susceptibility to infections and severity of illness."
+                },
+                {
+                    question: "The most effective public health intervention for iodine deficiency is:",
+                    options: [
+                        "Supplementation programs",
+                        "Food fortification with iodized salt",
+                        "Dietary diversification",
+                        "Nutrition education"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Universal salt iodization is the most cost-effective strategy for preventing iodine deficiency disorders, including goiter and cretinism. It has successfully reduced iodine deficiency in many countries."
+                },
+                {
+                    question: "The main purpose of growth monitoring is to:",
+                    options: [
+                        "Predict adult height",
+                        "Detect malnutrition early",
+                        "Determine genetic potential",
+                        "Assess intelligence"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Regular measurement of weight, height, and plotting on growth charts helps detect faltering growth early, allowing timely intervention for malnutrition before severe consequences occur."
+                },
+                {
+                    question: "Kwashiorkor is characterized by:",
+                    options: [
+                        "Severe wasting",
+                        "Edema and fatty liver",
+                        "Neurological symptoms",
+                        "Bone deformities"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Kwashiorkor is a form of severe protein-energy malnutrition characterized by edema (swelling), skin lesions, hair changes, and fatty liver, often occurring when there is adequate calorie but insufficient protein intake."
+                },
+                {
+                    question: "The most cost-effective intervention for reducing child mortality is:",
+                    options: [
+                        "Building more hospitals",
+                        "Integrated community case management",
+                        "Training more specialists",
+                        "Importing medical equipment"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Integrated community case management (iCCM) delivers essential diagnostic and treatment services for common childhood illnesses through trained community health workers, significantly reducing child mortality."
+                },
+                {
+                    question: "Exclusive breastfeeding reduces the risk of:",
+                    options: [
+                        "All of the above",
+                        "Diarrheal diseases",
+                        "Respiratory infections",
+                        "Necrotizing enterocolitis"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Exclusive breastfeeding provides protection against numerous conditions including diarrheal diseases, respiratory infections, ear infections, and necrotizing enterocolitis in preterm infants, while also reducing SIDS risk."
+                },
+                {
+                    question: "The most effective treatment for severe acute malnutrition in children is:",
+                    options: [
+                        "Hospitalization and IV fluids",
+                        "Ready-to-use therapeutic food (RUTF)",
+                        "Antibiotic therapy",
+                        "Vitamin supplements alone"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Ready-to-use therapeutic food (RUTF), such as Plumpy'Nut, allows treatment of severe acute malnutrition at home in 90% of cases, reducing the need for hospitalization and improving recovery rates."
+                },
+                {
+                    question: "The main purpose of micronutrient powders is to:",
+                    options: [
+                        "Replace meals",
+                        "Fortify home-prepared foods",
+                        "Serve as complete nutritional supplements",
+                        "Treat acute malnutrition"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Micronutrient powders (sprinkles) contain multiple vitamins and minerals that can be added to home-prepared foods to prevent deficiencies without changing eating habits or food preferences."
+                },
+                {
+                    question: "The most common nutritional deficiency in pregnant women globally is:",
+                    options: [
+                        "Vitamin D",
+                        "Calcium",
+                        "Iron",
+                        "Zinc"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Iron deficiency anemia affects approximately 38% of pregnant women globally. It increases risks of maternal mortality, preterm delivery, and low birth weight, making iron-folic acid supplementation essential."
+                },
+                {
+                    question: "The primary purpose of deworming programs is to:",
+                    options: [
+                        "Reduce intestinal parasite burden",
+                        "Improve nutritional status",
+                        "Enhance cognitive development",
+                        "All of the above"
+                    ],
+                    correctAnswer: 3,
+                    explanation: "Regular deworming reduces the burden of soil-transmitted helminths, which compete for nutrients, cause blood loss, and impair nutrient absorption, thereby improving nutritional status and cognitive development."
+                },
+                {
+                    question: "The most effective strategy for preventing vitamin D deficiency is:",
+                    options: [
+                        "Consumption of fortified foods",
+                        "Moderate sun exposure",
+                        "Supplementation",
+                        "Dietary intake of fatty fish"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Moderate sun exposure (5-30 minutes twice weekly) allows the skin to synthesize vitamin D. The required exposure varies by skin pigmentation, latitude, season, and atmospheric conditions."
+                },
+                {
+                    question: "The main purpose of food fortification is to:",
+                    options: [
+                        "Improve taste",
+                        "Extend shelf life",
+                        "Restore or increase micronutrient content",
+                        "Increase market value"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Food fortification adds micronutrients to commonly consumed foods to prevent or correct deficiencies in populations. Examples include iodizing salt, fortifying flour with iron and folic acid, and vitaminizing milk."
+                },
+                {
+                    question: "The most important factor in infant nutrition during the first 6 months is:",
+                    options: [
+                        "Formula feeding",
+                        "Exclusive breastfeeding",
+                        "Early introduction of solids",
+                        "Water supplementation"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Exclusive breastfeeding provides optimal nutrition, immunity, and bonding for infants during the first 6 months. Breast milk contains the perfect balance of nutrients and protective factors for infant growth and development."
+                },
+                {
+                    question: "The primary cause of rickets is deficiency of:",
+                    options: [
+                        "Vitamin A",
+                        "Vitamin C",
+                        "Vitamin D",
+                        "Vitamin K"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Rickets is a childhood bone disorder caused by vitamin D deficiency, leading to impaired bone mineralization. It results in soft, weak bones, skeletal deformities, and growth retardation."
+                },
+                {
+                    question: "The most effective public health approach to reduce childhood obesity is:",
+                    options: [
+                        "Individual counseling",
+                        "School-based interventions",
+                        "Pharmaceutical treatments",
+                        "Surgical interventions"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "School-based interventions that promote healthy eating, physical activity, and nutrition education are the most effective population-level approach to prevent and reduce childhood obesity."
+                },
+                {
+                    question: "The main purpose of growth monitoring and promotion is to:",
+                    options: [
+                        "Rank children by size",
+                        "Detect growth problems early and provide counseling",
+                        "Determine eligibility for programs",
+                        "Predict adult height"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Growth monitoring combined with counseling on feeding, health, and development helps detect growth faltering early and provides an opportunity for timely intervention and parental education."
+                },
+                {
+                    question: "The most common cause of goiter worldwide is:",
+                    options: [
+                        "Iodine deficiency",
+                        "Selenium deficiency",
+                        "Autoimmune disease",
+                        "Thyroid cancer"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Iodine deficiency is the most common cause of goiter (thyroid enlargement) worldwide. The thyroid gland enlarges in an attempt to produce sufficient thyroid hormone with limited iodine availability."
+                },
+                {
+                    question: "The primary purpose of zinc supplementation in diarrhea is to:",
+                    options: [
+                        "Kill intestinal pathogens",
+                        "Reduce duration and severity",
+                        "Stop fluid loss",
+                        "Replace electrolytes"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Zinc supplementation during and after diarrheal episodes reduces the duration and severity of illness and decreases the likelihood of future episodes in the following 2-3 months."
+                }
+            ],
+            health: [
+                {
+                    question: "The primary goal of primary health care is:",
+                    options: [
+                        "Specialized tertiary care",
+                        "Equitable access to essential health services",
+                        "Privatization of health services",
+                        "Focus on hospital-based care"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "The Alma-Ata Declaration defines primary health care as essential health care made universally accessible to individuals and families through their full participation and at a cost the community can afford."
+                },
+                {
+                    question: "The main principle of universal health coverage is:",
+                    options: [
+                        "Free healthcare for all",
+                        "Access to quality health services without financial hardship",
+                        "Private insurance for everyone",
+                        "Government provision of all healthcare"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Universal health coverage means that all people receive the health services they need without suffering financial hardship. It includes prevention, promotion, treatment, rehabilitation, and palliative care."
+                },
+                {
+                    question: "The most effective method for health promotion is:",
+                    options: [
+                        "Top-down information dissemination",
+                        "Participatory community approaches",
+                        "Mass media campaigns only",
+                        "Legislation and enforcement"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Participatory approaches that engage communities in identifying health problems and developing solutions are most effective, as they build ownership, cultural relevance, and sustainability."
+                },
+                {
+                    question: "The main purpose of community health workers is to:",
+                    options: [
+                        "Replace doctors and nurses",
+                        "Bridge the gap between communities and health systems",
+                        "Conduct research studies",
+                        "Administer vaccinations only"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Community health workers serve as a link between the formal health system and communities, providing culturally appropriate health education, basic services, and referrals while addressing local health priorities."
+                },
+                {
+                    question: "The most significant social determinant of health is:",
+                    options: [
+                        "Access to healthcare",
+                        "Socioeconomic status",
+                        "Genetics",
+                        "Individual behavior"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Socioeconomic status (income, education, occupation) is arguably the most powerful social determinant of health, influencing access to resources, living conditions, and opportunities that affect health outcomes."
+                },
+                {
+                    question: "The main purpose of health impact assessment is to:",
+                    options: [
+                        "Evaluate hospital performance",
+                        "Assess health effects of policies outside the health sector",
+                        "Measure disease prevalence",
+                        "Certify healthcare providers"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Health impact assessment (HIA) is a systematic process that evaluates potential health effects of proposed policies, programs, or projects in various sectors (transport, housing, agriculture) before implementation."
+                },
+                {
+                    question: "The most cost-effective public health intervention is:",
+                    options: [
+                        "Building new hospitals",
+                        "Vaccination programs",
+                        "Advanced medical technology",
+                        "Specialist training"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Vaccination programs are among the most cost-effective public health interventions, preventing disease at a fraction of the cost of treatment and generating substantial economic benefits through improved health and productivity."
+                },
+                {
+                    question: "The primary purpose of disease outbreak investigation is to:",
+                    options: [
+                        "Assign blame",
+                        "Control the outbreak and prevent recurrence",
+                        "Publish research findings",
+                        "Secure funding"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "The main goals of outbreak investigation are immediate control of the current outbreak and identification of preventive measures to avoid future occurrences, rather than research or attribution."
+                },
+                {
+                    question: "The most important ethical principle in public health is:",
+                    options: [
+                        "Individual autonomy",
+                        "Beneficence and justice",
+                        "Profit maximization",
+                        "Scientific advancement"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Public health ethics balances individual rights with community welfare, emphasizing beneficence (doing good), non-maleficence (avoiding harm), and justice (fair distribution of benefits and burdens)."
+                },
+                {
+                    question: "The main advantage of electronic health records is:",
+                    options: [
+                        "Increased paper usage",
+                        "Improved information sharing and continuity of care",
+                        "Higher costs",
+                        "Reduced data security"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Electronic health records facilitate information sharing among providers, reduce errors, improve coordination of care, enable data analysis for quality improvement, and support clinical decision-making."
+                },
+                {
+                    question: "The most effective strategy for reducing health inequities is:",
+                    options: [
+                        "Targeted interventions for vulnerable populations",
+                        "Uniform healthcare delivery",
+                        "Market-based solutions",
+                        "Centralized decision-making"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Targeted interventions that address the specific needs and barriers faced by vulnerable populations are most effective in reducing health inequities and achieving health equity."
+                },
+                {
+                    question: "The primary purpose of task shifting in health care is to:",
+                    options: [
+                        "Reduce health worker salaries",
+                        "Address health workforce shortages",
+                        "Eliminate specialized roles",
+                        "Decrease service quality"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Task shifting involves delegating tasks from highly trained to less specialized health workers to address workforce shortages, particularly in resource-limited settings, while maintaining quality of care."
+                },
+                {
+                    question: "The main goal of health systems strengthening is to:",
+                    options: [
+                        "Increase hospital profits",
+                        "Improve health system performance and outcomes",
+                        "Expand private healthcare",
+                        "Reduce government involvement"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Health systems strengthening aims to improve all components of the health system (governance, financing, workforce, service delivery, information systems, medical products) to achieve better health outcomes."
+                },
+                {
+                    question: "The most important indicator of maternal health is:",
+                    options: [
+                        "Antenatal care coverage",
+                        "Skilled birth attendance",
+                        "Maternal mortality ratio",
+                        "Cesarean section rate"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Maternal mortality ratio (MMR) is the most direct measure of maternal health, reflecting the risk of death associated with pregnancy and childbirth, and the quality of obstetric care."
+                },
+                {
+                    question: "The primary purpose of vital registration systems is to:",
+                    options: [
+                        "Issue identity documents",
+                        "Record births and deaths with causes",
+                        "Collect taxes",
+                        "Track migration"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Vital registration systems provide continuous, permanent, compulsory, and universal recording of vital events (births, deaths, marriages) with cause of death information, essential for public health monitoring."
+                },
+                {
+                    question: "The most effective method for improving medication adherence is:",
+                    options: [
+                        "Increasing penalties for non-adherence",
+                        "Simplified dosing regimens and patient education",
+                        "Restricting patient choices",
+                        "Reducing medication effectiveness"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Simplified treatment regimens (fewer doses, combination pills) combined with patient education, counseling, and support systems are most effective in improving medication adherence."
+                },
+                {
+                    question: "The main purpose of health policy analysis is to:",
+                    options: [
+                        "Support predetermined decisions",
+                        "Provide evidence for decision-making",
+                        "Promote specific interest groups",
+                        "Create academic publications"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Health policy analysis systematically examines policy options, their potential impacts, costs, and feasibility to provide evidence that informs decision-making and improves health system performance."
+                },
+                {
+                    question: "The most significant challenge in rural health care delivery is:",
+                    options: [
+                        "Lack of health workforce",
+                        "Excessive funding",
+                        "Overabundance of specialists",
+                        "Too many health facilities"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Health workforce shortages, particularly of skilled professionals willing to work in rural areas, represent the most significant challenge to delivering quality health care in rural and remote regions."
+                },
+                {
+                    question: "The primary purpose of health education is to:",
+                    options: [
+                        "Provide medical treatment",
+                        "Empower individuals to make informed health choices",
+                        "Replace clinical care",
+                        "Generate revenue"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Health education aims to provide knowledge and skills that enable individuals and communities to adopt healthier behaviors and make informed decisions about their health and healthcare."
+                },
+                {
+                    question: "The most effective approach to tobacco control is:",
+                    options: [
+                        "Individual counseling only",
+                        "MPOWER package of measures",
+                        "Voluntary industry agreements",
+                        "Public information campaigns only"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "The WHO MPOWER package (Monitor, Protect, Offer, Warn, Enforce, Raise) provides a comprehensive, evidence-based approach to tobacco control that has proven effective in reducing tobacco use globally."
+                }
+            ]
+        };
+
+        // Quiz state
+        let currentCourse = 'epidemiology';
+        let currentQuestion = 0;
+        let userAnswers = {};
+        let quizCompleted = false;
+
+        // Initialize user answers for all courses
+        Object.keys(quizData).forEach(course => {
+            userAnswers[course] = Array(quizData[course].length).fill(null);
+        });
+
+        // DOM elements
+        const courseSelector = document.querySelector('.course-selector');
+        const courseInfo = document.getElementById('course-info');
+        const quizContainer = document.getElementById('quiz-container');
+        const scoreContainer = document.getElementById('score-container');
+        const finalScore = document.getElementById('final-score');
+        const resultMessage = document.getElementById('result-message');
+        const summaryDetails = document.getElementById('summary-details');
+        const navigation = document.getElementById('navigation');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const progressInfo = document.getElementById('progress-info');
+
+        // Course descriptions
+        const courseDescriptions = {
+            epidemiology: "Epidemiology & Biostatistics: Focuses on disease patterns, study designs, data analysis, and interpretation of health information in populations.",
+            maternal: "Maternal & Child Health: Covers reproductive health, antenatal care, childbirth, postpartum care, and pediatric health services.",
+            infectious: "Infectious Disease Control: Addresses prevention, surveillance, and management of communicable diseases in communities.",
+            nutrition: "Community Nutrition: Examines nutritional assessment, malnutrition prevention, and food security at the population level.",
+            health: "Health Systems & Policy: Explores healthcare delivery models, health economics, policy development, and system strengthening."
+        };
+
+        // Initialize quiz
+        function initQuiz() {
+            // Set up course buttons
+            const courseButtons = document.querySelectorAll('.course-btn');
+            courseButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const selectedCourse = button.getAttribute('data-course');
+                    selectCourse(selectedCourse);
+                });
+            });
+            
+            // Initialize first course
+            selectCourse('epidemiology');
+        }
+
+        // Select a course
+        function selectCourse(course) {
+            // Update active button
+            document.querySelectorAll('.course-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.course-btn[data-course="${course}"]`).classList.add('active');
+            
+            // Update course state
+            currentCourse = course;
+            currentQuestion = 0;
+            quizCompleted = false;
+            
+            // Update course info
+            courseInfo.innerHTML = `<strong>Course:</strong> ${courseDescriptions[course]}`;
+            
+            // Show appropriate question
+            showQuestion(currentQuestion);
+            
+            // Update navigation
+            updateNavigation();
+            
+            // Hide score container
+            scoreContainer.style.display = 'none';
+            quizContainer.style.display = 'block';
+            navigation.style.display = 'flex';
+        }
+
+        // Display current question
+        function showQuestion(index) {
+            // Hide all questions
+            const allQuestions = document.querySelectorAll('.question-container');
+            allQuestions.forEach(q => q.remove());
+            
+            // Get current course data
+            const questions = quizData[currentCourse];
+            const questionData = questions[index];
+            
+            // Create question element
+            const questionContainer = document.createElement('div');
+            questionContainer.className = 'question-container active';
+            
+            const questionText = document.createElement('div');
+            questionText.className = 'question-text';
+            questionText.textContent = `${index + 1}. ${questionData.question}`;
+            
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'options';
+            
+            questionData.options.forEach((option, optionIndex) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                if (userAnswers[currentCourse][index] === optionIndex) {
+                    optionElement.classList.add('selected');
+                }
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => selectOption(optionIndex));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            const feedback = document.createElement('div');
+            feedback.className = 'feedback';
+            feedback.id = 'feedback';
+            
+            questionContainer.appendChild(questionText);
+            questionContainer.appendChild(optionsContainer);
+            questionContainer.appendChild(feedback);
+            
+            quizContainer.appendChild(questionContainer);
+            
+            // Show feedback if already answered
+            if (userAnswers[currentCourse][index] !== null) {
+                setTimeout(showFeedback, 100);
+            }
+        }
+
+        // Handle option selection
+        function selectOption(optionIndex) {
+            if (quizCompleted) return;
+            
+            // Update user answers
+            userAnswers[currentCourse][currentQuestion] = optionIndex;
+            
+            // Clear previous selections
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Highlight selected option
+            options[optionIndex].classList.add('selected');
+            
+            // Show feedback
+            showFeedback();
+        }
+
+        // Show feedback for selected answer
+        function showFeedback() {
+            const feedback = document.getElementById('feedback');
+            const questions = quizData[currentCourse];
+            const questionData = questions[currentQuestion];
+            const selectedOption = userAnswers[currentCourse][currentQuestion];
+            
+            // Clear previous feedback
+            feedback.className = 'feedback';
+            feedback.textContent = '';
+            
+            // Check if answer is correct
+            const isCorrect = selectedOption === questionData.correctAnswer;
+            
+            if (isCorrect) {
+                feedback.classList.add('feedback', 'show');
+                feedback.textContent = 'Correct! Well done.';
+                feedback.style.backgroundColor = '#d4edda';
+                feedback.style.borderColor = '#c3e6cb';
+                feedback.style.color = '#155724';
+            } else {
+                feedback.classList.add('feedback', 'show');
+                feedback.textContent = 'Incorrect. Let\'s review:';
+                feedback.style.backgroundColor = '#f8d7da';
+                feedback.style.borderColor = '#f5c6c9';
+                feedback.style.color = '#721c24';
+            }
+            
+            // Add explanation
+            const explanation = document.createElement('div');
+            explanation.className = 'explanation';
+            explanation.innerHTML = `<strong>Correct answer:</strong> ${questionData.options[questionData.correctAnswer]}<br><br>${questionData.explanation}`;
+            feedback.appendChild(explanation);
+            
+            // Highlight correct and incorrect options
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.classList.remove('correct', 'incorrect');
+                if (index === questionData.correctAnswer) {
+                    option.classList.add('correct');
+                } else if (userAnswers[currentCourse][currentQuestion] === index && index !== questionData.correctAnswer) {
+                    option.classList.add('incorrect');
+                }
+            });
+        }
+
+        // Navigate to previous question
+        function goToPrevious() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+                updateNavigation();
+            }
+        }
+
+        // Navigate to next question
+        function goToNext() {
+            const questions = quizData[currentCourse];
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+                updateNavigation();
+            } else {
+                submitQuiz();
+            }
+        }
+
+        // Submit the quiz
+        function submitQuiz() {
+            quizCompleted = true;
+            
+            // Calculate score
+            const questions = quizData[currentCourse];
+            const correctAnswers = userAnswers[currentCourse].reduce((count, answer, index) => {
+                return count + (answer === questions[index].correctAnswer ? 1 : 0);
+            }, 0);
+            
+            const totalQuestions = questions.length;
+            const scorePercentage = (correctAnswers / totalQuestions) * 100;
+            
+            // Update score display
+            finalScore.textContent = `${correctAnswers}/${totalQuestions}`;
+            
+            // Set result message
+            if (scorePercentage >= 90) {
+                resultMessage.textContent = 'Outstanding! You have excellent knowledge of this community health topic.';
+            } else if (scorePercentage >= 80) {
+                resultMessage.textContent = 'Great job! You\'ve demonstrated strong knowledge of this community health topic.';
+            } else if (scorePercentage >= 70) {
+                resultMessage.textContent = 'Good work! You have a solid understanding of this community health topic.';
+            } else if (scorePercentage >= 60) {
+                resultMessage.textContent = 'You\'re on the right track. Review the areas below to improve your knowledge.';
+            } else {
+                resultMessage.textContent = 'You may need to review the fundamentals. Focus on understanding the explanations provided.';
+            }
+            
+            // Generate detailed summary
+            generateSummary();
+            
+            // Show score
+            scoreContainer.style.display = 'block';
+            quizContainer.style.display = 'none';
+            navigation.style.display = 'none';
+        }
+
+        // Generate detailed performance summary
+        function generateSummary() {
+            const questions = quizData[currentCourse];
+            const userAnswersForCourse = userAnswers[currentCourse];
+            
+            let correctCount = 0;
+            let incorrectCount = 0;
+            let correctQuestions = [];
+            let incorrectQuestions = [];
+            
+            // Calculate statistics
+            userAnswersForCourse.forEach((answer, index) => {
+                if (answer === questions[index].correctAnswer) {
+                    correctCount++;
+                    correctQuestions.push(index + 1);
+                } else if (answer !== null) {
+                    incorrectCount++;
+                    incorrectQuestions.push(index + 1);
+                }
+            });
+            
+            // Update summary
+            summaryDetails.innerHTML = '';
+            
+            const correctItem = document.createElement('div');
+            correctItem.className = 'summary-item';
+            correctItem.innerHTML = `<strong>Correct Answers:</strong> ${correctCount}`;
+            summaryDetails.appendChild(correctItem);
+            
+            const incorrectItem = document.createElement('div');
+            incorrectItem.className = 'summary-item';
+            incorrectItem.innerHTML = `<strong>Incorrect Answers:</strong> ${incorrectCount}`;
+            summaryDetails.appendChild(incorrectItem);
+            
+            const percentageItem = document.createElement('div');
+            percentageItem.className = 'summary-item';
+            percentageItem.innerHTML = `<strong>Score:</strong> ${((correctCount / questions.length) * 100).toFixed(1)}%`;
+            summaryDetails.appendChild(percentageItem);
+            
+            if (incorrectQuestions.length > 0) {
+                const weakItem = document.createElement('div');
+                weakItem.className = 'summary-item';
+                weakItem.innerHTML = `<strong>Areas to Review:</strong> Questions ${incorrectQuestions.join(', ')}`;
+                summaryDetails.appendChild(weakItem);
+            }
+        }
+
+        // Update navigation buttons and progress
+        function updateNavigation() {
+            const questions = quizData[currentCourse];
+            prevBtn.disabled = currentQuestion === 0;
+            
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'inline-block';
+            } else {
+                nextBtn.style.display = 'inline-block';
+                submitBtn.style.display = 'none';
+            }
+            
+            // Update progress info
+            progressInfo.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', goToPrevious);
+        nextBtn.addEventListener('click', goToNext);
+        submitBtn.addEventListener('click', submitQuiz);
+
+        // Initialize quiz on page load
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
